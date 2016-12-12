@@ -1,42 +1,56 @@
-# 123.jser.us
-一个前端导航站, [123.jser.us](http://123.jser.us)
+##准备
+ 1. 本地nodejs环境
+ 2. 远程github仓库e
+ 3. 域名一枚
 
-## 说明
+##克隆项目代码到本地
+>git clone git@github.com:deffyc/e.git
 
-    整合国内外的前端资源的网站， 面向中国前端工程师。
-
-## 我要补充 
-
-  __不要__ 直接编辑HTML文件, 编辑 _jade_ 文件.
-    
-  可以使用下面的任意一种方式来补充资源
-  
-  1. 推荐使用自带的交互脚本来添加
-    
-     ```
-     ./add.js
-     ```
-  
-
-  1. 到[这里](https://github.com/jserme/123.jser.us/issues), 新建一个Issue, 格式如下
-  
-        
-        网站名 : xxx
-        140字内描述 ： xxx
-        网址 ： xxx
-        标签 ： xxx xxx
-
-        标签请以逗号或者空格分隔， 参考目前已经有的类目
-
-        
-
-  1. 也可以在[微博](http://weibo.com/1826461472/)或者[草依山的博客](http://jser.me)联系作者修改, 当然也希望联系的时候按照上面的格式
-
-        
-
-## 重新生成文件 
-
-```shell
-  node build.js
+##本地初始化
+ 1. 数据文件 data/info.json 初始化为：
 ```
-"# net:jiehou" 
+{"totalCount":0,"lastUpdateDate":"2016-12-12 10:32:06","lastUpdateCount":0}
+```
+data/sites/目录下清空，并在此目录下新建空文件"1.json"
+
+>echo '' >1.json
+
+ 2. 主页模板文件 src/index.jade，修改一定要注意格式，建议做备份
+
+ 3. 多说评论参数 src/app.js
+```
+var sTmpl = [
+                '<head></head>',
+                '<body>',
+                '<style>body{overflow:auto}</style>',
+                '<div class="ds-thread" data-url="http://e.ccsyue.com" data-thread-key="{id}"></div>',
+                '<script type="text/javascript">',
+                '    var duoshuoQuery = {short_name:"ccsyue"};',
+                '    (function() {',
+                '        var ds = document.createElement("script");',
+                '        ds.type = "text/javascript";ds.async = true;',
+                '        ds.src = "http://static.duoshuo.com/embed.js";',
+                '        ds.charset = "UTF-8";',
+                '        (document.getElementsByTagName("head")[0] ',
+                '        || document.getElementsByTagName("body")[0]).appendChild(ds);',
+                '    })();',
+                '</script>',
+                '</body>'
+        ].join('');
+```
+
+##远程修改
+ 1. 远程部署到github
+
+>git add *
+git commit -m "upload"
+
+ 2. 在域名管理后台添加cname解析
+ 3. 如果像把根域名也解析过去，记得ping deffyc.github.io可获得ip地址用于A记录解析。
+
+##工具使用说明：
+ 1. 使用自带的交互脚本来添加
+>node add.js
+ 2. 编译生成静态网站
+>node build.js
+ 3. 重新push到github，若使用了CDN记得清缓存。
