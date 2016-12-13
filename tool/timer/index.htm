@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0021)http://aerotimer.com/ -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>Aero Timer</title>
+  <meta name="google-site-verification" content="3k9RFFV9mK-NvTBzdK1_xEAQ6LKfVBbwpu3joGn-SJ0">
+  <link href="./assets/style.css?v19" rel="stylesheet">
+  <script src="./assets/jquery-1.6.3.min.js" type="text/javascript"></script><style></style>
+</head>
+<body>
+  <div id="wrap">
+    <div id="header">
+      <h1 id="site_heading" style="display:none;">Aero Timer 在线定时器</h1>
+      <div id="logo"><a href="./index.htm" onclick="return false;" title="主页"></a></div>
+      <div id="shareSection">
+        <div id="like"><a href="http://aerotimer.com/#" onclick="return false;" title="分享"></a></div>
+        <div id="share">
+          <a target="_blank" title="分享到人人网" href="http://share.renren.com/share/buttonshare.do?link=http://aerotimer.com"><img src="./assets/renren.ico" width="16" height="16" alt="Renren"></a>
+          <a target="_blank" title="分享到QQ空间" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://aerotimer.com&title=Aero%20Timer%20%E5%9C%A8%E7%BA%BF%E5%AE%9A%E6%97%B6%E5%99%A8"><img src="./assets/qzone.ico" width="16" height="16" alt="Qzone"></a>
+          <a target="_blank" title="分享到新浪微博" href="http://v.t.sina.com.cn/share/share.php?title=Aero%20Timer%20%E5%9C%A8%E7%BA%BF%E5%AE%9A%E6%97%B6%E5%99%A8&url=http://aerotimer.com&source=bookmark"><img src="./assets/sina.ico" width="16" height="16" alt="Sina"></a>
+          <a target="_blank" title="分享到豆瓣" href="http://www.douban.com/recommend/?url=http://aerotimer.com&title=Aero%20Timer%20%E5%9C%A8%E7%BA%BF%E5%AE%9A%E6%97%B6%E5%99%A8"><img src="./assets/douban.ico" width="16" height="16" alt="Douban"></a>
+          <a target="_blank" title="分享到Google阅读器" href="http://www.google.com/reader/link?url=http://aerotimer.com&title=Aero%20Timer%20%E5%9C%A8%E7%BA%BF%E5%AE%9A%E6%97%B6%E5%99%A8"><img src="./assets/google.ico" width="16" height="16" alt="Google">
+          </a>
+        </div>
+      </div>
+    </div>
+    <div id="inputSection">
+      <form action="" onsubmit="startTiming();return false;">
+        <div id="switchUntil" onclick="toggleSwitchUntil(); return false;"></div>
+        <input type="text" class="input-box" id="hour" value=""><input type="text" class="input-box" id="min" value=""><input type="text" class="input-box" id="sec" value="">
+        <button type="submit" style="height:0;width:0;"></button>
+        <div id="ok-button" onclick="startTiming(); return false;"></div>
+      </form>
+    <div id="additionSettings">
+    <div id="switchNoLoop" onclick="toggleSwitchNoLoop(); return false;"></div>
+    <div id="setPrompt-button" onclick="popPromptTextSetter(); return false;"></div>
+    </div>
+    </div>
+    <div id="progressSection" style="display:none; overflow:hidden;">
+      <div id="progressBox"></div>
+      <div id="progressBar" style="width:0px;"></div>
+      <div id="progressText"></div>
+    <div id="cancelTimingBtn"><a href="./assets/Aero Timer.htm" onclick="cancelTiming(); return false;"></a></div>
+    </div>
+    <div id="location_0" class="location"></div>
+    <div id="quickAccessSection">
+      <div id="quickAccess-left">
+    <p><a onclick="toggleLang(); return false;" href="http://aerotimer.com/#" id="language">Switch to English</a></p>
+        <p>
+          网址后加上“问号分钟数”设定定时
+        <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;5分钟定时：<a href="http://aerotimer.com/?5" title="5分钟定时">aerotimer.com/?5</a>
+        <br>
+          &nbsp;&nbsp;15分钟定时：<a href="http://aerotimer.com/?15" title="5分钟定时">aerotimer.com/?15</a>
+        <br>
+        <br>
+          网址后加上“问号设定时间”设定定时
+        <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;12:00闹钟：<a href="http://aerotimer.com/?12:00" title="12:00闹钟">aerotimer.com/?12:00</a>
+        <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;23:00闹钟（该睡觉啦）：<a href="http://aerotimer.com/?23:00" title="23:00闹钟">aerotimer.com/?23:00</a>
+          <br>
+        </p>
+      </div>
+      <div id="quickAccess-right">
+        <ul>
+          <li id="createNewTimer"><a target="_blank" href="./assets/Aero Timer.htm" id="newTimerText">&nbsp;+&nbsp;新建定时器</a></li>
+          <li id="getChromeExt"><a id="chromeExtText" href="https://chrome.google.com/extensions/detail/paaapjjeilbadekejlnanfngpmcndbln" target="_blank">&nbsp;&nbsp;谷歌浏览器扩展</a></li>
+          <li><a href="./index.htm">主页（取消定时）</a></li>
+          <li><a target="_blank" href="http://imyuao.com/entries/blog/aero-timer-plus">下载 Aero Timer Plus</a></li>
+          <li><a href="http://aerotimer.com/#" onclick="showContent(&#39;#about&#39;); return false;">关于</a></li>
+          <li><a href="http://aerotimer.com/#" onclick="showContent(&#39;#openSource&#39;); return false;">开放源代码</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div id="mask"></div>
+  <div id="promptTextSetter" class="popupContent">
+  <p id="promptSetTip">在下面的文本框中填入的文字会在时间到时显示。<br>(测试功能) 输入 http 开头的网址，该网址将在时间到时打开。要使用此功能，请确认关闭对 aerotimer.com 的弹出窗口拦截。</p>
+  <hr>
+  <p><input type="text" id="promptText"></p>
+  <script>
+  var d = new Date();
+  var str = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+  var str1 = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+(d.getDate()+1);
+      $("#promptText").val("http://221.204.187.218:8010/cgi-bin/koha/reports/guided_reports.pl?phase=Run+this+report&reports=89&sql_params=HJRZ&sql_params="+str+"&sql_params="+str1+"&sql_params=HJRZ&sql_params="+str+"&sql_params="+str1);  </script>
+  <p><a id="okSetPrompt" onclick="setPrompt(); return false;">OK</a></p>
+  </div>
+  <div id="openSource" class="popupContent">
+  <h3>开放源代码</h3>
+  <div style="width:100%;height:1px; clear:both;"></div>
+  <hr>
+  <p>
+  很高兴你能来到这里，这说明你有一颗善于探索的心，总希望了解事物的本质、原理。
+  </p>
+  <p>
+  Aero Timer Web 是一个完完全全的 JavaScript + HTML 应用，因此所有的代码都可以通过 “鼠标右键”-&gt;"查看网页源代码" 得到。
+  </p>
+  <p>
+  定时器核心代码在 core.js 中，style.css 定义了页面样式，代码中 jQuery 缩写为 $j ，剩下的就该你自己去探索了。
+  </p>
+  <p>最后，希望这些代码能给你帮助或启发，最终创造出更有价值的东西。</p>
+  <p>
+    <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="知识共享许可协议" style="border-width:0" src="./assets/80x15.png"></a><br>本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/" target="_blank">知识共享Attribution-ShareAlike 3.0 Unported许可协议</a>进行许可。<br>
+    Aero Timer Web 部分代码来自开源项目 <a href="http://jquery.com/" target="_blank">jQuery</a> 及  <a href="http://www.schillmania.com/projects/soundmanager2/" target="_blank">SoundManager2</a><br>
+    注意，请不要单纯的复制本站。如有其它问题欢迎与我联系。
+  </p>
+  </div>
+  <div id="about" class="popupContent">
+      <img height="55" width="200" src="./assets/logo.png" style="float:left;">
+  <p><br>&nbsp;&nbsp;© YuAo 2010</p>
+  <div style="width:100%;height:1px; clear:both;"></div>
+  <hr>
+  <p>
+  Aero Timer Web 是一个简单的在线定时器。任何地方，只要能上网，你都可以通过它方便地设定提醒，管理你的上网时间。
+  </p>
+  <p>
+  如果你希望有更多的功能，更多提醒方式，周期提醒等，你可以使用 <a target="_blank" href="http://imyuao.com/entries/blog/aero-timer-plus">Aero Timer Plus</a> ，它是一款桌面应用，可以免费下载和使用。
+  </p>
+  <p>Aero Timer Web，Aero Timer Plus 由 <a target="_blank" href="http://imyuao.com/">YuAo</a> 设计开发，并保留版权。</p>
+  <p><a href="http://imyuao.com/entries/blog/aero-timer-web" target="_blank">了解更多»</a></p>
+    </div>
+  <script>
+    var $j=jQuery.noConflict(); 
+    function showContent(id){
+      $j("#mask").fadeTo("normal","0.8");
+      $j(id).show("fast");
+    }
+    $j(document).ready(function(){
+      $j("#mask").click(function(){
+        $j(".popupContent").hide();
+        $j("#mask").fadeTo("normal","0",function(){$j("#mask").hide();});
+      });
+    });
+    $j(document).ready(function(){
+      var sharehover=$j('#share');
+      $j('#shareSection').hover(
+        function(){sharehover.stop(true, true).animate({top:'0'},{queue:false,duration:400}).fadeIn(400)},
+        function(){sharehover.stop(true, true).animate({top:'-33'},{queue:false,duration:400}).fadeOut(400)}
+      );
+    });
+  </script>
+  <script src="./assets/soundmanager2.js"></script>
+  <script src="./assets/jquery.cookies.js"></script>
+  <script src="./assets/core.js"></script>
+
+<div id="sm2-container" class="movieContainer " style="z-index: 10000; position: absolute; width: 6px; height: 6px; top: -9999px; left: -9999px;"><embed name="sm2movie" id="sm2movie" src="./assets/ring/soundmanager2.swf" width="100%" height="100%" quality="high" allowscriptaccess="always" bgcolor="#ffffff" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></div></body></html>
