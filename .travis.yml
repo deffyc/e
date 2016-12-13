@@ -3,15 +3,14 @@ node_js: stable
 
 # S: Build Lifecycle
 install:
-  - npm install
 
 
 #before_script:
  # - npm install -g gulp
 
 script:
-  - npm add-all.js
-  - npm build.js
+  - node add-all.js
+  - node build.js
 after_script:
   - cd ./public
   - git init
