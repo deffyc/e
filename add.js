@@ -13,8 +13,8 @@ var rl = readline.createInterface({
 var i = 0;
 var rst = {};
 
-var DATAPATH = './data/sites/';
-var info = JSON.parse(fs.readFileSync('./data/info.json', 'utf-8'));
+var DATAPATH = './html/data/sites/';
+var info = JSON.parse(fs.readFileSync('./html/data/info.json', 'utf-8'));
 
 function init() {
     rl.question("the site " + keyArry[i] + ' is:', function(answer) {
@@ -24,7 +24,7 @@ function init() {
         if (i == keyArry.length) {
             fs.writeFile(path.join(DATAPATH, (++info.totalCount) + '.json'), JSON.stringify({
                 name : rst.name,
-                id : info.totalCount++,
+                id : info.totalCount,
                 description: rst.description,
                 tags: rst.tags,
                 url: rst.url,

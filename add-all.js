@@ -2,10 +2,10 @@
 var readline = require('readline');
 var fs = require('fs');
 var path = require('path');
-var INFO_PATH = "./data/info.json";
+var INFO_PATH = "./html/data/info.json";
 
 var keyArry = ['name', 'description', 'url', 'tags'];
-var fReadName = "data/all.txt";
+var fReadName = "./html/data/all.txt";
 var fRead = fs.createReadStream(fReadName); 
 var objReadline = readline.createInterface({
     input: fRead,
@@ -14,8 +14,8 @@ var objReadline = readline.createInterface({
 var i = 0;
 var rst = {};
 
-var DATAPATH = './data/sites/';
-var info = JSON.parse(fs.readFileSync('./data/info.json', 'utf-8'));
+var DATAPATH = './html/data/sites/';
+var info = JSON.parse(fs.readFileSync('./html/data/info.json', 'utf-8'));
 function init() {
 	objReadline.on('line', (line)=>{
 		str=line.replace(/(^\s*)|(\s*$)/g,"");

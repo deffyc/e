@@ -8,18 +8,18 @@ var uglifyJS = require('uglify-js');
 var cleanCSS = require('clean-css');
 
 
-var DATAFOLDER = "./data/sites";
-var INFO = "./data/info.json";
-var INDEXS = "./data/indexs.json";
+var DATAFOLDER = "./html/data/sites";
+var INFO = "./html/data/info.json";
+var INDEXS = "./html/data/indexs.json";
 
-var TEMPLATE_INDEX = "./src/index.jade";
-var DSTFILE = "./index.html";
+var TEMPLATE_INDEX = "./html/src/index.jade";
+var DSTFILE = "./html/index.html";
 
-var SRCJS = "./src/app.js";
-var DSTJS = "./app-min.js";
+var SRCJS = "./html/src/app.js";
+var DSTJS = "./html/app-min.js";
 
-var SRCCSS = "./src/style.css";
-var DSTCSS = "./style-min.css";
+var SRCCSS = "./html/src/style.css";
+var DSTCSS = "./html/style-min.css";
 
 var sortFunc = function(a, b) {
     return a.name < b.name;
