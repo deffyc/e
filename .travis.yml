@@ -6,13 +6,13 @@ install:
 
 
 #before_script:
- # - npm install -g gulp
+  - rm ./data/* -rf
 
 script:
   - node add-all.js
   - node build.js
 after_script:
-  - rm .data/* -rf
+
   - git init
   - git config user.name "${USER_NAME}"
   - git config user.email "${EMAIL}"

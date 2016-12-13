@@ -2,36 +2,20 @@
 var readline = require('readline');
 var fs = require('fs');
 var path = require('path');
-var INFO = "./data/info.json";
+var INFO_PATH = "./data/info.json";
 
 var keyArry = ['name', 'description', 'url', 'tags'];
-var fReadName = 'data/all.txt';
+var fReadName = './data/all.txt';
 var fRead = fs.createReadStream(fReadName); 
 var objReadline = readline.createInterface({
     input: fRead,
 });
-/*var rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});*/
 
 var i = 0;
 var rst = {};
 
 var DATAPATH = './data/sites/';
-
-fs.writeFile(INFO, JSON.stringify({
-	totalCount : 0,
-	lastUpdateDate : +new Date(),
-	lastUpdateCount: 0,
-}), function(err) {
-	if (err) {
-		throw err;
-	}
-});
-				
-var info = JSON.parse(fs.readFileSync('./data/info.json', 'utf-8'));
-
+var totalCount=0
 function init() {
 	objReadline.on('line', (line)=>{
 		str=line.replace(/(^\s*)|(\s*$)/g,"");
@@ -41,9 +25,9 @@ function init() {
 			i++;
 
 			if (i == keyArry.length) {
-				fs.writeFile(path.join(DATAPATH, (++info.totalCount) + '.json'), JSON.stringify({
+				fs.writeFile(path.join(DATAPATH, (++totalCount) + '.json'), JSON.stringify({
 					name : rst.name,
-					id : info.totalCount++,
+					id : totalCount,
 					description: rst.description,
 					tags: rst.tags,
 					url: rst.url,
@@ -53,12 +37,21 @@ function init() {
 						throw err;
 					}
 				});
-
 				i = 0;
 				rst = {};
 			}
 		}
 	});  
 }
+
+fs.writeFile(INFO_PATH, JSON.stringify({
+	totalCount : 0,
+	lastUpdateDate : +new Date(),
+	lastUpdateCount: 0,
+}), function(err) {
+	if (err) {
+		throw err;
+	}
+});
 init();
 
