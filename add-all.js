@@ -5,7 +5,7 @@ var path = require('path');
 var INFO_PATH = "./html/data/info.json";
 
 var keyArry = ['name', 'description', 'url', 'tags'];
-var fReadName = "./html/data/all.txt";
+var fReadName = "./all.txt";
 var fRead = fs.createReadStream(fReadName); 
 var objReadline = readline.createInterface({
     input: fRead,
