@@ -3,9 +3,9 @@ node_js: stable
 
 # S: Build Lifecycle
 install:
+ - npm install
 
-
-#before_script:
+before_script:
   - rm ./data/* -rf
 
 script:
