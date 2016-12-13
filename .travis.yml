@@ -12,7 +12,7 @@ script:
   - node add-all.js
   - node build.js
 after_script:
-  - cd html
+  - cd ./html
   - git init
   - git config user.name "${USER_NAME}"
   - git config user.email "${EMAIL}"
