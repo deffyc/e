@@ -6,7 +6,7 @@ install:
  - npm install
 
 before_script:
-  - rm ./data/* -rf
+  - rm ./data/sites/* -rf
 
 script:
   - node add-all.js
