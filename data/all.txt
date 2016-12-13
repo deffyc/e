@@ -13,3 +13,8 @@ http://jiehou.oschina.io/baihuayuan/
 从此简书记录，可备份
 http://www.jianshu.com/users/461918692ecf
 博客
+
+excelToMarkdown
+excel粘贴到文本框（不能包含合并单元格），可以转换为markdown格式的表格。
+http://e.hj2z.com/tool/exceltomarkdown/
+web工具箱
