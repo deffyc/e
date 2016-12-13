@@ -44,14 +44,5 @@ function init() {
 	});  
 }
 
-fs.writeFile(INFO_PATH, JSON.stringify({
-	totalCount : 0,
-	lastUpdateDate : +new Date(),
-	lastUpdateCount: 0,
-}), function(err) {
-	if (err) {
-		throw err;
-	}
-});
 init();
 
