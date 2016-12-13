@@ -1,0 +1,15 @@
+#将一个或多个收藏信息按下列格式直接写入此文件
+#name:
+#description:
+#url:
+#tags:
+
+百花苑
+提高作文水平的文摘。
+http://jiehou.oschina.io/baihuayuan/
+"文学"
+
+我的博客
+从此简书记录，可备份
+http://www.jianshu.com/users/461918692ecf
+博客
