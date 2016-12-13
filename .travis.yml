@@ -6,15 +6,18 @@ install:
  - npm install
 
 before_script:
-  - rm ./data/sites/* -rf
-
-script:
-  - node add-all.js
-after_script:
-  - node build.js
   - git init
   - git config user.name "${USER_NAME}"
   - git config user.email "${EMAIL}"
+  - rm ./data/sites/* -rf
+  - git add -A
+  - git commit -m "delete data/sites/*.json"
+script:
+  - node add-all.js
+  - git add -A
+  - git commit -m "create /sites/*.json"
+after_script:
+  - node build.js
   - git add -A
   - git commit -m "Update docs"
   - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:master
