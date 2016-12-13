@@ -3,3 +3,4 @@ publish*
 publish/*
 .DS_Store
 *.swp
+.travis.yml
