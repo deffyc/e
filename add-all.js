@@ -15,7 +15,7 @@ var i = 0;
 var rst = {};
 
 var DATAPATH = './data/sites/';
-var totalCount=0
+var info = JSON.parse(fs.readFileSync('./data/info.json', 'utf-8'));
 function init() {
 	objReadline.on('line', (line)=>{
 		str=line.replace(/(^\s*)|(\s*$)/g,"");
@@ -25,9 +25,9 @@ function init() {
 			i++;
 
 			if (i == keyArry.length) {
-				fs.writeFile(path.join(DATAPATH, (++totalCount) + '.json'), JSON.stringify({
+				fs.writeFile(path.join(DATAPATH, (++info.totalCount) + '.json'), JSON.stringify({
 					name : rst.name,
-					id : totalCount,
+					id : info.totalCount++,
 					description: rst.description,
 					tags: rst.tags,
 					url: rst.url,
