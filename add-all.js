@@ -19,6 +19,17 @@ var i = 0;
 var rst = {};
 
 var DATAPATH = './data/sites/';
+
+fs.writeFile(INFO, JSON.stringify({
+	totalCount : 0,
+	lastUpdateDate : +new Date(),
+	lastUpdateCount: 0,
+}), function(err) {
+	if (err) {
+		throw err;
+	}
+});
+				
 var info = JSON.parse(fs.readFileSync('./data/info.json', 'utf-8'));
 
 function init() {
@@ -49,8 +60,5 @@ function init() {
 		}
 	});  
 }
-function writeSiteInfo(info) {
-    fs.writeFileSync(INFO, JSON.stringify(info), 'utf8');
-    console.log('基本信息生成完成');
-}
 init();
+
