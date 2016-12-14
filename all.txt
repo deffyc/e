@@ -63,3 +63,8 @@ http://love.appinn.com/
 小书匠编辑器是一个离线的markdown编辑器。提供了多种第三方存储绑定功能．包括本地文件系统存储，dropbox，github，evernote，印象笔记．
 http://soft.xiaoshujiang.com/
 收藏夹
+
+sandstorm
+我的在线工具箱
+https://oa.sandcats.io/
+收藏夹
