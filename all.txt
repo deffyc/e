@@ -9,9 +9,14 @@
 http://jiehou.oschina.io/baihuayuan/
 文学
 
-我的博客
+简书博客
 从此简书记录，可备份
 http://www.jianshu.com/users/461918692ecf
+博客
+
+静态博客
+github托管的静态博客
+http://blog.ccsyue.com
 博客
 
 匆匆岁月
@@ -26,7 +31,18 @@ http://939493194.qzone.qq.com
 
 excelToMarkdown
 excel粘贴到文本框（不能包含合并单元格），可以转换为markdown格式的表格。
-http://e.hj2z.com/tool/exceltomarkdown/
+tool/exceltomarkdown/
+web工具箱
+
+markdown
+markdown 在线编辑与预览
+tool/markdown/
+web工具箱
+
+
+定时器
+这是一个简单的在线定时器，只要能上网，浏览器支持 JavaScript 就可以使用。甚至在 iPhone, iPad 等移动设备上也能很好的运行。如果你需要一些短期的提醒，或是上网期间的提醒，完全不必启动 Aero Timer Plus 或是 Aero Timer One，直接访问 aerotimer.com 就可以了。
+tool/timer/
 web工具箱
 
 小众软件
