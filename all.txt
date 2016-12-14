@@ -14,7 +14,22 @@ http://jiehou.oschina.io/baihuayuan/
 http://www.jianshu.com/users/461918692ecf
 博客
 
+匆匆岁月
+以前的文章
+http://www.ccsyue.com
+博客
+
+QQ空间
+说说
+http://939493194.qzone.qq.com
+博客
+
 excelToMarkdown
 excel粘贴到文本框（不能包含合并单元格），可以转换为markdown格式的表格。
 http://e.hj2z.com/tool/exceltomarkdown/
 web工具箱
+
+小众软件
+名气 不等于 优秀，优秀 不等于 适合，这里可以让你相对轻松的从几款知名或者优秀的软件中，寻找到最适合自己的。
+http://love.appinn.com/
+收藏夹
