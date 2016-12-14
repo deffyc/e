@@ -11,7 +11,7 @@ html(lang='zh')
   body
     .navbar.navbar-inverse
       .navbar-inner
-        .container
+        .container-fluid
           button.btn.btn-navbar(type='button', data-toggle='collapse', data-target='.nav-collapse')
             span.icon-bar
             span.icon-bar
@@ -32,7 +32,7 @@ html(lang='zh')
                   each site in tags[tag]
                      a.tag(href="#{site.url}", data-des="#{site.description}", data-index="#{site.id}", target="_blank") #{site.name} 
     .footer
-      .container
+      .container-fluid
         p  感谢作者的项目
            a(href='http://123.jser.us/', target='_blank', title='jserme') jserme
         p  如果你觉得对你有用，可以访问
