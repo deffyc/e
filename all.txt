@@ -58,3 +58,8 @@ web工具箱
 名气 不等于 优秀，优秀 不等于 适合，这里可以让你相对轻松的从几款知名或者优秀的软件中，寻找到最适合自己的。
 http://love.appinn.com/
 收藏夹
+
+小书匠编辑器
+小书匠编辑器是一个离线的markdown编辑器。提供了多种第三方存储绑定功能．包括本地文件系统存储，dropbox，github，evernote，印象笔记．
+http://soft.xiaoshujiang.com/
+收藏夹
