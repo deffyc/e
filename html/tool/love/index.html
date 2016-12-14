@@ -146,6 +146,7 @@
         var hold = 1;
 
         canvas.click(function (e) {
+            $("#renxin").play();
             var offset = canvas.offset(), x, y;
             x = e.pageX - offset.left;
             y = e.pageY - offset.top;
@@ -247,9 +248,6 @@
 
         runAsync().start();
     })();
-    document.addEventListener('touchstart', function(){
-   $("#renxin").play();
-}, false);
     </script>
 
 </body>
