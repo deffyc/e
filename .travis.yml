@@ -5,10 +5,10 @@ node_js: stable
 install:
  - npm install
 
-before_script:
-  
-  - rm ./data/sites/* -rf
+#before_script:
+
 script:
+  - rm ./html/data/sites/* -rf
   - node add-all.js
   - node build.js
 after_script:
