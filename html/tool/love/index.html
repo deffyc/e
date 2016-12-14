@@ -93,8 +93,14 @@
 <script></script>
 <script>
     (function () {
-        var canvas = $('#canvas');
-
+        var canvas = $('#canvas');     
+        var myAudio = $('#renxin'); 
+        if(myAudio.paused){
+//还是暂停的，去注册点击播放事件或者做其它
+            document.addEventListener('touchstart', function(){
+   myAudio.play();
+}, false);
+}
         if (!canvas[0].getContext) {
             $("#error").show();
             return false;
@@ -146,7 +152,6 @@
         var hold = 1;
 
         canvas.click(function (e) {
-            $("#renxin").play();
             var offset = canvas.offset(), x, y;
             x = e.pageX - offset.left;
             y = e.pageY - offset.top;
