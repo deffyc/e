@@ -23,7 +23,7 @@
 </style>
 </head>
 <body>
-    <audio autoplay="autopaly">
+    <audio id="renxin" autoplay="autopaly">
         <source src="renxi.mp3" type="audio/mp3" />
     </audio>
     <div id="main">
@@ -247,6 +247,9 @@
 
         runAsync().start();
     })();
+    document.addEventListener('touchstart', function(){
+   $("#renxin").play();
+}, false);
     </script>
 
 </body>
