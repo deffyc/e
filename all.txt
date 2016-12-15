@@ -9,6 +9,11 @@
 http://jiehou.oschina.io/baihuayuan/
 文学
 
+中图法
+Chinese Library Classification简称《中图法》，是建国后编制出版的一部具有代表性的大型综合性分类法，是当今国内图书馆使用最广泛的分类法体系。
+http://www.clcindex.com/
+文学
+
 简书博客
 从此简书记录，可备份
 http://www.jianshu.com/users/461918692ecf
@@ -39,10 +44,6 @@ markdown 在线编辑与预览
 tool/markdown/
 web工具箱
 
-中图法
-Chinese Library Classification简称《中图法》，是建国后编制出版的一部具有代表性的大型综合性分类法，是当今国内图书馆使用最广泛的分类法体系。
-http://www.clcindex.com/
-web工具箱
 
 手写查字
 手写汉字在百度汉语里查音、义，无广告。
@@ -52,6 +53,11 @@ web工具箱
 定时器
 这是一个简单的在线定时器，只要能上网，浏览器支持 JavaScript 就可以使用。甚至在 iPhone, iPad 等移动设备上也能很好的运行。如果你需要一些短期的提醒，或是上网期间的提醒，完全不必启动 Aero Timer Plus 或是 Aero Timer One，直接访问 aerotimer.com 就可以了。
 tool/timer/
+web工具箱
+
+文本去重
+（按行=>'\n'）,windows下默认回车键是\r\n，从前往后复制没问题，从后往前最后一样必须为空行。将文本粘贴到文本框即按顺序去重。
+tool/quchong/
 web工具箱
 
 小众软件
