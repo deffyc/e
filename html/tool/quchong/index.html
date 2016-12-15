@@ -15,7 +15,8 @@
 </head>
 
 <body>
-  <textarea id="editor"></textarea>
+<textarea id="editor"></textarea>
+  <span id="runtime">wait for Running!</span>
   <script language="javascript">
 	Array.prototype.unique = function()
 	{
@@ -32,6 +33,8 @@
 	}
 	var editor = document.getElementById("editor")
 	editor.addEventListener("paste", function(event) {
+		var start = new Date().getTime();//起始时间
+			
 		var clipboard = event.clipboardData;
 		var data = clipboard.getData('text/plain');
 		event.preventDefault();
@@ -41,8 +44,13 @@
 		for(key in arr){
 			editor.value = uniqueArr.join('\n');
 		}
-		alert(uniqueArr);
+		
+		var end = new Date().getTime();//接受时间
+		var str="运行时间: "+(end - start)+" ms";
+		document.getElementById("runtime").innerHTML=str;//返回函数执行需要时间
+		//alert(uniqueArr);
 	});
+	
   </script>
 </body>
 </html>
