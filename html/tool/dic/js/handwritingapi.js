@@ -2,7 +2,7 @@ QQShuru = {};
 QQShuru.Util = {};
 QQShuru.Util.Browser = {};
 QQShuru.Util.Browser.isIE = (navigator.appName == "Microsoft Internet Explorer");
-QQShuru.Util.Browser.touchable = 'createTouch' in document;
+QQShuru.Util.Browser.touchable = ('createTouch' in document);
 QQShuru.Util.Browser.getX=function(obj){
 		var parObj=obj;  
 		var left=obj.offsetLeft;  
