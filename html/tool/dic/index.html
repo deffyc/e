@@ -173,7 +173,8 @@ html, body{
 	<script type="text/javascript">
 			//document.domain = 'qq.com';
 			var container = document.getElementById('container');
-			
+			var hwr_div = document.getElementById('hwr_div');
+			var loading = document.getElementById('loading');
 			//用户手写完选择了文本之后这个函数就会被调用，result就是个字符串~~
 			function handWriteCallback(result){
 				if(result!="")
@@ -184,14 +185,15 @@ html, body{
 			function init(){
 				QQShuru.HWPanel(container, handWriteCallback);
 				document.getElementById('qqshuru_container').style.marginLeft=document.getElementById('kw').getBoundingClientRect().left+"px";
-				document.getElementById('qqshuru_container').style.display="none";
-				hw.load();
-				//hw.close();
-				//hw.isDisplay=true;
+				//document.getElementById('qqshuru_container').style.display="none";
+				hw.close();
+				hw.isDisplay=true;
 			}
 			
 			function shouxieban(){
-				hw.close();
+				hw.hidden(hwr_div);
+				hw.hidden(loading);
+				hw.isDisplay=true;
 				hw.isDisplay=true;
 				innerFlag=container.innerHTML;
 				if(document.getElementById('qqshuru_container').style.display!="none"){
@@ -213,12 +215,13 @@ html, body{
 			function showhanwang(){
 			document.getElementById('qqshuru_container').style.display="none";
 				if(!hw.isDisplay){
+					hw.hidden(hwr_div);
+					hw.hidden(loading);
 					hw.isDisplay=true;
-					hw.close();
 				}else{
 					hw.offset = hw.getOffSet(hw.submitBut);
-					hw.show(hw.loadingDiv);
-					hw.show(hw.hwDiv);
+					hw.show(hwr_div);
+					hw.show(loading);
 					hw.isDisplay=false;
 				}
 			}
