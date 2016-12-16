@@ -201,10 +201,9 @@ html, body{
 			}
 			
 			function shouxieban(){
-				hw.hidden(hwr_div);
-				hw.hidden(loading);
+				hw.close();
 				hw.isDisplay=true;
-				hw.isDisplay=true;
+
 				innerFlag=container.innerHTML;
 				if(document.getElementById('qqshuru_container').style.display!="none"){
 					document.getElementById('qqshuru_container').style.display="none";
@@ -220,8 +219,8 @@ html, body{
 					hw.isDisplay=true;
 				}else{
 					hw.offset = hw.getOffSet(hw.submitBut);
-					hw.show(hwr_div);
-					hw.show(loading);
+					hw.show(hw.hwDiv);
+					hw.show(hw.loadingDiv);
 					hw.isDisplay=false;
 				}
 			}
