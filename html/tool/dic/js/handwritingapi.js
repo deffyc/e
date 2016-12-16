@@ -2,6 +2,7 @@ QQShuru = {};
 QQShuru.Util = {};
 QQShuru.Util.Browser = {};
 QQShuru.Util.Browser.isIE = (navigator.appName == "Microsoft Internet Explorer");
+QQShuru.Util.Browser.touchable = 'createTouch' in document;
 QQShuru.Util.Browser.getX=function(obj){
 		var parObj=obj;  
 		var left=obj.offsetLeft;  
@@ -124,21 +125,24 @@ QQShuru.Util.Event.remEvent = function() {
     }
 } ();
 QQShuru.Util.Event.getPoint = function(a) {
-    if (QQShuru.Util.Browser.isIE) {
-        return [a.x, a.y]
-    } else {
-    	lastX=a.clientX;
-	    lastY=a.clientY;
-		var top,left,oDiv;    
-	    oDiv=document.getElementById("qqshuru_canvas");    
-	    top=QQShuru.Util.Browser.getY(oDiv);    
-	    left=QQShuru.Util.Browser.getX(oDiv);    
-		lastX= lastX - left+document.body.scrollLeft;
-		lastY = lastY -top+document.body.scrollTop;
-		//return [a.x, a.y]
-        return [Math.round(lastX), Math.round(lastY)]
-        
-    }
+	var lastX,lastY;
+	if(QQShuru.Util.Browser.touchable){
+		lastX=a.touches[0].clientX;
+		lastY=a.touches[0].clientY;
+	}else{
+		lastX=a.clientX;
+		lastY=a.clientY;
+	}
+	
+	var top,left,oDiv;    
+	oDiv=document.getElementById("qqshuru_canvas");    
+	top=QQShuru.Util.Browser.getY(oDiv);    
+	left=QQShuru.Util.Browser.getX(oDiv);    
+	lastX= lastX - left+document.body.scrollLeft;
+	lastY = lastY -top+document.body.scrollTop;
+	//return [a.x, a.y]
+    return [Math.round(lastX), Math.round(lastY)]
+    
 };
 QQShuru.HWPanel = function(E, G) {
     var o = QQShuru.Util.Browser.isIE;
@@ -496,10 +500,18 @@ QQShuru.HWPanel = function(E, G) {
         var X = W + "?" + aa;
         QQShuru.Util.Ajax.get(X, ab)
     };
-
-    m(i, "mousedown", l);
-    m(i, "mousemove", A);
-    m(i, "mouseup", n);
+	
+	if(QQShuru.Util.Browser.touchable){
+		m(i, "touchstart", l);
+		m(i, "touchmove", A);
+		m(i, "touchend", n);
+	}else{
+		m(i, "mousedown", l);
+		m(i, "mousemove", A);
+		m(i, "mouseup", n);
+		
+	}
+   
     m(i, "dblclick", V);
     QQShuru.Util.Ajax.get("http://handwriting.shuru.qq.com/cloud/cgi-bin/cloud_hw_pub.wsgi?track_str=0,0&cmd=0","");
     m(i, "contextmenu",
