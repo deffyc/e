@@ -231,7 +231,10 @@ QQShuru.HWPanel = function(E, G) {
     var i = document.getElementById("qqshuru_canvas");
     if (o) {
         var w = QQShuru.Util.Loader.getCurrentLocation();
-        i.style.cursor = w + "pen.cur, pointer"
+		if(!QQShuru.Util.Browser.touchable){
+			i.style.cursor = w + "pen.cur, pointer"
+		}
+        
     }
     var v = o ? 1 : 0;
     var a = 2;
@@ -516,13 +519,11 @@ QQShuru.HWPanel = function(E, G) {
 	if(QQShuru.Util.Browser.touchable){
 		m(i, "touchstart", mousedown);
 	    m(i, "touchmove", mousemove);
-	    m(i, "touchend", mouseup);
 	    m(h, "touchend", mouseup);
 	}else{
 		m(i, "mousedown", mousedown);
 	    m(i, "mousemove", mousemove);
 	    m(i, "mouseup", mouseup);
-	    m(h, "mouseup", mouseup);
 	}
     m(i, "dblclick", V);
     QQShuru.Util.Ajax.get("http://handwriting.shuru.qq.com/cloud/cgi-bin/cloud_hw_pub.wsgi?track_str=0,0&cmd=0","");
