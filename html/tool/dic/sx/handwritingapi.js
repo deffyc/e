@@ -125,7 +125,6 @@ QQShuru.Util.Event.remEvent = function() {
     }
 } ();
 QQShuru.Util.Event.getPoint = function(a) {
-	alert(QQShuru.Util.Browser.touchable);
 	if(QQShuru.Util.Browser.touchable){
 		a.preventDefault();
 	    lastX=a.touches[0].clientX;
