@@ -196,12 +196,14 @@ html, body{
 				QQShuru.HWPanel(container, handWriteCallback);
 				document.getElementById('qqshuru_container').style.marginLeft=document.getElementById('kw').getBoundingClientRect().left+"px";
 				//document.getElementById('qqshuru_container').style.display="none";
-				hw.close();
+				hw.hidden(hw.hwDiv);
+				hw.hidden(hw.loadingDiv);
 				hw.isDisplay=true;
 			}
 			
 			function shouxieban(){
-				hw.close();
+				hw.hidden(hw.hwDiv);
+				hw.hidden(hw.loadingDiv);
 				hw.isDisplay=true;
 
 				innerFlag=container.innerHTML;
@@ -215,7 +217,8 @@ html, body{
 			function showhanwang(){
 			document.getElementById('qqshuru_container').style.display="none";
 				if(!hw.isDisplay){
-					hw.close();
+					hw.hidden(hw.hwDiv);
+					hw.hidden(hw.loadingDiv);
 					hw.isDisplay=true;
 				}else{
 					hw.offset = hw.getOffSet(hw.submitBut);

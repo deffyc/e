@@ -69,7 +69,7 @@ hw.init = function() {
     C.setAttribute("id", "hwr_div");
     var A = document.createElement("div");
     A.setAttribute("id", "loading");
-    A.innerHTML = '<p>Loading<img id="loadingClose" onclick="hw.close();hw.isDisplay=true;" src="http://www.baidu.com/hw/sx_close.gif"/></p><div>loading....';
+    A.innerHTML = '<p>Loading<img id="loadingClose" onclick="hw.hidden(hw.hwDiv);hw.hidden(hw.loadingDiv);hw.isDisplay=true;" src="http://www.baidu.com/hw/sx_close.gif"/></p><div>loading....';
     D.appendChild(C);
     D.appendChild(A);
     document.body.appendChild(D);
