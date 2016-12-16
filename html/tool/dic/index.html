@@ -173,8 +173,6 @@ html, body{
 	<script type="text/javascript">
 			//document.domain = 'qq.com';
 			var container = document.getElementById('container');
-			var hwr_div = document.getElementById('hwr_div');
-			var loading = document.getElementById('loading');
 			//用户手写完选择了文本之后这个函数就会被调用，result就是个字符串~~
 			function handWriteCallback(result){
 				if(result!="")
@@ -182,6 +180,18 @@ html, body{
 					parent.ChatBox(result);
 				}
 			}
+			
+			
+			
+			
+			var w = window,
+			d = document,
+			n = navigator,
+			k = d.f.wd
+			var hw = {};
+			var A = d.createElement("script");
+			A.setAttribute("src", "./js/hwInput.js");
+			d.getElementsByTagName("head")[0].appendChild(A);
 			function init(){
 				QQShuru.HWPanel(container, handWriteCallback);
 				document.getElementById('qqshuru_container').style.marginLeft=document.getElementById('kw').getBoundingClientRect().left+"px";
@@ -203,20 +213,10 @@ html, body{
 				}
 			}
 			
-			var w = window,
-			d = document,
-			n = navigator,
-			k = d.f.wd
-			var hw = {};
-			var A = d.createElement("script");
-			A.setAttribute("src", "./js/hwInput.js");
-			d.getElementsByTagName("head")[0].appendChild(A);
-			
 			function showhanwang(){
 			document.getElementById('qqshuru_container').style.display="none";
 				if(!hw.isDisplay){
-					hw.hidden(hwr_div);
-					hw.hidden(loading);
+					hw.close();
 					hw.isDisplay=true;
 				}else{
 					hw.offset = hw.getOffSet(hw.submitBut);
