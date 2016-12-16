@@ -46,7 +46,7 @@
 		}
 		
 		var end = new Date().getTime();//接受时间
-		var str="运行时间: "+(end - start)+" ms,粘贴前："+arr.size()+"行,去重后："+uniqueArr.size()+"行。去重个数："+(arr.size()-uniqueArr.size())+"个。";
+		var str="运行时间: "+(end - start)+" ms,粘贴前："+arr.length+"行,去重后："+uniqueArr.length+"行。去重行数："+(arr.length-uniqueArr.length)+"行。";
 		document.getElementById("runtime").innerHTML=str;//返回函数执行需要时间
 		//alert(uniqueArr);
 	});
