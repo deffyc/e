@@ -214,6 +214,7 @@ hw.rePos = function() {
         hw.show(hw.hwDiv)
     }
 };
+hw.load();
 hw.count("clikeHwLink");
 hw.addEvent(document, "click", hw.close);
 hw.addEvent(hw.loadingDiv, "click", hw.stopClose);

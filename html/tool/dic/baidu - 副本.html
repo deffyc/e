@@ -132,7 +132,7 @@ html, body{
 }
 </style>
 </head>
-<body>
+<body onload="init()">
 <!--<body>-->
 <div class="sosuo">
 	  <div class="container" align="center">
@@ -144,7 +144,7 @@ html, body{
             <div class="one-fifth column first">
                <input id="su" type="submit" value="查找">
             </div>
-<a class="visible-lg visible-md shouxiebana" href="index.html"><span class="shouxieban">手写板</span></a>
+<a class="visible-lg visible-md shouxiebana" onclick="shouxieban()"><span class="shouxieban">手写板</span></a>
 <a class="visible-lg visible-md shouxiebana" onclick="showhanwang()"><span class="shouxieban">换汉王</span></a>
             <div class="clearfix"> </div>
         </form>
@@ -158,28 +158,115 @@ html, body{
 		
 		<iframe name="w1" src="" width="100%" height="700px"></iframe>
 	</div>
+	<!--<script src="http://www.yibizi.com/ybz_core/core/ybz.min.js"></script>
+		<!--引入易笔字核心脚本(utf-8编码)-->
+	<!--	<script>
+		YBZ_win_title = "你的名称";//手写板名称
+		YBZ_follow = true;//手写板吸附在输入框附近 false 右下角打开
+		YBZ_skin = "default";
+		//default||aero||chrome||opera||simple||idialog||twitter||blue||black||green
+		YBZ_tipsopen = true;//是否在网页输入框中加入手写提示
+		YBZ_fixed = true;//是否固定手写窗口
+		document.getElementById('kw').focus();YBZ_open(document.getElementById('kw'));YBZ_win.fixed(false);
+		</script> -->
+	<script type="text/javascript" src="sx/handwritingapi.js?v=1"></script>
 	<script type="text/javascript">
-
-			var w = window,
-        d = document,
-        n = navigator,
-        k = d.f.wd
-		var hw = {};
-		var A = d.createElement("script");
-		A.setAttribute("src", "./js/hwInput.js");
-		d.getElementsByTagName("head")[0].appendChild(A);
+			//document.domain = 'qq.com';
+			var container = document.getElementById('container');
 			
+			//用户手写完选择了文本之后这个函数就会被调用，result就是个字符串~~
+			function handWriteCallback(result){
+				if(result!="")
+				if(parent.exsit	){
+					parent.ChatBox(result);
+				}
+			}
+			function init(){
+				QQShuru.HWPanel(container, handWriteCallback);
+				document.getElementById('qqshuru_container').style.display="none";
+				document.getElementById('qqshuru_container').style.marginLeft=document.getElementById('kw').getBoundingClientRect().left+"px";
+				hw.load();
+			}
+			var w = window,
+			d = document,
+			n = navigator,
+			k = d.f.wd
+			var hw = {};
+			var A = d.createElement("script");
+			A.setAttribute("src", "js/hwInput.js");
+			d.getElementsByTagName("head")[0].appendChild(A);
 			
 			function showhanwang(){
+				document.getElementById('qqshuru_container').style.display="none";
 				if(hw.isDisplay){
 					hw.close();
 				}else{
-					hw.rePos();
+					hw.display();
 				}
 			}
+			function shouxieban(){
+				hw.close();
+				innerFlag=container.innerHTML;
+				if(document.getElementById('qqshuru_container').style.display!="none"){
+					document.getElementById('qqshuru_container').style.display="none";
+				}else{
+					document.getElementById('qqshuru_container').style.display="block";
+				}
+			}
+			
 		</script>
 
 
+<script type="text/javascript">
+function insertAtCursor(myField, myValue) {
+//IE support
+if (document.selection) {
+myField.focus();
+sel = document.selection.createRange();
+sel.text = myValue;
+sel.select();
+}
+//MOZILLA/NETSCAPE support 
+else if (myField.selectionStart || myField.selectionStart == '0') {
+var startPos = myField.selectionStart;
+var endPos = myField.selectionEnd;
+// save scrollTop before insert www.keleyi.com
+var restoreTop = myField.scrollTop;
+myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+if (restoreTop > 0) {
+myField.scrollTop = restoreTop;
+}
+myField.focus();
+myField.selectionStart = startPos + myValue.length;
+myField.selectionEnd = startPos + myValue.length;
+} else {
+myField.value += myValue;
+myField.focus();
+}
+} 
+</script>
+
+<script>
+function exsit(){
+	if(document.getElementById("kw"))
+	return true;
+	else
+	return false;
+}
+function ChatBox(result){
+	//document.getElementById("kw").innerHTML+=result;
+	document.getElementById("kw").focus();
+	insertAtCursor(document.getElementById('kw'),result)
+	//container.innerHTML="";
+	shouxieban(); 
+	document.getElementById("w1form").submit();
+	
+}
+function check(){
+	shouxieban(); 
+	return true;
+}
+</script>
 </div>
 	
 </body>
