@@ -137,7 +137,7 @@ html, body{
 <div class="sosuo">
 	  <div class="container" align="center">
 	  	<div style="max-width:800px;">
-		<form id="w1form" name="f" class="search-form" action="http://hanyu.baidu.com/zici/s" target="w1" onsubmit="return check()">
+		<form id="w1form" name="f" class="search-form" action="http://hanyu.baidu.com/zici/s" target="_blank" onsubmit="return check()">
 			<div class="three-fifth column first">
                <input id="kw" type="text" name="wd" class="text">     
             </div>
@@ -156,7 +156,7 @@ html, body{
 		<div align="center">
 		<span id="container"></span>
 		
-		<iframe name="w1" src="" width="100%" height="700px"></iframe>
+		<!--<iframe name="w1" src="" width="100%" height="700px"></iframe>-->
 	</div>
 	<!--<script src="http://www.yibizi.com/ybz_core/core/ybz.min.js"></script>
 		<!--引入易笔字核心脚本(utf-8编码)-->
@@ -271,7 +271,7 @@ function ChatBox(result){
 	insertAtCursor(document.getElementById('kw'),result)
 	//container.innerHTML="";
 	shouxieban(); 
-	document.getElementById("w1form").submit();
+	//document.getElementById("w1form").submit();
 	
 }
 function check(){
