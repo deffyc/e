@@ -144,7 +144,7 @@ html, body{
             <div class="one-fifth column first">
                <input id="su" type="submit" value="查找">
             </div>
-<a class="visible-lg visible-md shouxiebana" href="index.html"><span class="shouxieban">手写板</span></a>
+<a class="visible-lg visible-md shouxiebana" href="qq.html"><span class="shouxieban">手写板</span></a>
 <a class="visible-lg visible-md shouxiebana" onclick="showhanwang()"><span class="shouxieban">换汉王</span></a>
             <div class="clearfix"> </div>
         </form>
@@ -171,10 +171,16 @@ html, body{
 			
 			
 			function showhanwang(){
-				if(hw.isDisplay){
-					hw.close();
+				alert(hw.isDisplay);
+				if(!hw.isDisplay){
+					hw.isDisplay=true;
+					hw.hidden(hw.loadingDiv);
+					hw.hidden(hw.hwDiv);
 				}else{
-					hw.rePos();
+					hw.offset = hw.getOffSet(hw.submitBut);
+					hw.show(hw.loadingDiv);
+					hw.show(hw.hwDiv);
+					hw.isDisplay=false;
 				}
 			}
 		</script>

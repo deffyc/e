@@ -25,7 +25,6 @@ html, body{
     background: #4c515b;
     padding: 0em 0em 25px 0em;
 }
-
 .column {
     float: left;
     margin: 0 0 0 1%;
@@ -35,7 +34,6 @@ html, body{
 .column.first {
     margin-left: 0;
 }
-
 .search-form {
     padding: 0;
     margin: 0;
@@ -43,7 +41,6 @@ html, body{
 .search-form .column input[type="text"], .search-form .column input[type="submit"], .search-form .column select {
     width: 100%;
 }
-
 .three-fifth {
     width: 65.6%;
     margin-top: 25px;
@@ -65,13 +62,11 @@ html, body{
     height: 55px;
     outline: none;
 }
-
 .search-form input[type="text"] {
     display: inline-block;
     line-height: normal;
     width: 40%;
 }
-
 .one-fifth {
     width: 14.4%;
 }
@@ -92,11 +87,9 @@ html, body{
     margin-top: 25px;
     height: 55px;
 }
-
 .one-fifth input[type="submit"] {
     padding: 14px 40px;
 }
-
 .one-fifth input[type="submit"]:hover, .form-submit input[type="submit"]:hover {
     background: #52cbf8;
     text-decoration: none;
@@ -137,15 +130,15 @@ html, body{
 <div class="sosuo">
 	  <div class="container" align="center">
 	  	<div style="max-width:800px;">
-		<form id="w1form" name="f" class="search-form" action="http://hanyu.baidu.com/zici/s" target="w1" onsubmit="return check()">
+		<form id="w1form" class="search-form" action="http://hanyu.baidu.com/zici/s" target="w1" onsubmit="return check()">
 			<div class="three-fifth column first">
                <input id="kw" type="text" name="wd" class="text">     
             </div>
             <div class="one-fifth column first">
-               <input id="su" type="submit" value="查找">
+               <input type="submit" value="查找">
             </div>
 <a class="visible-lg visible-md shouxiebana" onclick="shouxieban()"><span class="shouxieban">手写板</span></a>
-<a class="visible-lg visible-md shouxiebana" onclick="showhanwang()"><span class="shouxieban">换汉王</span></a>
+<a class="visible-lg visible-md shouxiebana" href="baidu.html"><span class="shouxieban">换汉王</span></a>
             <div class="clearfix"> </div>
         </form>
 		</div>
@@ -183,29 +176,9 @@ html, body{
 			}
 			function init(){
 				QQShuru.HWPanel(container, handWriteCallback);
-				document.getElementById('qqshuru_container').style.display="none";
 				document.getElementById('qqshuru_container').style.marginLeft=document.getElementById('kw').getBoundingClientRect().left+"px";
-				hw.load();
-			}
-			var w = window,
-			d = document,
-			n = navigator,
-			k = d.f.wd
-			var hw = {};
-			var A = d.createElement("script");
-			A.setAttribute("src", "js/hwInput.js");
-			d.getElementsByTagName("head")[0].appendChild(A);
-			
-			function showhanwang(){
-				document.getElementById('qqshuru_container').style.display="none";
-				if(hw.isDisplay){
-					hw.close();
-				}else{
-					hw.display();
-				}
 			}
 			function shouxieban(){
-				hw.close();
 				innerFlag=container.innerHTML;
 				if(document.getElementById('qqshuru_container').style.display!="none"){
 					document.getElementById('qqshuru_container').style.display="none";

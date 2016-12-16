@@ -44,10 +44,9 @@ markdown 在线编辑与预览
 tool/markdown/
 web工具箱
 
-
 手写查字
 手写汉字在百度汉语里查音、义，无广告。
-tool/baidu/
+tool/dic/
 web工具箱
 
 定时器
