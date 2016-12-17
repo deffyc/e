@@ -149,6 +149,7 @@
             y = e.pageY - offset.top;
             if (seed.hover(x, y)) {
                 hold = 0;
+                $('#renxi').play();
                 canvas.unbind("click");
                 canvas.unbind("mousemove");
                 canvas.unbind("touchmove");
