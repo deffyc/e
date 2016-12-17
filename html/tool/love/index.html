@@ -168,7 +168,7 @@
             }                                       
         }).on('touchmove mousemove', function(e){
             var offset = canvas.offset(), x, y;
-            f(touchable){
+            if(touchable){
                 e.stopPropagation();
                 e.preventDefault(); 
                  x = e.touches[0].pageX - offset.left;
