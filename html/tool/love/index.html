@@ -143,8 +143,24 @@
         var seed = tree.seed;
         var foot = tree.footer;
         var hold = 1;
-
-        canvas.click(function (e) {
+        canvas.on('touchstart click', function(e){ e.stopPropagation(); e.preventDefault(); 
+           var offset = canvas.offset(), x, y;
+            x = e.pageX - offset.left;
+            y = e.pageY - offset.top;
+            if (seed.hover(x, y)) {
+                hold = 0;
+                canvas.unbind("click");
+                canvas.unbind("mousemove");
+                canvas.unbind("touchmove");
+                canvas.removeClass('hand');
+            }                                       
+        }).on('touchmove mousemove', function(e){
+            var offset = canvas.offset(), x, y;
+            x = e.pageX - offset.left;
+            y = e.pageY - offset.top;
+            canvas.toggleClass('hand', seed.hover(x, y));
+        });
+        /*canvas.click(function (e) {
             var offset = canvas.offset(), x, y;
             x = e.pageX - offset.left;
             y = e.pageY - offset.top;
@@ -159,8 +175,7 @@
             x = e.pageX - offset.left;
             y = e.pageY - offset.top;
             canvas.toggleClass('hand', seed.hover(x, y));
-        });
-
+        });*/
         var seedAnimate = eval(Jscex.compile("async", function () {
             seed.draw();
             while (hold) {
