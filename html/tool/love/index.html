@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -143,13 +143,15 @@
         var seed = tree.seed;
         var foot = tree.footer;
         var hold = 1;
-        canvas.on('touchstart click', function(e){ e.stopPropagation(); e.preventDefault(); 
+        canvas.on('touchstart click', function(e){
+           e.stopPropagation();
+           e.preventDefault(); 
            var offset = canvas.offset(), x, y;
             x = e.pageX - offset.left;
             y = e.pageY - offset.top;
             if (seed.hover(x, y)) {
                 hold = 0;
-                $('#renxi').play();
+                $('#renxi')[0].play();
                 canvas.unbind("click");
                 canvas.unbind("mousemove");
                 canvas.unbind("touchmove");
@@ -262,7 +264,7 @@
 
         runAsync().start();
     })();
-    $('#renxi').play();
+   
     </script>
 
 </body>
