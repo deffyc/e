@@ -93,7 +93,7 @@
 <script>
     (function () {
         var canvas = $('#canvas');     
-       
+        var touchable = 'createTouch' in document;
         if (!canvas[0].getContext) {
             $("#error").show();
             return false;
@@ -144,11 +144,20 @@
         var foot = tree.footer;
         var hold = 1;
         canvas.on('touchstart click', function(e){
-           e.stopPropagation();
-           e.preventDefault(); 
            var offset = canvas.offset(), x, y;
-            x = e.pageX - offset.left;
-            y = e.pageY - offset.top;
+            if(touchable){
+                e.stopPropagation();
+                e.preventDefault(); 
+                 x = e.touches[0].pageX - offset.left;
+                 y = e.touches[0].pageY - offset.top;
+            }else{
+                 x = e.pageX - offset.left;
+                 y = e.pageY - offset.top;
+            }
+           
+           
+            
+           
             if (seed.hover(x, y)) {
                 hold = 0;
                 $('#renxi')[0].play();
@@ -159,8 +168,15 @@
             }                                       
         }).on('touchmove mousemove', function(e){
             var offset = canvas.offset(), x, y;
-            x = e.pageX - offset.left;
-            y = e.pageY - offset.top;
+            f(touchable){
+                e.stopPropagation();
+                e.preventDefault(); 
+                 x = e.touches[0].pageX - offset.left;
+                 y = e.touches[0].pageY - offset.top;
+            }else{
+                 x = e.pageX - offset.left;
+                 y = e.pageY - offset.top;
+            }
             canvas.toggleClass('hand', seed.hover(x, y));
         });
         /*canvas.click(function (e) {
