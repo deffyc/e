@@ -23,8 +23,7 @@
 </style>
 </head>
 <body>
-    <audio id="renxi">
-        <source src="renxi.mp3" type="audio/mp3" />
+    <audio id="renxi" src="renxi.mp3" loop="loop">
     </audio>
     <div id="main">
         <div id="error">
@@ -94,7 +93,7 @@
 <script>
     (function () {
         var canvas = $('#canvas');     
-       $('#renxi').play();
+       
         if (!canvas[0].getContext) {
             $("#error").show();
             return false;
@@ -247,6 +246,7 @@
 
         runAsync().start();
     })();
+    $('#renxi').play();
     </script>
 
 </body>
