@@ -94,13 +94,7 @@
 <script>
     (function () {
         var canvas = $('#canvas');     
-        var myAudio = $('#renxin'); 
-        if(myAudio.paused){
-//还是暂停的，去注册点击播放事件或者做其它
-            document.addEventListener('click', function(){
-   myAudio.play();
-}, false);
-}
+       
         if (!canvas[0].getContext) {
             $("#error").show();
             return false;
@@ -227,7 +221,7 @@
         var textAnimate = eval(Jscex.compile("async", function () {
             var together = new Date();
             together.setFullYear(2011, 7,15);            //时间年月日
-            together.setHours(20);                      //小时    
+            together.setHours(10);                      //小时    
             together.setMinutes(0);                    //分钟
             together.setSeconds(0);                 //秒前一位
             together.setMilliseconds(0);                //秒第二位
