@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html xml:lang="zh" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>我爱你</title>
@@ -143,21 +143,34 @@
         var seed = tree.seed;
         var foot = tree.footer;
         var hold = 1;
-        canvas.on('touchstart click', function(e){
-           var offset = canvas.offset(), x, y;
+        if(touchable){
+            canvas.bind("touchstart", function (event) {
+                 eventstart(event);
+            });
+            canvas.bind("touchmove", function (event) {
+                eventmove(event);
+            
+            });
+        }else{
+             canvas.on('click', function(e){
+                  eventstart(e);
+            }).on('mousemove', function(e){
+                  eventmove(e);
+            });
+        
+        }
+        
+        function eventstart(e){
+            var offset = canvas.offset(), x, y;
             if(touchable){
-                e.stopPropagation();
+                //e.stopPropagation();
                 e.preventDefault(); 
-                 x = e.touches[0].pageX - offset.left;
-                 y = e.touches[0].pageY - offset.top;
+                 x = e.originalEvent.targetTouches[0].pageX - offset.left;
+                 y = e.originalEvent.targetTouches[0].pageY - offset.top;
             }else{
                  x = e.pageX - offset.left;
                  y = e.pageY - offset.top;
             }
-           
-           
-            
-           
             if (seed.hover(x, y)) {
                 hold = 0;
                 $('#renxi')[0].play();
@@ -165,20 +178,22 @@
                 canvas.unbind("mousemove");
                 canvas.unbind("touchmove");
                 canvas.removeClass('hand');
-            }                                       
-        }).on('touchmove mousemove', function(e){
+            }                                
+        }
+        function eventmove(e){
             var offset = canvas.offset(), x, y;
             if(touchable){
-                e.stopPropagation();
-                e.preventDefault(); 
-                 x = e.touches[0].pageX - offset.left;
-                 y = e.touches[0].pageY - offset.top;
+                //e.stopPropagation();
+                e.preventDefault();
+                var touch=e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+                 x = touch.pageX - offset.left;
+                 y = touch.pageY - offset.top;
             }else{
                  x = e.pageX - offset.left;
                  y = e.pageY - offset.top;
             }
             canvas.toggleClass('hand', seed.hover(x, y));
-        });
+        }
         /*canvas.click(function (e) {
             var offset = canvas.offset(), x, y;
             x = e.pageX - offset.left;
