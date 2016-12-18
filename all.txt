@@ -14,11 +14,6 @@ Chinese Library Classification简称《中图法》，是建国后编制出版�
 http://www.clcindex.com/
 文学
 
-简书博客
-从此简书记录，可备份
-http://www.jianshu.com/users/461918692ecf
-博客
-
 静态博客
 github托管的静态博客
 http://blog.ccsyue.com
@@ -34,7 +29,7 @@ QQ空间
 http://939493194.qzone.qq.com
 博客
 
-excelToMarkdown
+MD表格
 excel粘贴到文本框（不能包含合并单元格），可以转换为markdown格式的表格。
 tool/exceltomarkdown/
 web工具箱
@@ -64,7 +59,7 @@ web工具箱
 http://love.appinn.com/
 收藏夹
 
-小书匠编辑器
+小书匠
 小书匠编辑器是一个离线的markdown编辑器。提供了多种第三方存储绑定功能．包括本地文件系统存储，dropbox，github，evernote，印象笔记．
 http://markdown.xiaoshujiang.com/
 收藏夹
