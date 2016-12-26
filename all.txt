@@ -41,7 +41,7 @@ web工具箱
 
 手写查字
 手写汉字在百度汉语里查音、义，无广告。
-tool/dic/
+tool/dic/baidu.html
 web工具箱
 
 定时器
