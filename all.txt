@@ -32,7 +32,7 @@ http://939493194.qzone.qq.com
 MD表格
 excel粘贴到文本框（不能包含合并单元格），可以转换为markdown格式的表格。
 tool/exceltomarkdown/
-web工具箱
+web
 
 markdown
 markdown 在线编辑与预览
