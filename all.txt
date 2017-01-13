@@ -70,6 +70,9 @@ http://markdown.xiaoshujiang.com/
 百度云笔记
 记录常用信息。
 http://note.baidu.com/
+FanQiang
+pac。
+https://git.io/pac
 收藏夹
 sandstorm
 我的在线工具箱
