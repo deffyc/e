@@ -63,17 +63,22 @@ travis-ci
 Travis CI是一个基于云的持续集成项目， 目前已经支持大部分主流语言了，比如：C，PHP，Ruby，Python, Nodejs等等。和Jenkins类似， Travis CI也是开源的，不过Travis和Github集成非常紧密，官方的集成测试托管只支持Github项目， 不过你也可以搭建一套自己的方案。 
 https://travis-ci.org
 收藏夹
+
 小书匠
 小书匠编辑器是一个离线的markdown编辑器。提供了多种第三方存储绑定功能．包括本地文件系统存储，dropbox，github，evernote，印象笔记．
 http://markdown.xiaoshujiang.com/
 收藏夹
+
 百度云笔记
 记录常用信息。
 http://note.baidu.com/
+收藏夹
+
 FanQiang
-pac。
+pac
 https://git.io/pac
 收藏夹
+
 sandstorm
 我的在线工具箱
 https://oa.sandcats.io/
