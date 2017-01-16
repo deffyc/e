@@ -229,7 +229,6 @@
 	msgUrl="http://msg.ccsyue.com/msgs/";
     var getUrl = "http://msg.ccsyue.com/msgs/";
     var addUrl = "http://msg.ccsyue.com/add";
-    var addOneUrl = "http://restuse.sinaapp.com/one";
     var postUrl = addUrl;
 
     $("#msgClear").click(function () {
@@ -300,7 +299,7 @@
                 setTimeout(function () {
                     waitingDialog.hide();
                     var obj = eval(data);
-                    if ($.isEmptyObject(obj.data)) {
+                    if ($.isEmptyObject(obj)) {
                         $("#mainText").val('');
                         if ($.support.leadingWhitespace) {
                             $.toaster({ priority: 'info', title: '信息', message: '没有对应数据'})
@@ -341,7 +340,7 @@
                 setTimeout(function () {
                     waitingDialog.hide();
                     var obj = eval(data);
-                    if (obj.data == "-1") {
+                    if ($.isEmptyObject(obj)) {
                         if ($.support.leadingWhitespace) {
                             $.toaster({ priority: 'danger', title: '错误', message: '系统错误，请稍后重试'})
                         } else {
