@@ -335,14 +335,7 @@
                 setTimeout(function () {
                     waitingDialog.hide();
                     var obj = eval(data);
-                    if ($.isEmptyObject(obj)) {
-                        if ($.support.leadingWhitespace) {
-                            $.toaster({ priority: 'danger', title: '错误', message: '系统错误，请稍后重试'})
-                        } else {
-                            alert("错误：系统错误，请稍后重试");
-                        }
-                    } else {
-                        $("#textId").val(obj.id);
+                    $("#textId").val(obj.id);
                     }
                 }, 300);
 
