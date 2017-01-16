@@ -288,10 +288,10 @@
                 setTimeout(function () {
                     waitingDialog.hide();
                     if ($.support.leadingWhitespace) {
-                        $.toaster({ priority: 'danger', title: '错误', message: '系统错误，请稍后重试'})
-                    } else {
-                        alert("错误：系统错误，请稍后重试");
-                    }
+                            $.toaster({ priority: 'info', title: '信息', message: '没有对应数据'})
+                        } else {
+                            alert("信息：没有对应数据");
+                        }
                 }, 300);
 
             },
@@ -301,14 +301,9 @@
                     var obj = eval(data);
                     if ($.isEmptyObject(obj)) {
                         $("#mainText").val('');
-                        if ($.support.leadingWhitespace) {
-                            $.toaster({ priority: 'info', title: '信息', message: '没有对应数据'})
-                        } else {
-                            alert("信息：没有对应数据");
-                        }
                     } else {
                         $("#mainText").val(obj.content);
-			if(obj.delflag) handleDel();
+			if(obj.delflag=="true") handleDel();
                     }
                 }, 300);
 
