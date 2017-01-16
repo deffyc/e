@@ -418,6 +418,8 @@ $('#content').summernote({
 });
 function sendFile(file,editor,welEditable) {
     data = new FormData();
+    data.append("from", "file");
+    data.append("httptype", "1");
     data.append("file", file);
     data.append("Token","4e53713043ccbba49fcd4911dd148bdf354fc4db:7z_d97Aj8jV1YZ4EDgY8xvavR_w=:eyJkZWFkbGluZSI6MTQ4NDU0NTM1OSwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTgzNjcxIiwiYWlkIjoiMTI3MzM5MCIsImZyb20iOiJ3ZWIifQ==");
     $.ajax({
