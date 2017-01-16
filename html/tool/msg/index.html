@@ -11,9 +11,9 @@
 
 
     <!-- Bootstrap Core CSS -->
-    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link href="js/bootstrap-switch.min.css" rel="stylesheet">
-<link href="//cdn.bootcss.com/summernote/0.8.2/summernote.css" rel="stylesheet">
+<link href="http://cdn.bootcss.com/summernote/0.8.2/summernote.css" rel="stylesheet">
     <!-- Custom CSS -->
 
     <style>
@@ -21,125 +21,100 @@
             font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
             background-color: #EBF5F3;
         }
-
         * {
             margin: 0;
         }
-
         html, body {
             height: 100%;
         }
-
         .navbar-custom {
             /*color: #FFFFFF;*/
             background-color: #56b9ab;
-
         }
-
         .navbar-brand,
         .navbar-nav li a {
             line-height: 55px;
             height: 55px;
             padding-top: 0px;
             font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
-
         }
-
         .navbar-default .navbar-nav > li > a {
             color: #ffffff;
         }
-
         .navbar-default .navbar-nav > li > a:hover {
             color: #175A94;
         }
-
         .page-header {
             font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
             /* border-bottom: 1px solid #bbb;*/
         }
-
         hr {
             border-bottom: 1px solid #bbb;
         }
-
         .img_border {
             border: 1px solid #bbb;
         }
-
         @media screen and (min-width: 800px) {
             .container {
                 width: 800px;
             }
         }
-
         @media screen and (min-width: 800px) {
             .center_toaster {
                 right: 35%;
                 width: 30%;
             }
         }
-
         @media screen and (min-width: 400px) and (max-width: 799px) {
             .center_toaster {
                 right: 25%;
                 width: 50%;
             }
         }
-
         @media screen and (min-width: 200px ) and (max-width: 399px) {
             .center_toaster {
                 right: 10%;
                 width: 80%;
             }
         }
-
         .row a {
             text-decoration: none;
         }
-
         .row a:hover {
             text-decoration: none;
         }
-
         .addMaigin {
             margin-bottom: 30px;
         }
-
         .change_font {
             font-size: 1.5em;
         }
-
         .button_width {
             width: 4em;
         }
-
         .button_width2 {
             width: 4em;
         }
-
         .wrapper {
             min-height: 100%;
             height: auto !important;
             height: 100%;
             margin: 0 auto -6em;
         }
-
         .push {
             height: 6em;
         }
-
         .footer,  {
             height: 4em;
         }
-
     </style>
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
 </head>
@@ -179,7 +154,6 @@
 
                         <!--<div class="form-group ">
                             <textarea class="form-control custom-control change_font" style="resize:none" rows="8" placeholder="请输入信息" id="mainText"></textarea>
-
                         </div>-->
 			<div id="content"></div>
                         <div class="text-center">
@@ -218,13 +192,13 @@
 <!-- /.container -->
 
 <!-- jQuery -->
-<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
-<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="js/bootstrap-switch.js" type="text/javascript"></script>
 <script src="js/bootstrap-waitingfor.js" type="text/javascript"></script>
 <script src="js/jquery.toaster.js" type="text/javascript"></script>
-<script src="//cdn.bootcss.com/summernote/0.8.2/summernote.min.js"></script>
-<script src="//cdn.bootcss.com/summernote/0.8.2/lang/summernote-zh-CN.min.js"></script>
+<script src="http://cdn.bootcss.com/summernote/0.8.2/summernote.min.js"></script>
+<script src="http://cdn.bootcss.com/summernote/0.8.2/lang/summernote-zh-CN.min.js"></script>
 
 <script type="text/javascript">
     var isOne = false;
@@ -232,11 +206,9 @@
     var getUrl = "http://msg.ccsyue.com/msgs/";
     var addUrl = "http://msg.ccsyue.com/add";
     var postUrl = addUrl;
-
     $("#msgClear").click(function () {
 	$('#content').summernote('code', '');
     });
-
     $("#msgGet").click(function () {
         if ($("#textId").val() == null || $("#textId").val() == "") {
             if ($.support.leadingWhitespace) {
@@ -251,7 +223,6 @@
         //console.log(11);
         handleGet();
     });
-
     $("#msgSave").click(function () {
         /*console.log(isOne);*/
 	
@@ -266,20 +237,16 @@
         }
         handlePost();
     });
-
     function changeOne(event, change) {
         isOne = !isOne;
     }
-
     $(document).ready(function () {
         $("[name='onlyOne']").bootstrapSwitch();
         $('input[name="onlyOne"]').on('switchChange.bootstrapSwitch', function (event, state) {
             isOne = state;
         });
     });
-
     function handleGet() {
-
         $.ajax({
             url: msgUrl + $("#textId").val(),
             type: 'GET',
@@ -294,7 +261,6 @@
                             alert("信息：没有对应数据");
                         }
                 }, 300);
-
             },
             success: function (data) {
                 setTimeout(function () {
@@ -304,16 +270,13 @@
  
 			$('#content').summernote('code', '');
                     } else {
-
 			$('#content').summernote('code', obj.content);
 			 if(obj.delflag=="true") handleDel();
                     }
                 }, 300);
-
             }
         });
     }
-
     function handlePost() {
         waitingDialog.show();
         $.ajax({
@@ -331,8 +294,6 @@
                         alert("错误：系统错误，请稍后重试");
                     }
                 }, 300);
-
-
             },
             success: function (data) {
                 setTimeout(function () {
@@ -340,8 +301,6 @@
                     var obj = eval(data);
                     $("#textId").val(obj.id);
                 }, 300);
-
-
             }
         });
     }
@@ -361,11 +320,9 @@
                         alert("错误：系统错误，请稍后重试");
                     }
                 }, 300);
-
             }
         });
 	}
-
 </script>
 
 
@@ -412,15 +369,19 @@ $('#content').summernote({
   maxHeight: null,             // set maximum height of editor
   focus: true,                  // set focus to editable area after initializing summernote
   lang: 'zh-CN',
-  onImageUpload: function(files, editor, welEditable) {
-  	sendFile(files[0],editor,welEditable);
+  callbacks: {
+	  onImageUpload: function(files, editor, welEditable) {
+		sendFile(files[0],editor,welEditable);
+	  }
   }
+  
 });
-function sendFile(file,editor,welEditable) {
+function sendFile(file,editor,welEditablse) {
     data = new FormData();
     data.append("from", "file");
     data.append("httptype", "1");
     data.append("file", file);
+	alert(file);
     data.append("Token","4e53713043ccbba49fcd4911dd148bdf354fc4db:7z_d97Aj8jV1YZ4EDgY8xvavR_w=:eyJkZWFkbGluZSI6MTQ4NDU0NTM1OSwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTgzNjcxIiwiYWlkIjoiMTI3MzM5MCIsImZyb20iOiJ3ZWIifQ==");
     $.ajax({
         data: data,
