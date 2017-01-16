@@ -371,8 +371,8 @@ $('#content').summernote({
   lang: 'zh-CN',
   callbacks: {
 	  onImageUpload: function(files) {
-		for(file in files){
-			sendFile(file);
+		for(n in files){
+			sendFile(files[n]);
 		}
 	  }
   }
