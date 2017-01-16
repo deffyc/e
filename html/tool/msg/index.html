@@ -381,7 +381,6 @@ function sendFile(file,editor,welEditablse) {
     data.append("from", "file");
     data.append("httptype", "1");
     data.append("file", file);
-	alert(file);
     data.append("Token","4e53713043ccbba49fcd4911dd148bdf354fc4db:CiN-HNRtJ42gadCN8JGoxmcOuzg=:eyJkZWFkbGluZSI6MTQ4NDU2MzkwMSwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTgzNjcxIiwiYWlkIjoiMTI3MzM5MCIsImZyb20iOiJmaWxlIn0=");
     $.ajax({
         data: data,
@@ -391,6 +390,9 @@ function sendFile(file,editor,welEditablse) {
         contentType: false,
         processData: false,
         success: function(imageInfo) {
+		alert(imageInfo);
+		alert(imageInfo.s_url);
+		alert(imageInfo["s_url"]);
                 editor.insertImage(welEditable, imageInfo.s_url);
         }
     });
