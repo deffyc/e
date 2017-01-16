@@ -11,9 +11,9 @@
 
 
     <!-- Bootstrap Core CSS -->
-    <link href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link href="js/bootstrap-switch.min.css" rel="stylesheet">
-
+<link href="//cdn.bootcss.com/summernote/0.8.2/summernote.css" rel="stylesheet">
     <!-- Custom CSS -->
 
     <style>
@@ -177,11 +177,11 @@
                         </div>
                         <br>
 
-                        <div class="form-group ">
+                        <!--<div class="form-group ">
                             <textarea class="form-control custom-control change_font" style="resize:none" rows="8" placeholder="请输入信息" id="mainText"></textarea>
 
-                        </div>
-
+                        </div>-->
+			<div id="content"></div>
                         <div class="text-center">
                             <button type="button" class="btn btn-primary button_width" id="msgClear">清空</button>
                             <button type="button" class="btn btn-primary button_width2 " id="msgSave">保存</button>
@@ -218,11 +218,13 @@
 <!-- /.container -->
 
 <!-- jQuery -->
-<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
-<script src="//cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="js/bootstrap-switch.js" type="text/javascript"></script>
 <script src="js/bootstrap-waitingfor.js" type="text/javascript"></script>
 <script src="js/jquery.toaster.js" type="text/javascript"></script>
+<script src="//cdn.bootcss.com/summernote/0.8.2/summernote.min.js"></script>
+<script src="//cdn.bootcss.com/summernote/0.8.2/lang/summernote-zh-CN.min.js"></script>
 
 <script type="text/javascript">
     var isOne = false;
@@ -232,8 +234,7 @@
     var postUrl = addUrl;
 
     $("#msgClear").click(function () {
-        $("#mainText").val("");
-
+	$('#content').summernote('code', '');
     });
 
     $("#msgGet").click(function () {
@@ -253,9 +254,9 @@
 
     $("#msgSave").click(function () {
         /*console.log(isOne);*/
-
-        if ($("#mainText").val() == null || $("#mainText").val() == "") {
-            if ($.support.leadingWhitespace) {
+	
+          if ($('#content').summernote('code') == "") {
+	    if ($.support.leadingWhitespace) {
                 $.toaster({ priority: 'warning', title: '警告', message: '内容不能为空'});
                 return;
             } else {
@@ -300,10 +301,12 @@
                     waitingDialog.hide();
                     var obj = eval(data);
                     if ($.isEmptyObject(obj)) {
-                        $("#mainText").val('');
+ 
+			$('#content').summernote('code', '');
                     } else {
-                        $("#mainText").val(obj.content);
-			if(obj.delflag=="true") handleDel();
+
+			$('#content').summernote('code', obj.content);
+			 if(obj.delflag=="true") handleDel();
                     }
                 }, 300);
 
@@ -318,7 +321,7 @@
             type: 'POST',
             async: true, //默认为true 异步
             dataType: 'JSON',
-            data: {content: $("#mainText").val(),delflag:isOne},
+            data: {content: $('#content').summernote('code'),delflag:isOne},
             error: function () {
                 setTimeout(function () {
                     waitingDialog.hide();
@@ -403,7 +406,13 @@
     jQuery(function () {
         JPlaceHolder.init();
     });
-
+$('#content').summernote({
+  height: 300,                 // set editor height
+  minHeight: null,             // set minimum height of editor
+  maxHeight: null,             // set maximum height of editor
+  focus: true,                  // set focus to editable area after initializing summernote
+  lang: 'zh-CN'
+});
 </script>
 
 
