@@ -371,12 +371,12 @@ $('#content').summernote({
   lang: 'zh-CN',
   callbacks: {
 	  onImageUpload: function(files, editor, welEditable) {
-		sendFile(files[0],editor,welEditable);
+		sendFile(files[0]);
 	  }
   }
   
 });
-function sendFile(file,editor,welEditablse) {
+function sendFile(file) {
     data = new FormData();
     data.append("from", "file");
     data.append("httptype", "1");
@@ -390,10 +390,8 @@ function sendFile(file,editor,welEditablse) {
         contentType: false,
         processData: false,
         success: function(imageInfo) {
-		alert(imageInfo);
-		alert(imageInfo.s_url);
-		alert(imageInfo["s_url"]);
-                editor.insertImage(welEditable, imageInfo.s_url);
+		$('#summernote').summernote('insertImage', imageInfo.s_url);
+
         }
     });
 }
