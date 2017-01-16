@@ -370,7 +370,7 @@ $('#content').summernote({
   focus: true,                  // set focus to editable area after initializing summernote
   lang: 'zh-CN',
   callbacks: {
-	  onImageUpload: function(files, editor, welEditable) {
+	  onImageUpload: function(files) {
 		sendFile(files[0]);
 	  }
   }
@@ -390,7 +390,7 @@ function sendFile(file) {
         contentType: false,
         processData: false,
         success: function(imageInfo) {
-		$('#summernote').summernote('insertImage', imageInfo.s_url);
+		$('#content').summernote('insertImage', imageInfo.s_url);
 
         }
     });
