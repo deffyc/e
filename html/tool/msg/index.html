@@ -300,7 +300,7 @@
                 setTimeout(function () {
                     waitingDialog.hide();
                     var obj = eval(data);
-                    if (obj.data == "{}") {
+                    if ($.isEmptyObject(obj.data)) {
                         $("#mainText").val('');
                         if ($.support.leadingWhitespace) {
                             $.toaster({ priority: 'info', title: '信息', message: '没有对应数据'})
@@ -309,6 +309,7 @@
                         }
                     } else {
                         $("#mainText").val(obj.content);
+			if(obj.delflag) handleDel();
                     }
                 }, 300);
 
@@ -348,7 +349,6 @@
                         }
                     } else {
                         $("#textId").val(obj.id);
-						handleDel();
                     }
                 }, 300);
 
