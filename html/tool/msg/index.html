@@ -372,16 +372,21 @@ $('#content').summernote({
   callbacks: {
 	  onImageUpload: function(files) {
 		sendFile(files[0]);
+		alert(files[0]);
 	  }
   }
   
 });
 function sendFile(file) {
+    var fromstr=typeof(file)=="object"?"file":"web";
+    var file_token ="4e53713043ccbba49fcd4911dd148bdf354fc4db:CiN-HNRtJ42gadCN8JGoxmcOuzg=:eyJkZWFkbGluZSI6MTQ4NDU2MzkwMSwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTgzNjcxIiwiYWlkIjoiMTI3MzM5MCIsImZyb20iOiJmaWxlIn0=";
+    var web_token="4e53713043ccbba49fcd4911dd148bdf354fc4db:4aFzoIJErTnapifziQXyOgRcyxw=:eyJkZWFkbGluZSI6MTQ4NDU2NjgzNSwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTgzNjcxIiwiYWlkIjoiMTI3MzM5MCIsImZyb20iOiJ3ZWIifQ==";
+    var token=fromstr=="file"?file_token:web_token;
     data = new FormData();
-    data.append("from", "file");
+    data.append("from", fromstr);
     data.append("httptype", "1");
     data.append("file", file);
-    data.append("Token","4e53713043ccbba49fcd4911dd148bdf354fc4db:CiN-HNRtJ42gadCN8JGoxmcOuzg=:eyJkZWFkbGluZSI6MTQ4NDU2MzkwMSwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTgzNjcxIiwiYWlkIjoiMTI3MzM5MCIsImZyb20iOiJmaWxlIn0=");
+    data.append("Token",token);
     $.ajax({
         data: data,
         type: "POST",
