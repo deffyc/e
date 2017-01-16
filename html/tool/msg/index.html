@@ -300,7 +300,7 @@
                 setTimeout(function () {
                     waitingDialog.hide();
                     var obj = eval(data);
-                    if (obj.data == "noResult") {
+                    if (obj.data == "{}") {
                         $("#mainText").val('');
                         if ($.support.leadingWhitespace) {
                             $.toaster({ priority: 'info', title: '信息', message: '没有对应数据'})
