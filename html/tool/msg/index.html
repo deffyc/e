@@ -282,8 +282,8 @@
         $.ajax({
             url: addUrl,
             type: 'POST',
-            async: true, //默认为true 异步
-            dataType: 'JSONP',
+           // async: true, //默认为true 异步
+            //dataType: 'JSONP',
             data: $('#content').summernote('code').replace(",","，"),
             error: function () {
                 setTimeout(function () {
