@@ -251,7 +251,7 @@
             url: msgUrl + $("#textId").val().toUpperCase(),
             type: 'GET',
             async: true, //默认为true 异步
-            dataType: 'JSONP',
+            dataType: 'JSON',
             error: function (data) {
                 setTimeout(function () {
                     waitingDialog.hide();
@@ -283,7 +283,7 @@
             url: addUrl,
             type: 'POST',
             async: true, //默认为true 异步
-            dataType: 'JSONP',
+            dataType: 'JSON',
             data: $('#content').summernote('code').replace(",","，"),
             error: function () {
                 setTimeout(function () {
@@ -310,7 +310,7 @@
             url: msgUrl ,
             type: 'POST',
             async: true, //默认为true 异步
-            dataType: 'JSONP',
+            dataType: 'JSON',
 	    data: {"command":"CLEAR "+$("#textId").val().toUpperCase()},
             error: function (data) {
                 setTimeout(function () {
