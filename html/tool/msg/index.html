@@ -202,9 +202,9 @@
 
 <script type="text/javascript">
     var isOne = true;
-	msgUrl="http://msg.ccsyue.com/msgs/";
-    var getUrl = "http://msg.ccsyue.com/msgs/";
-    var addUrl = "http://msg.ccsyue.com/add";
+    var msgUrl="https://ethercalc.org/_/fhizgap5lqzd/cells/";
+    var getUrl = "https://ethercalc.org/_/fhizgap5lqzd/cells/";
+    var addUrl = "https://ethercalc.org/_/fhizgap5lqzd";
     var postUrl = addUrl;
     $("#msgClear").click(function () {
 	$('#content').summernote('code', '');
@@ -248,7 +248,7 @@
     });
     function handleGet() {
         $.ajax({
-            url: msgUrl + $("#textId").val(),
+            url: msgUrl + $("#textId").val().toUpperCase();
             type: 'GET',
             async: true, //默认为true 异步
             dataType: 'JSON',
@@ -270,7 +270,7 @@
  
 			$('#content').summernote('code', '');
                     } else {
-			$('#content').summernote('code', obj.content);
+			$('#content').summernote('code', obj.datavalue);
 			 if(obj.delflag=="true") handleDel();
                     }
                 }, 300);
@@ -280,11 +280,11 @@
     function handlePost() {
         waitingDialog.show();
         $.ajax({
-            url: msgUrl,
+            url: addUrl,
             type: 'POST',
             async: true, //默认为true 异步
-            dataType: 'JSON',
-            data: {content: $('#content').summernote('code'),delflag:isOne},
+            //dataType: 'JSON',
+            data: $('#content').summernote('code').replace(",","，"),
             error: function () {
                 setTimeout(function () {
                     waitingDialog.hide();
@@ -299,7 +299,7 @@
                 setTimeout(function () {
                     waitingDialog.hide();
                     var obj = eval(data);
-                    $("#textId").val(obj.id);
+                    $("#textId").val(obj.command[1].split(" ")[1]);
                 }, 300);
             }
         });
