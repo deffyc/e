@@ -248,7 +248,7 @@
     });
     function handleGet() {
         $.ajax({
-            url: msgUrl + $("#textId").val().toUpperCase();
+            url: msgUrl + $("#textId").val().toUpperCase(),
             type: 'GET',
             async: true, //默认为true 异步
             dataType: 'JSON',
@@ -307,10 +307,11 @@
 	
 	function handleDel(){
 		$.ajax({
-            url: msgUrl + $("#textId").val(),
-            type: 'DELETE',
+            url: msgUrl ,
+            type: 'POST',
             async: true, //默认为true 异步
             dataType: 'JSON',
+	    data: {"command":"CLEAR "+$("#textId").val().toUpperCase()},
             error: function (data) {
                 setTimeout(function () {
                     waitingDialog.hide();
