@@ -146,6 +146,7 @@
                         <div class="input-group input-group-lg">
                             <span class="input-group-addon">编号</span>
                             <input type="text" class="form-control" id="textId">
+			    <input type="hidden" id="msgId">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button" id="msgGet">获取信息</button>
                            </span>
@@ -202,9 +203,9 @@
 
 <script type="text/javascript">
     var isOne = true;
-    var msgUrl="https://ethercalc.org/_/fhizgap5lqzd/cells/";
-    var getUrl = "https://ethercalc.org/_/fhizgap5lqzd/cells/";
-    var addUrl = "https://ethercalc.org/_/fhizgap5lqzd";
+    var msgUrl="https://d.apicloud.com/mcm/api/msg";
+    var getUrl = "https://d.apicloud.com/mcm/api/msg";
+    var addUrl = "https://d.apicloud.com/mcm/api/msg";
     var postUrl = addUrl;
     $("#msgClear").click(function () {
 	$('#content').summernote('code', '');
@@ -248,7 +249,7 @@
     });
     function handleGet() {
         $.ajax({
-            url: msgUrl + $("#textId").val().toUpperCase(),
+            url: msgUrl +"?filter=%7B%22where%22%3A%7B%22no%22%3A"+$("#textId").val()+"%7D%2C%22limit%22%3A1%7D"",
             type: 'GET',
             async: true, //默认为true 异步
             dataType: 'JSON',
@@ -265,13 +266,12 @@
             success: function (data) {
                 setTimeout(function () {
                     waitingDialog.hide();
-                    var obj = eval(data);
+                    var obj = eval(data[0]);
                     if ($.isEmptyObject(obj)) {
- 
 			$('#content').summernote('code', '');
                     } else {
-			$('#content').summernote('code', obj.datavalue);
-			 if(obj.delflag=="true") handleDel();
+			$('#content').summernote('code', obj.content);
+			 if(obj.delflag=="true") handleDel(obj.id);
                     }
                 }, 300);
             }
@@ -282,6 +282,11 @@
         $.ajax({
             url: addUrl,
             type: 'POST',
+	   cache: false,
+	   headers: {
+	    "X-APICloud-AppId": "A6931714739310",
+	    "X-APICloud-AppKey": "5F6ECB35-3791-9274-B1FC-21FFF01E93BE"
+	  },
             async: true, //默认为true 异步
             dataType: 'JSON',
             data: $('#content').summernote('code').replace(",","，"),
@@ -299,19 +304,24 @@
                 setTimeout(function () {
                     waitingDialog.hide();
                     var obj = eval(data);
-                    $("#textId").val(obj.command[1].split(" ")[1]);
+                    $("#textId").val(obj.no);
+		    $("#msgId").val(obj.id);
                 }, 300);
             }
         });
     }
 	
-	function handleDel(){
+	function handleDel(id){
 		$.ajax({
-            url: msgUrl ,
-            type: 'POST',
+            url: msgUrl +"/"+id,
+            type: 'DELETE',
+	    cache: false,
+	   headers: {
+	    "X-APICloud-AppId": "A6931714739310",
+	    "X-APICloud-AppKey": "5F6ECB35-3791-9274-B1FC-21FFF01E93BE"
+	  },
             async: true, //默认为true 异步
             dataType: 'JSON',
-	    data: {"command":"CLEAR "+$("#textId").val().toUpperCase()},
             error: function (data) {
                 setTimeout(function () {
                     waitingDialog.hide();
