@@ -249,7 +249,7 @@
     });
     function handleGet() {
         $.ajax({
-            url: msgUrl +"?filter=%7B%22where%22%3A%7B%22no%22%3A"+$("#textId").val()+"%7D%2C%22limit%22%3A1%7D"",
+            url: msgUrl +"filter=%7B%22where%22%3A%7B%22no%22%3A%22"+$("#textId").val()+"%22%2C%22delflag%22%3A%22false%22%7D%2C%22limit%22%3A1%7D",
             type: 'GET',
             async: true, //默认为true 异步
             dataType: 'JSON',
@@ -271,7 +271,6 @@
 			$('#content').summernote('code', '');
                     } else {
 			$('#content').summernote('code', obj.content);
-			 if(obj.delflag=="true") handleDel(obj.id);
                     }
                 }, 300);
             }
@@ -289,7 +288,7 @@
 	  },
             async: true, //默认为true 异步
             dataType: 'JSON',
-            data: $('#content').summernote('code').replace(",","，"),
+            data: {content: $("#mainText").val(),delflag:isOne,no:getNo()},
             error: function () {
                 setTimeout(function () {
                     waitingDialog.hide();
@@ -310,7 +309,25 @@
             }
         });
     }
-	
+	function getNo(){
+	no=0;
+	$.ajax({
+		  url: "https://d.apicloud.com/mcm/api/msg/count?filter=%7B%22where%22%3A%7B%7D%7D",
+		  cache: false,
+		  headers: {
+		    "X-APICloud-AppId": "A6931714739310",
+		    "X-APICloud-AppKey": "your appkey"
+		  },
+		  type: "GET",
+		async: true //默认为true 异步
+		}).success(function (data, status, header) {
+		var obj = eval(data);
+		  no=obj.count+1;
+		}).fail(function (header, status, errorThrown) {
+		  //fail body
+		});
+	return no;
+	}
 	function handleDel(id){
 		$.ajax({
             url: msgUrl +"/"+id,
