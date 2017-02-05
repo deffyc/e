@@ -200,6 +200,8 @@
 <script src="js/jquery.toaster.js" type="text/javascript"></script>
 <script src="http://cdn.bootcss.com/summernote/0.8.2/summernote.min.js"></script>
 <script src="http://cdn.bootcss.com/summernote/0.8.2/lang/summernote-zh-CN.min.js"></script>
+<script src="js/SHA1.js"></script>
+
 
 <script type="text/javascript">
     var isOne = true;
@@ -247,16 +249,20 @@
             isOne = state;
         });
     });
+	function getAppKey(){
+		var AppId= "A6931714739310";
+		var AppKey="5F6ECB35-3791-9274-B1FC-21FFF01E93BE";
+		var now = Date.now();
+		var appKey = SHA1(AppId+"UZ"+AppKey+"UZ"+now)+"."+now;
+		return {"X-APICloud-AppId":AppId,"X-APICloud-AppKey":appKey}
+	}
     function handleGet() {
         $.ajax({
-            url: msgUrl +"filter=%7B%22where%22%3A%7B%22no%22%3A%22"+$("#textId").val()+"%22%2C%22delflag%22%3A%22false%22%7D%2C%22limit%22%3A1%7D",
+            url: msgUrl +"?filter=%7B%22where%22%3A%7B%22no%22%3A"+$("#textId").val()+"%2C%22delflag%22%3Afalse%7D%2C%22limit%22%3A1%7D",
             type: 'GET',
-            async: true, //默认为true 异步
+           // async: true, //默认为true 异步
             dataType: 'JSON',
-	    headers: {
-	    X-APICloud-AppId: "A6931714739310",
-	    X-APICloud-AppKey: "5F6ECB35-3791-9274-B1FC-21FFF01E93BE"
-	  },
+			headers: getAppKey(),
             error: function (data) {
                 setTimeout(function () {
                     waitingDialog.hide();
@@ -272,9 +278,13 @@
                     waitingDialog.hide();
                     var obj = eval(data[0]);
                     if ($.isEmptyObject(obj)) {
-			$('#content').summernote('code', '');
+						$('#content').summernote('code', '');
                     } else {
-			$('#content').summernote('code', obj.content);
+						$('#content').summernote('code', obj.content);
+						if(obj.onlyOne){
+							handleDel(obj.id);
+						}
+						
                     }
                 }, 300);
             }
@@ -286,13 +296,10 @@
             url: addUrl,
             type: 'POST',
 	   cache: false,
-	   headers: {
-	    X-APICloud-AppId: "A6931714739310",
-	    X-APICloud-AppKey: "5F6ECB35-3791-9274-B1FC-21FFF01E93BE"
-	  },
+	   headers: getAppKey(),
             async: true, //默认为true 异步
             dataType: 'JSON',
-            data: {content: $("#mainText").val(),delflag:isOne,no:getNo()},
+            data: {content: $('#content').summernote('code'),onlyOne:isOne,no:getNo(),delflag:false},
             error: function () {
                 setTimeout(function () {
                     waitingDialog.hide();
@@ -308,7 +315,7 @@
                     waitingDialog.hide();
                     var obj = eval(data);
                     $("#textId").val(obj.no);
-		    $("#msgId").val(obj.id);
+					$("#msgId").val(obj.id);
                 }, 300);
             }
         });
@@ -316,14 +323,11 @@
 	function getNo(){
 	no=0;
 	$.ajax({
-		  url: "https://d.apicloud.com/mcm/api/msg/count?filter=%7B%22where%22%3A%7B%7D%7D",
+		  url: 'https://d.apicloud.com/mcm/api/msg/count?filter={"where":{}}',
 		  cache: false,
-		  headers: {
-		    X-APICloud-AppId: "A6931714739310",
-		    X-APICloud-AppKey: "your appkey"
-		  },
+		  headers: getAppKey(),
 		  type: "GET",
-		async: true //默认为true 异步
+		async: false //默认为true 异步
 		}).success(function (data, status, header) {
 		var obj = eval(data);
 		  no=obj.count+1;
@@ -335,14 +339,12 @@
 	function handleDel(id){
 		$.ajax({
             url: msgUrl +"/"+id,
-            type: 'DELETE',
+            type: 'PUT',
 	    cache: false,
-	   headers: {
-	    X-APICloud-AppId: "A6931714739310",
-	    X-APICloud-AppKey: "5F6ECB35-3791-9274-B1FC-21FFF01E93BE"
-	  },
+	   headers: getAppKey(),
             async: true, //默认为true 异步
             dataType: 'JSON',
+			data:{delflag:true},
             error: function (data) {
                 setTimeout(function () {
                     waitingDialog.hide();
