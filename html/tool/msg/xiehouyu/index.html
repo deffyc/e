@@ -22,6 +22,20 @@ function getAppKey(){
 </script>
  </head>
  <body>
- 
+ <div id="columns"></div>
+	 <script>
+	 $.ajax({
+		url:'https://d.apicloud.commcm/api/cat?filter={"where":{},"skip":0,"limit":20}',
+		dataType: 'json', 
+		success: function(json) { 
+		    example7 = $('#example7').columns({
+			data:data,
+			pages: 1350,
+			total: 26991,
+			plugins:['ajaxpaging']
+		    }); 
+		}
+    }); 
+	 </script>
  </body>
  </html>
