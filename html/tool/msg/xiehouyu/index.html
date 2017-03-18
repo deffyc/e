@@ -23,18 +23,20 @@ function getAppKey(){
  </head>
  <body>
  <div id="columns"></div>
-	 <script>
+<script>
 	var filter = {
-    		"where":{},
+		"fields":{"content": true, "result": true},//"id": true, 
+		"where":{},
 		"skip":0,
 		"limit":20
-}
+	}
 	 $.ajax({
-		url:'https://d.apicloud.commcm/api/cat?filter=' + encodeURIComponent(JSON.stringify(filter)),
+		url:'https://d.apicloud.commcm/api/content?filter=' + encodeURIComponent(JSON.stringify(filter)),
+		type: 'GET',
 		dataType: 'json', 
 		headers:getAppKey(),
 		success: function(json) { 
-		    example7 = $('#example7').columns({
+		    columns = $('#columns').columns({
 			data:data,
 			pages: 1350,
 			total: 26991,
@@ -42,6 +44,5 @@ function getAppKey(){
 		    }); 
 		}
     }); 
-	 </script>
- </body>
- </html>
+</script>
+</body></html>
