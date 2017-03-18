@@ -30,7 +30,7 @@ function getAppKey(){
 		"limit":20
 }
 	 $.ajax({
-		url:'https://d.apicloud.commcm/api/cat?filter=" + encodeURIComponent(JSON.stringify(filter)),
+		url:'https://d.apicloud.commcm/api/cat?filter=' + encodeURIComponent(JSON.stringify(filter)),
 		dataType: 'json', 
 		headers:getAppKey(),
 		success: function(json) { 
