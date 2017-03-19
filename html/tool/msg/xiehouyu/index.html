@@ -111,7 +111,7 @@ function getAppKey(){
 		if(typeof(params.data.search)!="undefined"){
 			likeStr="%"+params.data.search+"%";
 			filter["where"]={"or":[{"content": {"like": likeStr}},{"result": {"like": likeStr}}]}
-			filter["includefilter"]={"cat":{"where":{"or":[{"name": {"like": likeStr}},{"pname": {"like": likeStr}}]}}}
+		//filter["includefilter"]={"cat":{"where":{"or":[{"name": {"like": likeStr}},{"pname": {"like": likeStr}}]}}}
 		}
 		
 		filter["skip"]=params.data.offset;
