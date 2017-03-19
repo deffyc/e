@@ -63,7 +63,7 @@ function getAppKey(){
             <thead>
             <tr>
 				<th data-field="state" data-checkbox="true"></th>
-                <th data-field="catId.pname">类别</th>
+                <th data-field="lables" data-editable="true">标签</th>
                 <th data-field="content" data-sortable="true" data-editable="true">语面</th>
                 <th data-field="result" data-sortable="true" data-editable="true">语底</th>
             </tr>
@@ -72,11 +72,10 @@ function getAppKey(){
  </div>
 <script>
 	var filter = {
-		"fields":["no","id","content","result","catId"],
+		"fields":["id","content","result","lables"],
 		"where":{},
 		"skip":0,
 		"limit":50,
-		"include":"catIdPointer"
 	}
 	
     var $table = $('#table');
@@ -89,12 +88,49 @@ function getAppKey(){
     })
 	$table.bootstrapTable({
 		onEditableSave: function(field, row, oldValue, $el) {
-				var successflag=false;
-				var data={};
-				data[field]=row[field];
+		
+		if(row[field].trim()=="") {
+			return false;
+		}
+		
+		var splitStr="";
+		var lableArr=[];
+		if(field=="lables"){
+			if(row[field].indexOf(",")>0){
+				lableArr=row[field].split(",");
+			}else if(row[field].indexOf("，")>0){
+				lableArr=row[field].replace("，",",").split(",");
+			
+			}else if(row[field].indexOf(" ")>0){
+				lableArr=row[field].replace(" ",",").split(",");
+			
+			}else if(row[field].indexOf("、")>0){
+				lableArr=row[field].replace("、",",").split(",");
+			
+			}else if(row[field].indexOf("。")>0){
+				lableArr=row[field].replace("。",",").split(",");
+			
+			}else if(row[field].indexOf("	")>0){
+				lableArr=row[field].replace("	",",").split(",");
+			
+			}else{
+				lableArr=[row[field]]
+			}
+		}
+		
+		var successflag=false;
+		var data={};
+		
+		if(field=="lables"){
+			data[field]=lableArr;
+		}else{
+			data[field]=row[field];
+		}
+			console.log(data);
+				
 				data["_method"]="PUT";
 					$.ajax({
-						url:'https://d.apicloud.com/mcm/api/content/'+ row.id,
+						url:'https://d.apicloud.com/mcm/api/Xiehouyu/'+ row.id,
 						cache: false,
 						headers:getAppKey(),
 						type: 'POST',
@@ -110,8 +146,7 @@ function getAppKey(){
 	function ajaxRequest(params) {
 		if(typeof(params.data.search)!="undefined"){
 			likeStr="%"+params.data.search+"%";
-			filter["where"]={"or":[{"content": {"like": likeStr}},{"result": {"like": likeStr}}]}
-		//filter["includefilter"]={"cat":{"where":{"or":[{"name": {"like": likeStr}},{"pname": {"like": likeStr}}]}}}
+			filter["where"]={"or":[{"content": {"like": likeStr}},{"result": {"like": likeStr}},{"lables": {"inq": params.data.search.split(" ")}}]}
 		}
 		
 		filter["skip"]=params.data.offset;
@@ -125,7 +160,7 @@ function getAppKey(){
 		
 		var count=-1;
 		$.ajax({
-			url:'https://d.apicloud.com/mcm/api/content/count?filter=' + encodeURIComponent(JSON.stringify(filter)),
+			url:'https://d.apicloud.com/mcm/api/Xiehouyu/count?filter=' + encodeURIComponent(JSON.stringify(filter)),
 			cache: false,
 			headers:getAppKey(),
 			type: 'GET',
@@ -133,7 +168,7 @@ function getAppKey(){
 			success: function(json) { 
 				count=json.count;
 				$.ajax({
-					url:'https://d.apicloud.com/mcm/api/content?filter=' + encodeURIComponent(JSON.stringify(filter)),
+					url:'https://d.apicloud.com/mcm/api/Xiehouyu?filter=' + encodeURIComponent(JSON.stringify(filter)),
 					cache: false,
 					headers:getAppKey(),
 					type: 'GET',
