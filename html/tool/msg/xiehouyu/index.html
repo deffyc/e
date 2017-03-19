@@ -1,16 +1,29 @@
 <!DOCTYPE html>
+<!-- saved from url=(0036)http://ccsyue.com/tool/msg/xiehouyu/ -->
 <html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="description" content="">
     <meta name="author" content="houjie">
 <title>歇后语大全</title>
-<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
-<script src="../js/jquery.columns.min.js"></script>
-<link rel="stylesheet" href="../js/classic.css">
-<script src="../js/SHA1.js"></script>
+
+
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<link href="https://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+<!-- Latest compiled and minified Locales -->
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/extensions/mobile/bootstrap-table-mobile.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/extensions/export/bootstrap-table-export.min.js"></script>
+<script src="https://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js"></script>
+
+<script src="./歇后语大全_files/SHA1.js"></script>
 <script>
 function getAppKey(){
 		var AppId= "A6932955702569";
@@ -22,27 +35,114 @@ function getAppKey(){
 </script>
  </head>
  <body>
- <div id="columns"></div>
+ <div class="container">
+	<div class="bootstrap-table">
+		<div class="fixed-table-toolbar"><div class="bs-bars pull-left"><div id="toolbar">
+            <select class="form-control">
+                <option value="">Export Basic</option>
+                <option value="all">Export All</option>
+                <option value="selected">Export Selected</option>
+            </select>
+        </div></div><div class="columns columns-right btn-group pull-right"><div class="export btn-group"><button class="btn btn-default dropdown-toggle" aria-label="export type" title="Export data" data-toggle="dropdown" type="button"><i class="glyphicon glyphicon-export icon-share"></i> <span class="caret"></span></button><ul class="dropdown-menu" role="menu"><li role="menuitem" data-type="json"><a href="javascript:void(0)">JSON</a></li><li role="menuitem" data-type="xml"><a href="javascript:void(0)">XML</a></li><li role="menuitem" data-type="csv"><a href="javascript:void(0)">CSV</a></li><li role="menuitem" data-type="txt"><a href="javascript:void(0)">TXT</a></li><li role="menuitem" data-type="sql"><a href="javascript:void(0)">SQL</a></li><li role="menuitem" data-type="excel"><a href="javascript:void(0)">MS-Excel</a></li></ul></div></div></div>
+	
+		<table id="table"
+               data-toggle="table"
+               data-height="600"
+               data-ajax="ajaxRequest"
+               data-search="true"
+               data-side-pagination="server"
+               data-pagination="true">
+            <thead>
+            <tr>
+                <th data-field="catId.pname">类别</th>
+                <th data-field="content" data-sortable="true">语面</th>
+                <th data-field="result" data-sortable="true">语底</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+	</div>
+ </div>
 <script>
 	var filter = {
-		"fields":{"content": true, "result": true},//"id": true, 
+		"fields":["no","id","content","result","catId"],
 		"where":{},
 		"skip":0,
-		"limit":20
+		"limit":50,
+		"include":"catIdPointer"
 	}
-	 $.ajax({
-		url:'https://d.apicloud.commcm/api/content?filter=' + encodeURIComponent(JSON.stringify(filter)),
+	
+    var $table = $('#table');
+    $(function () {
+        $('#toolbar').find('select').change(function () {
+            $table.bootstrapTable('destroy').bootstrapTable({
+                exportDataType: $(this).val()
+            });
+        });
+    })
+	
+	function ajaxRequest(params) {
+		if(typeof(params.data.search)!="undefined"){
+			likeStr="%"+params.data.search+"%";
+			filter["where"]={"or":[{"content": {"like": likeStr}},{"result": {"like": likeStr}}]}
+		}
+		
+		filter["skip"]=params.data.offset;
+		filter["limit"]=params.data.limit;
+		if(typeof(params.data.sort)!="undefined"){
+			filter["order"]=params.data.sort+" "+params.data.order.toUpperCase()+",no";
+		}
+		
+		console.log(params.data);
+		console.log(filter);
+		
+		var count=-1;
+		$.ajax({
+			url:'https://d.apicloud.com/mcm/api/content/count?filter=' + encodeURIComponent(JSON.stringify(filter)),
+			cache: false,
+			headers:getAppKey(),
+			type: 'GET',
+			dataType: 'json', 
+			success: function(json) { 
+				count=json.count;
+				$.ajax({
+					url:'https://d.apicloud.com/mcm/api/content?filter=' + encodeURIComponent(JSON.stringify(filter)),
+					cache: false,
+					headers:getAppKey(),
+					type: 'GET',
+					dataType: 'json', 
+					success: function(data) { 
+						params.success({
+							total: count,
+							rows: data
+					});
+					}
+				});
+			}
+		});
+		
+		
+	}
+	/* $.ajax({
+		url:'https://d.apicloud.com/mcm/api/content?filter=' + encodeURIComponent(JSON.stringify(filter)),
 		type: 'GET',
 		dataType: 'json', 
 		headers:getAppKey(),
 		success: function(json) { 
 		    columns = $('#columns').columns({
-			data:data,
-			pages: 1350,
-			total: 26991,
-			plugins:['ajaxpaging']
+				data:json,
+				schema: [
+                        {"header":"语面", "key":"content"},
+                        {"header":"语底", "key":"result"}
+                    ],
+				pages: 540,
+				page:1,
+				total: 26991,
+				plugins:['ajaxpaging']
 		    }); 
 		}
-    }); 
+    }); */
 </script>
+ 
+ 
 </body></html>
