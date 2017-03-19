@@ -23,7 +23,7 @@
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/extensions/export/bootstrap-table-export.min.js"></script>
 <script src="https://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js"></script>
 
-<script src="./歇后语大全_files/SHA1.js"></script>
+<script src="../js/SHA1.js"></script>
 <script>
 function getAppKey(){
 		var AppId= "A6932955702569";
@@ -36,32 +36,33 @@ function getAppKey(){
  </head>
  <body>
  <div class="container">
-	<div class="bootstrap-table">
-		<div class="fixed-table-toolbar"><div class="bs-bars pull-left"><div id="toolbar">
+
+		<div id="toolbar">
             <select class="form-control">
-                <option value="">Export Basic</option>
-                <option value="all">Export All</option>
-                <option value="selected">Export Selected</option>
+                <!--<option value="">Export Basic</option>-->
+                <option value="all">导出所有</option>
+                <option value="selected">导出选中</option>
             </select>
-        </div></div><div class="columns columns-right btn-group pull-right"><div class="export btn-group"><button class="btn btn-default dropdown-toggle" aria-label="export type" title="Export data" data-toggle="dropdown" type="button"><i class="glyphicon glyphicon-export icon-share"></i> <span class="caret"></span></button><ul class="dropdown-menu" role="menu"><li role="menuitem" data-type="json"><a href="javascript:void(0)">JSON</a></li><li role="menuitem" data-type="xml"><a href="javascript:void(0)">XML</a></li><li role="menuitem" data-type="csv"><a href="javascript:void(0)">CSV</a></li><li role="menuitem" data-type="txt"><a href="javascript:void(0)">TXT</a></li><li role="menuitem" data-type="sql"><a href="javascript:void(0)">SQL</a></li><li role="menuitem" data-type="excel"><a href="javascript:void(0)">MS-Excel</a></li></ul></div></div></div>
-	
+        </div>
 		<table id="table"
                data-toggle="table"
-               data-height="600"
+			   data-show-export="true"
+			   data-click-to-select="true"
+               data-toolbar="#toolbar"
+               data-height="500"
                data-ajax="ajaxRequest"
                data-search="true"
                data-side-pagination="server"
                data-pagination="true">
             <thead>
             <tr>
+				<th data-field="state" data-checkbox="true"></th>
                 <th data-field="catId.pname">类别</th>
                 <th data-field="content" data-sortable="true">语面</th>
                 <th data-field="result" data-sortable="true">语底</th>
             </tr>
             </thead>
         </table>
-    </div>
-	</div>
  </div>
 <script>
 	var filter = {
@@ -85,6 +86,7 @@ function getAppKey(){
 		if(typeof(params.data.search)!="undefined"){
 			likeStr="%"+params.data.search+"%";
 			filter["where"]={"or":[{"content": {"like": likeStr}},{"result": {"like": likeStr}}]}
+			filter["includefilter"]={"cat":{"where":{"or":[{"name": {"like": likeStr}},{"pname": {"like": likeStr}}]}}}
 		}
 		
 		filter["skip"]=params.data.offset;
