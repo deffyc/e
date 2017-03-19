@@ -21,9 +21,13 @@
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/extensions/mobile/bootstrap-table-mobile.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/extensions/export/bootstrap-table-export.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/extensions/editable/bootstrap-table-editable.min.js"></script>
 <script src="https://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js"></script>
+<script src="https://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
+
 
 <script src="../js/SHA1.js"></script>
+
 <script>
 function getAppKey(){
 		var AppId= "A6932955702569";
@@ -46,10 +50,11 @@ function getAppKey(){
         </div>
 		<table id="table"
                data-toggle="table"
+			   data-editable-emptytext="暂无",
 			   data-show-export="true"
 			   data-click-to-select="true"
                data-toolbar="#toolbar"
-               data-height="500"
+               data-height="530"
                data-ajax="ajaxRequest"
                data-search="true"
                data-side-pagination="server"
@@ -58,8 +63,8 @@ function getAppKey(){
             <tr>
 				<th data-field="state" data-checkbox="true"></th>
                 <th data-field="catId.pname">类别</th>
-                <th data-field="content" data-sortable="true">语面</th>
-                <th data-field="result" data-sortable="true">语底</th>
+                <th data-field="content" data-sortable="true" data-editable="true">语面</th>
+                <th data-field="result" data-sortable="true" data-editable="true">语底</th>
             </tr>
             </thead>
         </table>
@@ -77,11 +82,30 @@ function getAppKey(){
     $(function () {
         $('#toolbar').find('select').change(function () {
             $table.bootstrapTable('destroy').bootstrapTable({
-                exportDataType: $(this).val()
+                exportDataType: $(this).val(),
             });
         });
     })
-	
+	$table.bootstrapTable({
+		onEditableSave: function(field, row, oldValue, $el) {
+				var successflag=false;
+				var data={};
+				data[field]=row[field];
+				data["_method"]="PUT";
+					$.ajax({
+						url:'https://d.apicloud.com/mcm/api/content/'+ row.id,
+						cache: false,
+						headers:getAppKey(),
+						type: 'POST',
+						dataType: 'json', 
+						data:data,
+						success: function(result) {
+							successflag=true;
+						}	
+					});
+					return successflag;
+				},
+	});
 	function ajaxRequest(params) {
 		if(typeof(params.data.search)!="undefined"){
 			likeStr="%"+params.data.search+"%";
@@ -95,8 +119,8 @@ function getAppKey(){
 			filter["order"]=params.data.sort+" "+params.data.order.toUpperCase()+",no";
 		}
 		
-		console.log(params.data);
-		console.log(filter);
+		//console.log(params.data);
+		//console.log(filter);
 		
 		var count=-1;
 		$.ajax({
@@ -125,25 +149,7 @@ function getAppKey(){
 		
 		
 	}
-	/* $.ajax({
-		url:'https://d.apicloud.com/mcm/api/content?filter=' + encodeURIComponent(JSON.stringify(filter)),
-		type: 'GET',
-		dataType: 'json', 
-		headers:getAppKey(),
-		success: function(json) { 
-		    columns = $('#columns').columns({
-				data:json,
-				schema: [
-                        {"header":"语面", "key":"content"},
-                        {"header":"语底", "key":"result"}
-                    ],
-				pages: 540,
-				page:1,
-				total: 26991,
-				plugins:['ajaxpaging']
-		    }); 
-		}
-    }); */
+
 </script>
  
  
