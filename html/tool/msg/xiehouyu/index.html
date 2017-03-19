@@ -24,6 +24,7 @@
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/extensions/editable/bootstrap-table-editable.min.js"></script>
 <script src="https://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js"></script>
 <script src="https://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
 
 
 <script src="../js/SHA1.js"></script>
@@ -36,6 +37,22 @@ function getAppKey(){
 		var appKey = SHA1(AppId+"UZ"+AppKey+"UZ"+now)+"."+now;
 		return {"X-APICloud-AppId":AppId,"X-APICloud-AppKey":appKey}
 	}
+	
+function logOp(logObj){
+//logOp({"op":"update","className":"Xiehouyu","attr":field,"oldValue":oldValue,"newValue":data[field],"objId":row.id,"cip":returnCitySN["cip"],"cname":returnCitySN["cname"]});
+	$.ajax({
+		url:'https://d.apicloud.com/mcm/api/log',
+		cache: false,
+		headers:getAppKey(),
+		type: 'POST',
+		dataType: 'json', 
+		data:logObj,
+		success: function(result) {
+			console.log("操作成功");
+			console.log(logObj);
+		}	
+	});
+}
 </script>
  </head>
  <body>
@@ -137,6 +154,7 @@ function getAppKey(){
 						data:data,
 						success: function(result) {
 							successflag=true;
+							logOp({"op":"update","className":"Xiehouyu","attr":field,"oldValue":oldValue,"newValue":data[field],"objId":row.id,"cip":returnCitySN["cip"],"cname":returnCitySN["cname"]});
 						}	
 					});
 					return successflag;
