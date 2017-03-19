@@ -100,19 +100,18 @@ function getAppKey(){
 				lableArr=row[field].split(",");
 			}else if(row[field].indexOf("，")>0){
 				lableArr=row[field].replace("，",",").split(",");
-			
 			}else if(row[field].indexOf(" ")>0){
 				lableArr=row[field].replace(" ",",").split(",");
-			
 			}else if(row[field].indexOf("、")>0){
 				lableArr=row[field].replace("、",",").split(",");
-			
 			}else if(row[field].indexOf("。")>0){
 				lableArr=row[field].replace("。",",").split(",");
-			
 			}else if(row[field].indexOf("	")>0){
 				lableArr=row[field].replace("	",",").split(",");
-			
+			}else if(row[field].indexOf("；")>0){
+				lableArr=row[field].replace("；",",").split(",");
+			}else if(row[field].indexOf(";")>0){
+				lableArr=row[field].replace(";",",").split(",");
 			}else{
 				lableArr=[row[field]]
 			}
