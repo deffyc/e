@@ -9,9 +9,12 @@
 <script type='text/javascript' src='calendar.js'></script>
 </head>
 <body>
-<h2>不论阳历还是阴历都是用阳历yyyy/mm/dd格式。此工具职能转换1901-2100年的农历。</h2>
-<span>农历:<input id="yinli" type="text" size="11"/>&nbsp;&nbsp;&nbsp;&nbsp;<label id="yangliresult" style="color:#F60;"></label></span><br/>
-<span >阳历:<input id="yangli" type="text" size="11"/>&nbsp;&nbsp;&nbsp;&nbsp;<label id="yinliresult" style="color:#F60;"></label></span>
+<h2>1900-2100年农历阳历互换(年月日之间必须有分隔符如：1911-1-11,1911/1/11,1911年1月1日)</h2>
+<span>农历:<input id="yinli" type="text" size="11"/></span><br/>
+<label id="yangliresult" style="color:#F60;"></label><br/>
+<br/>
+<span>阳历:<input id="yangli" type="text"/ size="11"></span><br/>
+<label id="yinliresult" style="color:#F60;"></label><br/>
 <script>
 $(function () {
 	var lunar = calendar.solar2lunar();
@@ -59,6 +62,8 @@ $(function () {
 		$('#yinliresult').html(innerStr);
 	});
 });
+
+
 </script>
 
 </body>
