@@ -1,5 +1,5 @@
 if(typeof(window.location.href.split('prod_code=')[1])=="undefined"){
-	window.location.href=window.location.href+"?stock_abbr_name=创业板指&prod_code=399006"
+	window.location.href=window.location.href+"?stock_abbr_name=上证指数&prod_code=000001.XSHG.MRI"
 }
 var utils = (function(){
 	var u = {};
