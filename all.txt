@@ -16,7 +16,7 @@ http://xys9.dxiong.com
 
 歇后语
 亲自操刀整理。
-http://ccsyue.com/tool/msg/xiehouyu/
+tool/msg/xiehouyu/
 文学
 
 中图法
@@ -116,5 +116,5 @@ http://www.sioeye.cn/
 
 缠论K线
 K线
-http://ccsyue.com/tool/chanlun/
+tool/chanlun/
 金融
