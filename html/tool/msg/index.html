@@ -176,7 +176,7 @@
 
 
     </div>
-    <!--<div class="push"></div>-->
+    <div id="push" class="push"></div>
 </div>
 
 <!-- Footer
@@ -290,6 +290,7 @@
 						if(obj.onlyOne){
 							handleDel(obj.id);
 						}
+			    $('#push').html( $('#push').html()+"<br>"+obj.content)
 						
                     }
                 }, 300);
