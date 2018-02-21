@@ -11,10 +11,10 @@
 <body>
 <h2>1900-2100年农历阳历互换(年月日之间必须有分隔符如：1911-1-11,1911/1/11,1911年1月1日)</h2>
 <span>农历:<input id="yinli" type="text" size="11"/></span><br/>
-<label id="yangliresult" style="color:#F60;"></label><br/>
 <br/>
 <span>阳历:<input id="yangli" type="text"/ size="11"></span><br/>
-<label id="yinliresult" style="color:#F60;"></label><br/>
+<label id="result" style="color:#F60;"></label><br/>
+<textarea id="url" style="height:52px;width:384px;"></textarea>
 <script>
 $(function () {
 	var lunar = calendar.solar2lunar();
@@ -41,26 +41,39 @@ $(function () {
 		
 		
 	}
-	
-	$("#yinli").keyup(function(){
+	function copyToClipBoard(str){
+	    var input=document.getElementById("url");
+	    input.value=str
+	    input.select(); // 选择对象
+	    document.execCommand("Copy"); // 执行浏览器复制命令
+	}
+	$("#yinli").change(function(){
 		var innerStr = "";
 		var d=isdate($("#yinli").val());
 		if(d){
 			var solar = calendar.lunar2solar(d.getFullYear(),d.getMonth()+1,d.getDate());
-			innerStr='阳历：'+solar.cYear+ '年' +solar.cMonth +  '月' +solar.cDay +'日（'+solar.astro+'）';
+			var lunar=calendar.solar2lunar(solar.cYear,solar.cMonth,solar.cDay)
+			innerStr=solar.cDay+"-"+solar.cMonth+"-"+solar.cYear+"<br>";
+			innerStr+='阳历：'+solar.cYear+ '年' +solar.cMonth +  '月' +solar.cDay +'日（'+solar.astro+'）<br>';
+			innerStr+='农历：'+lunar.lYear + '年' +lunar.IMonthCn+lunar.IDayCn+'，'+lunar.gzYear+'年'+lunar.gzMonth+'月'+lunar.gzDay+'日（'+lunar.Animal+'年）';
 		}
-		$('#yangliresult').html(innerStr);
+		$('#result').html(innerStr);
+		copyToClipBoard(innerStr.replace(/<br>/g, '\n'));
 	});
 	
-	$("#yangli").keyup(function(){
+	$("#yangli").change(function(){
 		var d=isdate($("#yangli").val());
 		var innerStr = "";
 		if(d){
 			var lunar=calendar.solar2lunar(d.getFullYear(),d.getMonth()+1,d.getDate())
-			innerStr='农历：'+lunar.lYear + '年' +lunar.IMonthCn+lunar.IDayCn+'，'+lunar.gzYear+'年'+lunar.gzMonth+'月'+lunar.gzDay+'日（'+lunar.Animal+'年）';
+			innerStr=lunar.cDay+"-"+lunar.cMonth+"-"+lunar.cYear+"<br>";
+			innerStr+='阳历：'+lunar.cYear+ '年' +lunar.cMonth +  '月' +lunar.cDay +'日（'+lunar.astro+'）<br>';
+			innerStr+='农历：'+lunar.lYear + '年' +lunar.IMonthCn+lunar.IDayCn+'，'+lunar.gzYear+'年'+lunar.gzMonth+'月'+lunar.gzDay+'日（'+lunar.Animal+'年）';
 		}
-		$('#yinliresult').html(innerStr);
+		$('#result').html(innerStr);
+		copyToClipBoard(innerStr.replace(/<br>/g, '\n'));
 	});
+	
 });
 
 
