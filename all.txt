@@ -124,6 +124,11 @@ SM.MS图床
 https://sm.ms
 收藏夹
 
+firefox send
+通过安全、私密且受加密的链接发送文件，链接到期后文件将从网上彻底抹除。
+https://send.firefox.com/
+收藏夹
+
 缠论K线
 K线
 tool/chanlun/
