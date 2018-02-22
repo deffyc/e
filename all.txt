@@ -114,6 +114,16 @@ sandstorm
 https://oa.sandcats.io/
 收藏夹
 
+爱信息图床
+文件类别多，最大10M
+https://tu.aixinxi.net
+收藏夹
+
+SM.MS图床
+只能上传图片，最大5M
+https://sm.ms
+收藏夹
+
 缠论K线
 K线
 tool/chanlun/
