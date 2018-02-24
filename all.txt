@@ -134,6 +134,11 @@ firefox send
 https://send.firefox.com/
 收藏夹
 
+访问助手
+谷歌访问助手，谷歌chrome浏览器商店，gmail邮箱提供加速服务，解决偶尔打不开的问题
+http://ggfwzs.com/
+收藏夹
+
 缠论K线
 K线
 tool/chanlun/
