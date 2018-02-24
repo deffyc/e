@@ -54,6 +54,11 @@ A website application running in Google app engine, deliver rss news to your kin
 http://houjie-kindle.appspot.com
 博客
 
+如有乐享
+分享是一种美德，是一种态度。
+https://51.ruyo.net
+博客
+
 MD表格
 excel粘贴到文本框（不能包含合并单元格），可以转换为markdown格式的表格。
 tool/exceltomarkdown/
