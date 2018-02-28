@@ -39,6 +39,11 @@ CALIS
 http://opac.calis.edu.cn/opac/doSimpleQuery.do?query=(bath.isbn=%229787547724071*%22)&maximumRecords=50
 文学
 
+readfree
+基于豆瓣和 Kindle239 的电子书阅读平台,为爱读书的人提供便利.
+http://readfree.me
+文学
+
 静态博客
 github托管的静态博客
 http://blog.ccsyue.com
