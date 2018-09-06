@@ -99,14 +99,14 @@ window.onbeforeunload = function(e){
 
 var canPlaySound=false;
 var TimeUpSound;
-soundManager.url="/assets/ring/soundmanager2.swf";
+soundManager.url="assets/ring/soundmanager2.swf";
 soundManager.useFlashBlock = false;
 soundManager.onready(function() {
   if (soundManager.supported()) {
   canPlaySound=true;
   TimeUpSound = soundManager.createSound({
     id: 'aSound',
-    url: '/assets/ring/ring.mp3',
+    url: 'assets/ring/ring.mp3',
     autoLoad:true,
     loops:3
   });
