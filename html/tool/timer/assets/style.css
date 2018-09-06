@@ -8,7 +8,7 @@ body {
   min-width:920px;
   color: #a7a7a7;
   margin: 0;  padding: 0; 
-  background:#140330 url(/assets/img/bg.png) no-repeat center top;
+  background:#140330 url(assets/img/bg.png) no-repeat center top;
 }
 a, a:visited, a:active {
   text-decoration:none;
