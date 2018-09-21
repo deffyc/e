@@ -124,9 +124,9 @@ Travis CI是一个基于云的持续集成项目， 目前已经支持大部分�
 https://travis-ci.org
 收藏夹
 
-小书匠
-小书匠编辑器是一个离线的markdown编辑器。提供了多种第三方存储绑定功能．包括本地文件系统存储，dropbox，github，evernote，印象笔记．
-http://markdown.xiaoshujiang.com/
+Prose
+Prose provides a beautifully simple content authoring environment for CMS-free websites. It's a web-based interface for managing content on GitHub. Use it to create, edit, and delete files, and save your changes directly to GitHub. Host your website on GitHub Pages for free, or set up your own GitHub webhook server.
+https://prose.io
 收藏夹
 
 百度云笔记
