@@ -1,3 +1,9 @@
+
+小书匠
+小书匠编辑器是一个离线的markdown编辑器。提供了多种第三方存储绑定功能．包括本地文件系统存储，dropbox，github，evernote，印象笔记．
+http://markdown.xiaoshujiang.com/
+收藏夹
+
 wuma VPN
 vpn
 http://wuma.net.pl/d.php
