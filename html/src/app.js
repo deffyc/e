@@ -112,20 +112,20 @@
 
         oIframe = document.createElement('IFRAME');
         var sTmpl = [
-                '<head></head>',
-                '<body>',
-                '<style>body{overflow:auto}</style>',
-                '<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>',
-                '<script type="text/javascript">',
-                '    var cloudTieConfig = {',
-                '       url: document.location.href,',
-                '       sourceId: "",',
-                '       productKey: "6bc2db4c8b27486baf310555aca02ded",',
-                '       target: "cloud-tie-wrapper"',
-                '       };',
-                '</script>',
-                '<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>',
-                '</body>'
+                '<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">',
+                '<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>',
+                '<script>',
+                    'var gitment = new Gitment({',
+                      'id: location.href,',
+                      'owner: "deffyc",',
+                      'repo: "blog",',
+                      'oauth: {',
+                        'client_id: "dd6b1da7626b499e8c4f",',
+                        'client_secret: "003484dba62676643e357e4676220f772e9ce84e",',
+                      '},',
+                    '});',
+                    'gitment.render("comments");',
+                  '</script>'
         ].join('');
         oIframe.id = 'iframe' + sId;
         oIframe.style.display = 'none';
