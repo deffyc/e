@@ -113,7 +113,7 @@
         oIframe = document.createElement('IFRAME');
         var sTmpl = [
                 '<link rel="stylesheet" href="https://blogstatic.ccsyue.com/vendor/default.css">',
-                '<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>',
+                '<script src="https://blogstatic.ccsyue.com/vendor/gitment.browser.js"></script>',
                 '<script>',
                     'var gitment = new Gitment({',
                       'id: location.href,',
