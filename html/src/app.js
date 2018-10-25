@@ -117,7 +117,7 @@
                 '<div id="comments"></div>',
                 '<script>',
                     'var gitment = new Gitment({',
-                      'id: location.href,',
+                      'id: "e.ccsue.com",',
                       'owner: "deffyc",',
                       'repo: "blog",',
                       'oauth: {',
