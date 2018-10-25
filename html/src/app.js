@@ -114,6 +114,7 @@
         var sTmpl = [
                 '<link rel="stylesheet" href="https://blogstatic.ccsyue.com/vendor/default.css">',
                 '<script src="https://blogstatic.ccsyue.com/vendor/gitment.browser.js"></script>',
+                '<div id="comments"></div>',
                 '<script>',
                     'var gitment = new Gitment({',
                       'id: location.href,',
