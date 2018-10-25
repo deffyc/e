@@ -119,7 +119,7 @@
                     'var gitment = new Gitment({',
                       'id: "e.ccsue.com",',
                       'owner: "deffyc",',
-                      'repo: "blog",',
+                      'repo: "e",',
                       'oauth: {',
                         'client_id: "713b6ec79704a60e528a",',
                         'client_secret: "5859e34ccc9e596ab7aa74d7c9b10097ccdbfff7",',
