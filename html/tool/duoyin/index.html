@@ -306,7 +306,7 @@
 	   headers: getAppKey(),
             async: true, //默认为true 异步
             dataType: 'JSON',
-            data: {title:'',content: $('#content').summernote('code'),onlyOne:isOne,no:getNo(),delflag:false,on_end:false},
+            data: {title:'',content: $('#content').summernote('code'),onlyOne:isOne,no:getNo(),delflag:false},
             error: function () {
                 setTimeout(function () {
                     waitingDialog.hide();
