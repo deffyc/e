@@ -425,7 +425,7 @@ $('#content').summernote({
   }
   
 });
-function sendFile(file) {
+/*function sendFile(file) {
     var fromstr=typeof(file)=="object"?"file":"web";
     var file_token ="4e53713043ccbba49fcd4911dd148bdf354fc4db:CiN-HNRtJ42gadCN8JGoxmcOuzg=:eyJkZWFkbGluZSI6MTQ4NDU2MzkwMSwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTgzNjcxIiwiYWlkIjoiMTI3MzM5MCIsImZyb20iOiJmaWxlIn0=";
     data = new FormData();
@@ -442,6 +442,25 @@ function sendFile(file) {
         processData: false,
         success: function(imageInfo) {
 		$('#content').summernote('insertImage', imageInfo.s_url);
+
+        }
+    });
+}*/
+function sendFile(file) {
+    data = new FormData();
+    data.append("smfile", file);
+    $.ajax({
+        data: data,
+        type: "POST",
+        url: "https://sm.ms/api/upload",
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(imageInfo) {
+		$('#content').summernote('insertImage', imageInfo.data.url);
+		$.post("http://img.ccsyue.com/functions/sm.php",{data:imageInfo.data},function(data,status){
+			
+                });
 
         }
     });
