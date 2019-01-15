@@ -89,7 +89,7 @@ function getAppKey(){
     })
 	$table.bootstrapTable({});
 	function ajaxRequest(params) {
-		title={"title": {"ne": ''}}
+		titleObj={"title": {"ne": ''}}
 		addarr=[]
 		if(typeof(params.data.search)!="undefined"){
 			orarr=[]
@@ -100,16 +100,14 @@ function getAppKey(){
 			orarr.push({"title": {"like": likeStr}})
 			orarr.push({"content": {"like": likeStr}})
 			
-			addarr.push({"title":title})
+			addarr.push(titleObj)
 			addarr.push({"or":orarr})
 			filter["where"]["add"]=addarr
 			//filter["where"]={"and":[{"title": {"ne": ''}},{"or":[{"no": params.data.search},{"title": {"like": likeStr}},{"content": {"like": likeStr}}]}]}
 		}
-		
 		if(addarr.length==0){
-			filter["where"]=title
+			filter["where"]=titleObj
 		}
-		
 		filter["skip"]=params.data.offset;
 		filter["limit"]=params.data.limit;
 		if(typeof(params.data.sort)!="undefined"){
