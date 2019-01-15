@@ -102,7 +102,7 @@ function getAppKey(){
 			
 			addarr.push(titleObj)
 			addarr.push({"or":orarr})
-			filter["where"]["add"]=addarr
+			filter["where"]={"add":addarr}
 			//filter["where"]={"and":[{"title": {"ne": ''}},{"or":[{"no": params.data.search},{"title": {"like": likeStr}},{"content": {"like": likeStr}}]}]}
 		}
 		if(addarr.length==0){
