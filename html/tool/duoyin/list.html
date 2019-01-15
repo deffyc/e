@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!-- saved from url=(0036)http://ccsyue.com/tool/msg/article/ -->
+<html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="description" content="">
+    <meta name="author" content="houjie">
+<title>歇后语大全</title>
+
+
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<link href="https://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+<!-- Latest compiled and minified Locales -->
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/extensions/mobile/bootstrap-table-mobile.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/extensions/export/bootstrap-table-export.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/extensions/editable/bootstrap-table-editable.min.js"></script>
+<script src="../msg/xiehouyu/tableExport.js"></script>
+<script src="../msg/xiehouyu/bootstrap-editable.js"></script>
+
+
+<script src="../js/SHA1.js"></script>
+
+<script>
+function getAppKey(){
+		var AppId= "A6092908275637";
+		var AppKey="E27A3D9A-5F86-FB65-0273-DFFDF84FF8A4";
+		var now = Date.now();
+		var appKey = SHA1(AppId+"UZ"+AppKey+"UZ"+now)+"."+now;
+		return {"X-APICloud-AppId":AppId,"X-APICloud-AppKey":appKey}
+	}
+	
+</script>
+ </head>
+ <body>
+ <div class="container">
+
+		<div id="toolbar">
+            <select class="form-control">
+                <!--<option value="">Export Basic</option>-->
+                <option value="all">导出所有</option>
+                <option value="selected">导出选中</option>
+            </select>
+        </div>
+		<table id="table"
+               data-toggle="table"
+			   data-search-on-enter-key=true
+			   data-editable-emptytext="暂无"
+			   data-show-export="true"
+			   data-click-to-select="true"
+               data-toolbar="#toolbar"
+               data-height="530"
+               data-ajax="ajaxRequest"
+               data-search="true"
+               data-side-pagination="server"
+               data-pagination="true">
+            <thead>
+            <tr>
+				<th data-field="state" data-checkbox="true"></th>
+                <th data-field="no">编号</th>
+                <th data-field="title" data-sortable="true">标题</th>
+                <th data-field="file">下载</th>
+            </tr>
+            </thead>
+        </table>
+ </div>
+<script>
+	var filter = {
+		"fields":["id","no","title","file"],
+		"where":{},
+		"skip":0,
+		"limit":10,
+	}
+	
+    var $table = $('#table');
+    $(function () {
+        $('#toolbar').find('select').change(function () {
+            $table.bootstrapTable('destroy').bootstrapTable({
+                exportDataType: $(this).val(),
+            });
+        });
+    })
+	$table.bootstrapTable({});
+	function ajaxRequest(params) {
+		if(typeof(params.data.search)!="undefined"){
+			likeStr="%"+params.data.search+"%";
+			filter["where"]={"and":[{{"title": {"ne": ''}}},{"or":[{"no": params.data.search},{"title": {"like": likeStr}},{"content": {"like": likeStr}}]}]}
+		}
+		
+		filter["skip"]=params.data.offset;
+		filter["limit"]=params.data.limit;
+		if(typeof(params.data.sort)!="undefined"){
+			filter["order"]=params.data.sort+" "+params.data.order.toUpperCase()+",no";
+		}
+		
+		//console.log(params.data);
+		//console.log(filter);
+		
+		var count=-1;
+		$.ajax({
+			url:'https://d.apicloud.com/mcm/api/article/count?filter=' + encodeURIComponent(JSON.stringify(filter)),
+			cache: false,
+			headers:getAppKey(),
+			type: 'GET',
+			dataType: 'json', 
+			success: function(json) { 
+				count=json.count;
+				$.ajax({
+					url:'https://d.apicloud.com/mcm/api/article?filter=' + encodeURIComponent(JSON.stringify(filter)),
+					cache: false,
+					headers:getAppKey(),
+					type: 'GET',
+					dataType: 'json', 
+					success: function(data) { 
+						params.success({
+							total: count,
+							rows: data
+					});
+					}
+				});
+			}
+		});
+		
+		
+	}
+
+</script>
+ 
+ 
+</body></html>
