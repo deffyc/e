@@ -91,7 +91,7 @@ function getAppKey(){
 	function ajaxRequest(params) {
 		if(typeof(params.data.search)!="undefined"){
 			likeStr="%"+params.data.search+"%";
-			filter["where"]={"and":[{{"title": {"ne": ''}}},{"or":[{"no": params.data.search},{"title": {"like": likeStr}},{"content": {"like": likeStr}}]}]}
+			filter["where"]={"and":[{"title": {"ne": ''}},{"or":[{"no": params.data.search},{"title": {"like": likeStr}},{"content": {"like": likeStr}}]}]}
 		}
 		
 		filter["skip"]=params.data.offset;
