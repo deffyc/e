@@ -64,7 +64,7 @@ function getAppKey(){
             <thead>
             <tr>
 				<th data-field="state" data-checkbox="true"></th>
-                <th data-field="no">编号</th>
+                <th data-field="no" data-sortable="true">编号</th>
                 <th data-field="title" data-sortable="true">标题</th>
                 <th data-field="mp3"  data-formatter="linkFormatter">下载</th>
             </tr>
@@ -90,7 +90,30 @@ function getAppKey(){
 	$table.bootstrapTable({});
 	function linkFormatter(val,row,index) {
 	    	console.log(val)
-		return '<a href="'+val.url+'" download="'+row.title+'">下载</a>';
+		return '<a href="javascript:;" onclick="download('+val.url+','+row.title+')">下载</a>';
+	}
+	
+	function download(url,fileName){
+		var xhr =new XMLHttpRequest();
+		xhr.open(option.type ? option.type.toUpperCase() : 'GET', url, true);
+		xhr.responseType = 'blob';
+		xhr.onload = function () {
+		    //对于重定向的文件不予理会
+		    if (this.status >= 200 && this.status < 300) {
+			var blob = new Blob([this.response], {type: this.response.type});
+		    }
+		}
+		//ie的下载
+		if (window.navigator.msSaveOrOpenBlob) {
+		    navigator.msSaveBlob(blob, fileName);
+		} else {
+		    //非ie的下载
+		    var link = document.createElement('a');
+		    link.href = window.URL.createObjectURL(blob);
+		    link.download = fileName;
+		    link.click();
+		    window.URL.revokeObjectURL(link.href);
+		}
 	}
 	function ajaxRequest(params) {
 		titleObj={"title": {"ne": ''}}
