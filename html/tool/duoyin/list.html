@@ -89,7 +89,9 @@ function getAppKey(){
     })
 	$table.bootstrapTable({});
 	function nameFormatter(value) {
-	    return '<a href="'+value.url'" download="'+value.name'">';
+	    	aler(value)
+		return value
+		//return '<a href="'+value.url'" download="'+value.name'">';
 	}
 	function ajaxRequest(params) {
 		titleObj={"title": {"ne": ''}}
