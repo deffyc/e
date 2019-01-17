@@ -36,29 +36,40 @@
 		var appKey = SHA1(AppId+"UZ"+AppKey+"UZ"+now)+"."+now;
 		return {"X-APICloud-AppId":AppId,"X-APICloud-AppKey":appKey}
 	}
+	function getBlob(url) {
+	    return new Promise(resolve => {
+		const xhr = new XMLHttpRequest();
 
-	function downloadFile(url,fileName){
-		var xhr =new XMLHttpRequest();
-		//xhr.open(option.type ? option.type.toUpperCase() : 'GET', url, true);
 		xhr.open('GET', url, true);
 		xhr.responseType = 'blob';
-		xhr.onload = function () {
-		    //对于重定向的文件不予理会
-		    if (this.status >= 200 && this.status < 300) {
-			var file_blob = new Blob([this.response], {type: this.response.type});
-			//ie的下载
-			if (window.navigator.msSaveOrOpenBlob) {
-			    navigator.msSaveBlob(file_blob, fileName);
-			} else {
-			    //非ie的下载
-			    var file_link = document.createElement('a');
-			    file_link.href = window.URL.createObjectURL(file_blob);
-			    file_link.download = fileName;
-			    file_link.click();
-			    window.URL.revokeObjectURL(file_link.href);
-			}
+		xhr.onload = () => {
+		    if (xhr.status === 200) {
+			resolve(xhr.response);
 		    }
-		}
+		};
+
+		xhr.send();
+	    });
+	}
+
+	function saveAs(blob, filename) {
+	    if (window.navigator.msSaveOrOpenBlob) {
+		navigator.msSaveBlob(blob, filename);
+	    } else {
+		const link = document.createElement('a');
+
+		link.href = window.URL.createObjectURL(blob);
+		link.download = filename;
+		link.click();
+
+		window.URL.revokeObjectURL(link.href);
+	    }
+	}
+
+	function downloadFile(url, filename) {
+	    getBlob(url).then(blob => {
+		saveAs(blob, filename);
+	    }); 
 	}
 </script>
  </head>
