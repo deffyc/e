@@ -73,7 +73,7 @@ function getAppKey(){
  </div>
 <script>
 	var filter = {
-		"fields":["id","no","title","file"],
+		"fields":["id","no","title","mp3"],
 		"where":{},
 		"skip":0,
 		"limit":10,
@@ -88,9 +88,9 @@ function getAppKey(){
         });
     })
 	$table.bootstrapTable({});
-	function linkFormatter(value) {
-	    	console.log(value)
-		return '<a href="'+value.url+'" download="'+value.name+'">下载</a>';
+	function linkFormatter(val,row,index) {
+	    	console.log(val)
+		return '<a href="'+val.url+'" download="'+row.title+'">下载</a>';
 	}
 	function ajaxRequest(params) {
 		titleObj={"title": {"ne": ''}}
