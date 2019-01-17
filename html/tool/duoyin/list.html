@@ -37,7 +37,7 @@
 		return {"X-APICloud-AppId":AppId,"X-APICloud-AppKey":appKey}
 	}
 
-	function download(url,fileName){
+	function downloadFile(url,fileName){
 		var xhr =new XMLHttpRequest();
 		//xhr.open(option.type ? option.type.toUpperCase() : 'GET', url, true);
 		xhr.open('GET', url, true);
@@ -113,7 +113,7 @@
 	$table.bootstrapTable({});
 	function linkFormatter(val,row,index) {
 	    	console.log(val)
-		return '<a href="javascript:;" onclick="download(\''+val.url+'\',\''+row.title+'.mp3\')">下载</a>';
+		return '<a href="javascript:void(0);" onclick="downloadFile(\''+val.url+'\',\''+row.title+'.mp3\');">下载</a>';
 	}
 	
 	function ajaxRequest(params) {
