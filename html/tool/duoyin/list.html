@@ -45,17 +45,17 @@
 		xhr.onload = function () {
 		    //对于重定向的文件不予理会
 		    if (this.status >= 200 && this.status < 300) {
-			var blob = new Blob([this.response], {type: this.response.type});
+			var file_blob = new Blob([this.response], {type: this.response.type});
 			//ie的下载
 			if (window.navigator.msSaveOrOpenBlob) {
-			    navigator.msSaveBlob(blob, fileName);
+			    navigator.msSaveBlob(file_blob, fileName);
 			} else {
 			    //非ie的下载
-			    var link = document.createElement('a');
-			    link.href = window.URL.createObjectURL(blob);
-			    link.download = fileName;
-			    link.click();
-			    window.URL.revokeObjectURL(link.href);
+			    var file_link = document.createElement('a');
+			    file_link.href = window.URL.createObjectURL(file_blob);
+			    file_link.download = fileName;
+			    file_link.click();
+			    window.URL.revokeObjectURL(file_link.href);
 			}
 		    }
 		}
