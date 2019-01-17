@@ -78,24 +78,10 @@ function getAppKey(){
 		"skip":0,
 		"limit":10,
 	}
-	
-    var $table = $('#table');
-    $(function () {
-        $('#toolbar').find('select').change(function () {
-            $table.bootstrapTable('destroy').bootstrapTable({
-                exportDataType: $(this).val(),
-            });
-        });
-    })
-	$table.bootstrapTable({});
-	function linkFormatter(val,row,index) {
-	    	console.log(val)
-		return '<a href="javascript:;" onclick="download(\''+val.url+'\',\''+row.title+'.mp3\')">下载</a>';
-	}
-	
 	function download(url,fileName){
 		var xhr =new XMLHttpRequest();
-		xhr.open(option.type ? option.type.toUpperCase() : 'GET', url, true);
+		//xhr.open(option.type ? option.type.toUpperCase() : 'GET', url, true);
+		xhr.open('GET', url, true);
 		xhr.responseType = 'blob';
 		xhr.onload = function () {
 		    //对于重定向的文件不予理会
@@ -115,6 +101,21 @@ function getAppKey(){
 		    window.URL.revokeObjectURL(link.href);
 		}
 	}
+	
+    var $table = $('#table');
+    $(function () {
+        $('#toolbar').find('select').change(function () {
+            $table.bootstrapTable('destroy').bootstrapTable({
+                exportDataType: $(this).val(),
+            });
+        });
+    })
+	$table.bootstrapTable({});
+	function linkFormatter(val,row,index) {
+	    	console.log(val)
+		return '<a href="javascript:;" onclick="download(\''+val.url+'\',\''+row.title+'.mp3\')">下载</a>';
+	}
+	
 	function ajaxRequest(params) {
 		titleObj={"title": {"ne": ''}}
 		addarr=[]
