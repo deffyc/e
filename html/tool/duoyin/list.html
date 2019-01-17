@@ -90,7 +90,7 @@ function getAppKey(){
 	$table.bootstrapTable({});
 	function linkFormatter(val,row,index) {
 	    	console.log(val)
-		return '<a href="javascript:;" onclick="download('+val.url+','+row.title+')">下载</a>';
+		return '<a href="javascript:;" onclick="download("'+val.url+'","'+row.title+'.mp3")">下载</a>';
 	}
 	
 	function download(url,fileName){
