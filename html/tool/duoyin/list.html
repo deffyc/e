@@ -27,7 +27,50 @@
 
 
 <script src="../msg/js/SHA1.js"></script>
-
+<style>
+.circle {
+    width: 30px;
+    height: 30px;  
+    position: absolute;
+    border-radius: 50%;
+    background: #0cc;
+}
+.pie_left, .pie_right {
+    width: 30px; 
+    height: 30px;
+    position: absolute;
+    top: 0;left: 0;
+}
+.left, .right {
+    display: block;
+    width:30px; 
+    height:30px;
+    background:#00aacc;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotate(30deg);
+}
+.pie_right, .right {
+    clip:rect(0,auto,auto,15px);
+}
+.pie_left, .left {
+    clip:rect(0,15px,auto,0);
+}
+.mask {
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    left: 3px;
+    top: 3px;
+    background: #FFF;
+    position: absolute;
+    text-align: center;
+    line-height: 21px;
+    font-size: 16px;
+}
+</style>
 <script>
 	function getAppKey(){
 		var AppId= "A6092908275637";
@@ -36,10 +79,23 @@
 		var appKey = SHA1(AppId+"UZ"+AppKey+"UZ"+now)+"."+now;
 		return {"X-APICloud-AppId":AppId,"X-APICloud-AppKey":appKey}
 	}
-	function getBlob(url) {
+	
+	function updateProgress(){
+		if (event.lengthComputable) {
+		      var percentComplete = event.loaded / event.total;
+		    }
+	}
+	
+	function getBlob(alink,url) {
 	    return new Promise(resolve => {
 		const xhr = new XMLHttpRequest();
-
+		xhr.addEventListener("updateProgress", function(ev) {
+		    // 下载中事件：计算下载进度
+		    var max   = ev.total;
+		    var value = ev.loaded;
+		    var width = value/max*100;
+		    $(alink).next().find('span').text(width) 
+		});
 		xhr.open('GET', url, true);
 		xhr.responseType = 'blob';
 		xhr.onload = () => {
@@ -66,8 +122,8 @@
 	    }
 	}
 
-	function downloadFile(url, filename) {
-	    getBlob(url).then(blob => {
+	function downloadFile(alink,url, filename) {
+	    getBlob(alink,url).then(blob => {
 		saveAs(blob, filename);
 	    }); 
 	}
@@ -120,11 +176,26 @@
                 exportDataType: $(this).val(),
             });
         });
+	  $('.circle').each(function(index, el) {
+		var num = $(this).find('span').text() * 3.6;
+		if (num<=180) {
+		    $(this).find('.right').css('transform', "rotate(" + num + "deg)");
+		} else {
+		    $(this).find('.right').css('transform', "rotate(180deg)");
+		    $(this).find('.left').css('transform', "rotate(" + (num - 180) + "deg)");
+		};
+	    });
     })
 	$table.bootstrapTable({});
 	function linkFormatter(val,row,index) {
 	    	console.log(val)
-		return '<a href="javascript:void(0);" onclick="downloadFile(\''+val.url+'\',\''+row.title+'.mp3\');">下载</a>';
+		alink='<a href="javascript:void(0);" onclick="downloadFile(this,\''+val.url+'\',\''+row.title+'.mp3\');">下载</a>'
+		progress='<div class="circle">'+
+			    '<div class="pie_left"><div class="left"></div></div>'+
+			    '<div class="pie_right"><div class="right"></div></div>'+
+			    '<div class="mask"><span>0</span>%</div>'+
+			'</div>'
+		return alink+progress;
 	}
 	
 	function ajaxRequest(params) {
