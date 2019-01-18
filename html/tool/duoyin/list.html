@@ -39,7 +39,7 @@
 	function getBlob(alink,url) {
 	    return new Promise(resolve => {
 		const xhr = new XMLHttpRequest();
-		xhr.addEventListener("updateProgress", function(ev) {
+		xhr.addEventListener("progress", function(ev) {
 		    // 下载中事件：计算下载进度
 		    var max   = ev.total;
 		    var value = ev.loaded;
