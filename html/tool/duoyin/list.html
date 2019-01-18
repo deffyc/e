@@ -43,7 +43,7 @@
 		    // 下载中事件：计算下载进度
 		    var max   = ev.total;
 		    var value = ev.loaded;
-		    var width = value/max*100;
+		    var width = parseInt(value/max*100);
 		    $(alink).text('下载：'+width+'%') 
 		});
 		xhr.open('GET', url, true);
