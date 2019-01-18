@@ -36,9 +36,16 @@
 		var appKey = SHA1(AppId+"UZ"+AppKey+"UZ"+now)+"."+now;
 		return {"X-APICloud-AppId":AppId,"X-APICloud-AppKey":appKey}
 	}
-	function getBlob(url) {
+	function getBlob(alink,url) {
 	    return new Promise(resolve => {
 		const xhr = new XMLHttpRequest();
+		xhr.addEventListener("updateProgress", function(ev) {
+		    // 下载中事件：计算下载进度
+		    var max   = ev.total;
+		    var value = ev.loaded;
+		    var width = value/max*100;
+		    $(alink).text('下载：'+width+'%') 
+		});
 		xhr.open('GET', url, true);
 		xhr.responseType = 'blob';
 		xhr.onload = () => {
@@ -60,8 +67,9 @@
 		window.URL.revokeObjectURL(link.href);
 	    }
 	}
-	function downloadFile(url, filename) {
-	    getBlob(url).then(blob => {
+	function downloadFile(alink,url, filename) {
+	    if($(alink).text()!='下载') return
+	    getBlob(alink,url).then(blob => {
 		saveAs(blob, filename);
 	    }); 
 	}
@@ -118,7 +126,7 @@
 	$table.bootstrapTable({});
 	function linkFormatter(val,row,index) {
 	    	console.log(val)
-		return '<a href="javascript:void(0);" onclick="downloadFile(\''+val.url+'\',\''+row.title+'.mp3\');">下载</a>';
+		return '<a href="javascript:void(0);" onclick="downloadFile(this,\''+val.url+'\',\''+row.title+'.mp3\');">下载</a>';
 	}
 	
 	function ajaxRequest(params) {
