@@ -24,7 +24,7 @@
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/extensions/editable/bootstrap-table-editable.min.js"></script>
 <script src="../msg/xiehouyu/tableExport.js"></script>
 <script src="../msg/xiehouyu/bootstrap-editable.js"></script>
-
+<script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
 
 <script src="../msg/js/SHA1.js"></script>
 
@@ -35,6 +35,21 @@
 		var now = Date.now();
 		var appKey = SHA1(AppId+"UZ"+AppKey+"UZ"+now)+"."+now;
 		return {"X-APICloud-AppId":AppId,"X-APICloud-AppKey":appKey}
+	}
+	function logOp(logObj){
+	//logOp({"op":"update","className":"article","attr":field,"oldValue":oldValue,"newValue":data[field],"objId":row.id,"cip":returnCitySN["cip"],"cname":returnCitySN["cname"]});
+		$.ajax({
+			url:'https://d.apicloud.com/mcm/api/log',
+			cache: false,
+			headers:getAppKey(),
+			type: 'POST',
+			dataType: 'json', 
+			data:logObj,
+			success: function(result) {
+				console.log("操作成功");
+				console.log(logObj);
+			}	
+		});
 	}
 	function getBlob(alink,url) {
 	    return new Promise(resolve => {
@@ -67,10 +82,11 @@
 		window.URL.revokeObjectURL(link.href);
 	    }
 	}
-	function downloadFile(alink,url, filename) {
+	function downloadFile(alink,url, row) {
 	    if($(alink).text()!='下载') return
+	    logOp({"op":"update","className":"article","attr":'mp3',"oldValue":"","newValue":"下载+1","objId":row.id,"cip":returnCitySN["cip"],"cname":returnCitySN["cname"]});
 	    getBlob(alink,url).then(blob => {
-		saveAs(blob, filename);
+		saveAs(blob, row.title);
 	    }); 
 	}
 </script>
@@ -101,7 +117,7 @@
             <tr>
 				<th data-field="state" data-checkbox="true"></th>
                 <th data-field="no" data-sortable="true">编号</th>
-                <th data-field="title" data-sortable="true">标题</th>
+                <th data-field="title" data-sortable="true" data-editable="true">标题</th>
                 <th data-field="mp3"  data-formatter="linkFormatter">下载</th>
             </tr>
             </thead>
@@ -123,10 +139,66 @@
             });
         });
     })
-	$table.bootstrapTable({});
+	$table.bootstrapTable({
+		onEditableSave: function(field, row, oldValue, $el) {
+		
+		if(row[field].trim()=="") {
+			return false;
+		}
+		
+		var splitStr="";
+		var lableArr=[];
+		if(field=="lables"){
+			if(row[field].indexOf(",")>0){
+				lableArr=row[field].split(",");
+			}else if(row[field].indexOf("，")>0){
+				lableArr=row[field].replace("，",",").split(",");
+			}else if(row[field].indexOf(" ")>0){
+				lableArr=row[field].replace(" ",",").split(",");
+			}else if(row[field].indexOf("、")>0){
+				lableArr=row[field].replace("、",",").split(",");
+			}else if(row[field].indexOf("。")>0){
+				lableArr=row[field].replace("。",",").split(",");
+			}else if(row[field].indexOf("	")>0){
+				lableArr=row[field].replace("	",",").split(",");
+			}else if(row[field].indexOf("；")>0){
+				lableArr=row[field].replace("；",",").split(",");
+			}else if(row[field].indexOf(";")>0){
+				lableArr=row[field].replace(";",",").split(",");
+			}else{
+				lableArr=[row[field]]
+			}
+		}
+		
+		var successflag=false;
+		var data={};
+		
+		if(field=="lables"){
+			data[field]=lableArr;
+		}else{
+			data[field]=row[field];
+		}
+			console.log(data);
+				
+				data["_method"]="PUT";
+					$.ajax({
+						url:'https://d.apicloud.com/mcm/api/article/'+ row.id,
+						cache: false,
+						headers:getAppKey(),
+						type: 'POST',
+						dataType: 'json', 
+						data:data,
+						success: function(result) {
+							successflag=true;
+							logOp({"op":"update","className":"article","attr":field,"oldValue":oldValue,"newValue":{"attr":data[field]},"objId":row.id,"cip":returnCitySN["cip"],"cname":returnCitySN["cname"]});
+						}	
+					});
+					return successflag;
+				},
+	});
 	function linkFormatter(val,row,index) {
 	    	console.log(val)
-		return '<a href="javascript:void(0);" onclick="downloadFile(this,\''+val.url+'\',\''+row.title+'.mp3\');">下载</a>';
+		return '<a href="javascript:void(0);" onclick="downloadFile(this,\''+val.url+'\',\''+row+'.mp3\');">下载</a>';
 	}
 	
 	function ajaxRequest(params) {
