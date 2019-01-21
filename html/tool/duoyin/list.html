@@ -170,7 +170,9 @@
 				},
 	});
 	function linkFormatter(value, row, index, field) {
-		return '<a href="javascript:void(0);" onclick="downloadFile(this,\''+value.url+'\','+row+');">下载</a>';
+		console.log(row)
+		console.log(field)
+		return '<a href="javascript:void(0);" onclick="downloadFile(this,\''+value.url+'\','+row+')">下载</a>';
 	}
 	
 	function ajaxRequest(params) {
