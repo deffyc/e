@@ -84,7 +84,7 @@
 	}
 	function downloadFile(alink,url, row) {
 	    if($(alink).text()!='下载') return
-	    logOp({"op":"update","className":"article","attr":'mp3',"oldValue":"","newValue":"下载+1","objId":row.id,"cip":returnCitySN["cip"],"cname":returnCitySN["cname"]});
+	    logOp({"op":"update","className":"article","attr":'mp3',"oldValue":"","newValue":{"attr":"下载"},"objId":row.id,"cip":returnCitySN["cip"],"cname":returnCitySN["cname"]});
 	    getBlob(alink,url).then(blob => {
 		saveAs(blob, row.title);
 	    }); 
