@@ -82,10 +82,11 @@
 		window.URL.revokeObjectURL(link.href);
 	    }
 	}
-	function downloadFile(alink,url, row) {
-	    filename=row['field']+url.substring(url.lastIndexOf('.') + 1)
+	function downloadFile(alink,url,id,filename) {
+	    suffix=url.substring(url.lastIndexOf('.') + 1)
+	    filename=filename+suffix
 	    if($(alink).text()!='下载') return
-	    logOp({"op":"update","className":"article","attr":'mp3',"oldValue":filename,"newValue":{"attr":"下载"},"objId":row.id,"cip":returnCitySN["cip"],"cname":returnCitySN["cname"]});
+	    logOp({"op":"update","className":"article","attr":suffix,"oldValue":filename,"newValue":{"attr":"下载"},"objId":id,"cip":returnCitySN["cip"],"cname":returnCitySN["cname"]});
 	    getBlob(alink,url).then(blob => {
 		saveAs(blob, filename);
 	    }); 
@@ -172,7 +173,7 @@
 	function linkFormatter(value, row, index, field) {
 		console.log(row)
 		console.log(field)
-		return '<a href="javascript:void(0);" onclick="downloadFile(this,\''+value.url+'\','+row+')">下载</a>';
+		return '<a href="javascript:void(0);" onclick="downloadFile(this,\''+value.url+'\',\''+row.id+'\',\''+row.title+'\');">下载</a>';
 	}
 	
 	function ajaxRequest(params) {
