@@ -82,11 +82,12 @@
 		window.URL.revokeObjectURL(link.href);
 	    }
 	}
-	function downloadFile(alink,url, row) {
+	function downloadFile(alink,url, row,field) {
+	    filename=row['field']+'.'+field
 	    if($(alink).text()!='下载') return
-	    logOp({"op":"update","className":"article","attr":'mp3',"oldValue":"","newValue":{"attr":"下载"},"objId":row.id,"cip":returnCitySN["cip"],"cname":returnCitySN["cname"]});
+	    logOp({"op":"update","className":"article","attr":'mp3',"oldValue":filename,"newValue":{"attr":"下载"},"objId":row.id,"cip":returnCitySN["cip"],"cname":returnCitySN["cname"]});
 	    getBlob(alink,url).then(blob => {
-		saveAs(blob, row.title);
+		saveAs(blob, filename);
 	    }); 
 	}
 </script>
@@ -118,8 +119,8 @@
 				<th data-field="state" data-checkbox="true"></th>
                 <th data-field="no" data-sortable="true">编号</th>
                 <th data-field="title" data-sortable="true" data-editable="true">标题</th>
-                <th data-field="mp3"  data-formatter="linkFormatter">下载</th>
-		<th data-field="srt"  data-formatter="linkFormatter">下载</th>
+                <th data-field="mp3"  data-formatter="linkFormatter">mp3</th>
+		<th data-field="srt"  data-formatter="linkFormatter">srt</th>
             </tr>
             </thead>
         </table>
@@ -169,7 +170,7 @@
 				},
 	});
 	function linkFormatter(value, row, index, field) {
-		return '<a href="javascript:void(0);" onclick="downloadFile(this,\''+value.url+'\',\''+row+'.'+field+'\');">下载</a>';
+		return '<a href="javascript:void(0);" onclick="downloadFile(this,\''+value.url+'\',\''+row+'\',\''+field+'\');">下载</a>';
 	}
 	
 	function ajaxRequest(params) {
