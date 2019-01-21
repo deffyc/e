@@ -84,7 +84,7 @@
 	}
 	function downloadFile(alink,url,id,filename) {
 	    suffix=url.substring(url.lastIndexOf('.') + 1)
-	    filename=filename+suffix
+	    filename=filename+"."+suffix
 	    if($(alink).text()!='下载') return
 	    logOp({"op":"update","className":"article","attr":suffix,"oldValue":filename,"newValue":{"attr":"下载"},"objId":id,"cip":returnCitySN["cip"],"cname":returnCitySN["cname"]});
 	    getBlob(alink,url).then(blob => {
