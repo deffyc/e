@@ -160,6 +160,12 @@
                         <div class="text-center">
                             <button type="button" class="btn btn-primary button_width" id="msgClear">清空</button>
                             <button type="button" class="btn btn-primary button_width2 " id="msgSave">保存</button>
+			    <select id="per" name="per" class="form-control">
+				  <option value="2">标准-男生</option>
+				  <option value="0">标准-女生</option>
+				  <option value="3">情感-逍遥</option>
+				  <option value="4">情感-丫丫</option>
+			    </select>
                             <div class="bootstrap-switch ">
                                 <input type="checkbox" name="onlyOne" data-label-text="阅后即焚" data-on-text="是"
                                        data-off-text="否" onSwitchChange="changeOne" checked>
@@ -306,7 +312,7 @@
 	   headers: getAppKey(),
             async: true, //默认为true 异步
             dataType: 'JSON',
-            data: {title:'',content: $('#content').summernote('code'),onlyOne:isOne,no:getNo(),delflag:false},
+            data: {title:'',content: $('#content').summernote('code'),onlyOne:isOne,no:getNo(),delflag:false,params:{per:$('#per').val()}},
             error: function () {
                 setTimeout(function () {
                     waitingDialog.hide();
