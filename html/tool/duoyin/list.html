@@ -119,13 +119,14 @@
                 <th data-field="no" data-sortable="true">编号</th>
                 <th data-field="title" data-sortable="true" data-editable="true">标题</th>
                 <th data-field="mp3"  data-formatter="linkFormatter">下载</th>
+		<th data-field="srt"  data-formatter="linkFormatter">下载</th>
             </tr>
             </thead>
         </table>
  </div>
 <script>
 	var filter = {
-		"fields":["id","no","title","mp3"],
+		"fields":["id","no","title","mp3","srt"],
 		"where":{},
 		"skip":0,
 		"limit":10,
@@ -167,9 +168,8 @@
 					return successflag;
 				},
 	});
-	function linkFormatter(val,row,index) {
-	    	console.log(val)
-		return '<a href="javascript:void(0);" onclick="downloadFile(this,\''+val.url+'\',\''+row+'.mp3\');">下载</a>';
+	function linkFormatter(value, row, index, field) {
+		return '<a href="javascript:void(0);" onclick="downloadFile(this,\''+value.url+'\',\''+row+'.'+field+'\');">下载</a>';
 	}
 	
 	function ajaxRequest(params) {
