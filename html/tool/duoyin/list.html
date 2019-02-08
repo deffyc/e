@@ -198,6 +198,7 @@
 		}
 		filter["skip"]=params.data.offset;
 		filter["limit"]=params.data.limit;
+		filter["order"]="no DESC"
 		if(typeof(params.data.sort)!="undefined"){
 			filter["order"]=params.data.sort+" "+params.data.order.toUpperCase()+",no";
 		}
