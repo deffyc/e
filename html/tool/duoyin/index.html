@@ -146,15 +146,22 @@
                             <textarea class="form-control custom-control change_font" style="resize:none" rows="8" placeholder="请输入信息" id="mainText"></textarea>
                         </div>-->
 			<div id="content"></div>
-                        <div class="text-center">
-                            <button type="button" class="btn btn-primary button_width" id="msgClear">清空</button>
-                            <button type="button" class="btn btn-primary button_width2 " id="msgSave">保存</button>
+                        <div class="form-inline text-center">
 			    <select id="per" name="per" class="form-control">
 				  <option value="2">标准-男生</option>
 				  <option value="0">标准-女生</option>
 				  <option value="3">情感-逍遥</option>
 				  <option value="4">情感-丫丫</option>
 			    </select>
+			    <select id="spd" name="spd" class="form-control">
+				  <option value="1">1X</option>
+				  <option value="2">2X</option>
+				  <option value="3">3X</option>
+				  <option value="4">4X</option>
+				  <option value="5">5X</option>
+			    </select>
+                            <button type="button" class="btn btn-primary button_width" id="msgClear">清空</button>
+                            <button type="button" class="btn btn-primary button_width2 " id="msgSave">保存</button>
                             <div class="bootstrap-switch ">
                                 <input type="checkbox" name="onlyOne" data-label-text="阅后即焚" data-on-text="是"
                                        data-off-text="否" onSwitchChange="changeOne" checked>
@@ -293,7 +300,7 @@
 	   headers: getAppKey(),
             async: true, //默认为true 异步
             dataType: 'JSON',
-            data: {title:'',content: $('#content').summernote('code'),onlyOne:isOne,no:getNo(),delflag:false,params:{per:$('#per').val()}},
+            data: {title:'',content: $('#content').summernote('code'),onlyOne:isOne,no:getNo(),delflag:false,params:{per:$('#per').val(),spd:$('#spd').val()}},
             error: function () {
                 setTimeout(function () {
                     waitingDialog.hide();
