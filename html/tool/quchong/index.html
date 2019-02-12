@@ -3,54 +3,174 @@
 <html lang="zh">
 <head>
   <meta charset="utf-8">
-  <title>拷贝包含重复行的文本到文本框中</title>
+  <title>文本工具包</title>
+<script type=""></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.slim.min.js"></script>
+<script src="https://unpkg.com/papaparse@4.6.3/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jschardet/1.4.1/jschardet.min.js"></script>
+<script src="txttool.js"></script>
+
 
   <style>
     textarea {
-      width: 400px;
-      height: 200px;
+      width: 100%;
+      word-break: break-all; //解决兼容问题
       font-family: "Lucida Console"
     }
+	label{
+            position: relative;
+        }
+        #csvfile{
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+        #btn{
+            margin-right: 5px;
+        }
+        #text{
+            color: red;
+        }
   </style>
 </head>
 
 <body>
-<textarea id="editor"></textarea>
-  <span id="runtime">等待粘贴中</span>
-  <script language="javascript">
-	Array.prototype.unique = function()
-	{
-		var n = {},r=[]; //n为hash表，r为临时数组
-		for(var i = 0; i < this.length; i++) //遍历当前数组
-		{
-			if (!n[this[i]]) //如果hash表中没有当前项
-			{
-				n[this[i]] = true; //存入hash表
-				r.push(this[i]); //把当前数组的当前项push到临时数组里面
+	<textarea id="editor" rows="20"></textarea>
+	<br/>
+  选项：<br>
+  文本:
+  <input type="radio" name="pastFn" value="quchong" checked="checked"/><label for="quchong">去重</label>
+  <br/>
+  转换:
+  <input type="radio" name="pastFn" value="txtToJson"/><label for="txttoexcel">行转json</label>
+  <input type="radio" name="pastFn" value="jsonToTxt"/><label for="jsonToTxt">json转行</label>
+  <br/>
+  其他:
+<label for="csvfile">
+        <input type="button" id="btn" value="选择cvs"><span id="cvsfiletip">cvsTojson</span>
+        <input type="file" id="csvfile">
+</label>
+  <br/>
+  日志:<br/>
+  <span id="runtime"></span>
+
+  <script>
+	
+var editor = document.getElementById("editor")
+
+function jsonToTxt(event) {
+	var clipboard = event.clipboardData;
+	var data = clipboard.getData('text/plain');
+	parseStrToJson(data).then(function(arr) {
+		if (!Array.prototype.isPrototypeOf(arr)) {
+			var str = "只处理json数组";
+			document.getElementById("runtime").innerHTML = str;
+			return
+		}
+		if (!Array.prototype.isPrototypeOf(arr[0])) {
+			var str = "json的第一个元素必须为属性名序列数组";
+			document.getElementById("runtime").innerHTML = str;
+			return
+		}
+
+		keyArray = arr[0]
+		str = keyArray.join("\n\n")
+		for (var i = 1; i < arr.length; i++) {
+			str += "\n"
+			for (var j = 0; j < keyArray.length; j++) {
+				key = keyArray[j]
+				str += "\n\n" + (typeof(arr[i][key]) == "undefined" ? "" : arr[i][key])
+				//console.log(key+":"+arr[i]);
 			}
 		}
-		return r;
+		editor.value = str;
+		//返回结果
+
+		return "成功处理：" + arr.length + "个"
+		console.log("成功处理：" + arr.length + "个");
+	}).catch(function(err) {
+		return "成功处理：" + arr.length + "个"
+		console.log(err);
+	})
+	return "成功处理！"
+}
+
+function txtToJson(event) {
+	var clipboard = event.clipboardData;
+	var data = clipboard.getData('text/plain');
+	//**/[\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_-]|["',，.。\/、\]\[\{\}【】\n\s！!?？——_<>%;‘’；)《（）》(&+=`“”·*#@]+/g**/
+	arr = data.replace(/\r/g, "").split('\n\n\n');
+	if (arr.length == 1) {
+		return "对象之间隔3行，对象属性值之间隔2行，第一个对象为属性名数组。"
 	}
-	var editor = document.getElementById("editor")
-	editor.addEventListener("paste", function(event) {
-		var start = new Date().getTime();//起始时间
-			
-		var clipboard = event.clipboardData;
-		var data = clipboard.getData('text/plain');
-		event.preventDefault();
-		arr = data.split('\n');
-		uniqueArr=arr.unique();
-		editor.value="";
-		for(key in arr){
-			editor.value = uniqueArr.join('\n');
-		}
-		
-		var end = new Date().getTime();//接受时间
-		var str="运行时间: "+(end - start)+" ms,粘贴前："+arr.length+"行,去重后："+uniqueArr.length+"行。去重行数："+(arr.length-uniqueArr.length)+"行。";
-		document.getElementById("runtime").innerHTML=str;//返回函数执行需要时间
-		//alert(uniqueArr);
-	});
+	jsonObjs=rowsToJson(arr,function(nameRow){
+		return nameRow.split("\n\n").trim()
+	},function(dataRow){
+		return dataRow.split("\n\n")
 	
+	})
+	editor.value = JSON.stringify(jsonObjs);
+	//返回结果
+	return "对象之间隔3行，对象属性值之间隔2行，第一个对象为属性名数组。共：" + (jsonObjs.length) + "对象。";
+}
+
+function quchong(event) {
+	var clipboard = event.clipboardData;
+	var data = clipboard.getData('text/plain');
+	arr = data.split('\n');
+	uniqueArr = arr.unique();
+	editor.value = uniqueArr.join('\n');
+	//返回函数执行需要时间
+	return "粘贴前：" + arr.length + "行,去重后：" + uniqueArr.length + "行。去重行数：" + (arr.length - uniqueArr.length) + "行。";
+}
+
+function getPastFnStr(disabled = "true") {
+	if ("true" != disabled) disabled = ""
+	var item = null;
+	var obj = document.getElementsByName("pastFn")
+	for (var i = 0; i < obj.length; i++) { //遍历Radio 
+		if (obj[i].checked) {
+			item = obj[i].value;
+		} 
+		obj[i].disabled = disabled
+	}
+	return item;
+}
+editor.addEventListener('paste', function(e) {
+	event.preventDefault();
+	funName = getPastFnStr()
+	var start = new Date().getTime(); //起始时间
+	console.log('开始执行：' + funName)
+	log = window[funName](e)
+	getPastFnStr("")
+	var end = new Date().getTime(); //接受时间
+	console.log('执行结束：' + funName + '耗时：' + (end - start) + "ms")
+	document.getElementById("runtime").innerHTML = log;
+}, false);
+
+function parseStrToJson(str) {
+	var p = new Promise(function(resolve, reject) {
+		var cc = JSON.parse(str);
+		resolve(cc);
+	});
+	return p;
+}
+$("#csvfile").change(function(){
+		getPastFnStr()
+		$("#cvsfiletip").html($(this).val());
+		$(this).csv2arr(function(res){
+			jsonObjs=$.rowsToJson(res,function(nameRow){
+				return nameRow
+			},function(dataRow){
+				return dataRow
+			
+			})
+			editor.value=JSON.stringify(jsonObjs);
+			console.log( res );
+			getPastFnStr('')
+		});
+});
   </script>
 </body>
 </html>
