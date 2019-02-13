@@ -43,8 +43,14 @@
   <input type="radio" name="pastFn" value="quchong" checked="checked"/><label for="quchong">去重</label>
   <br/>
   转换:
-  <input type="radio" name="pastFn" value="txtToJson"/><label for="txttoexcel">行转json</label>
-  <input type="radio" name="pastFn" value="jsonToTxt"/><label for="jsonToTxt">json转行</label>
+  <input type="radio" name="pastFn" value="txtToJson"/><label for="txttoexcel">txtToJson</label>
+  <input type="radio" name="pastFn" value="jsonToTxt"/><label for="jsonToTxt">jsonToTxt</label>
+  <input type="radio" name="pastFn" value="cvsToJson"/><label for="cvsToJson">cvsToJson</label>
+  <input type="radio" name="pastFn" value="jsonToCvs"/><label for="jsonToCvs">jsonToCvs</label>
+  <br/>
+  <input type="radio" name="pastFn" value="jsonToMark"/><label for="jsonToMark">jsonToMark</label>
+  <input type="radio" name="pastFn" value="markToJson"/><label for="markToJson">markToJson</label>
+  应用：
   <br/>
   其他:
 <label for="csvfile">
@@ -58,7 +64,35 @@
   <script>
 	
 var editor = document.getElementById("editor")
+function jsonToMark(event){
+	var clipboard = event.clipboardData;
+	var data = clipboard.getData('text/plain');
+	cvs=Papa.unparse(data)
+	editor.value = cvs;
+	return "成功处理"
+}
+function jsonToCvs(event){
+	var clipboard = event.clipboardData;
+	var data = clipboard.getData('text/plain');
+	cvs=Papa.unparse(data)
+	editor.value = cvs;
+	return "成功处理"
+}
+function jsonToCvs(event){
+	var clipboard = event.clipboardData;
+	var data = clipboard.getData('text/plain');
+	cvs=Papa.unparse(data)
+	editor.value = cvs;
+	return "成功处理"
+}
 
+function cvsToJson(event){
+	var clipboard = event.clipboardData;
+	var data = clipboard.getData('text/plain');
+	arr=Papa.parse(JSON.parse(data))
+	editor.value = JSON.stringify(arr);
+	return "成功处理：" + arr.length + "个"
+}
 function jsonToTxt(event) {
 	var clipboard = event.clipboardData;
 	var data = clipboard.getData('text/plain');
@@ -84,13 +118,13 @@ function jsonToTxt(event) {
 				//console.log(key+":"+arr[i]);
 			}
 		}
-		editor.value = str;
+		
 		//返回结果
-
+		editor.value=str
 		return "成功处理：" + arr.length + "个"
 		console.log("成功处理：" + arr.length + "个");
 	}).catch(function(err) {
-		return "成功处理：" + arr.length + "个"
+		return "错误！"
 		console.log(err);
 	})
 	return "成功处理！"
@@ -104,7 +138,7 @@ function txtToJson(event) {
 	if (arr.length == 1) {
 		return "对象之间隔3行，对象属性值之间隔2行，第一个对象为属性名数组。"
 	}
-	jsonObjs=rowsToJson(arr,function(nameRow){
+	jsonObjs=$.rowsToJson(arr,function(nameRow){
 		return nameRow.split("\n\n").trim()
 	},function(dataRow){
 		return dataRow.split("\n\n")
