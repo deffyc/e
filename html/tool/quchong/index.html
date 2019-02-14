@@ -8,6 +8,8 @@
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.slim.min.js"></script>
 <script src="https://unpkg.com/papaparse@4.6.3/papaparse.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jschardet/1.4.1/jschardet.min.js"></script>
+<script src="https://cdn.bootcss.com/dot/2.0.0-beta.0/doT.min.js"></script>
+
 <script src="txttool.js"></script>
 
 
@@ -36,41 +38,33 @@
 </head>
 
 <body>
-	<textarea id="editor" rows="20"></textarea>
+	<textarea id="editor" rows="10"></textarea>
 	<br/>
-  选项：<br>
-  文本:
-  <input type="radio" name="pastFn" value="quchong" checked="checked"/><label for="quchong">去重</label>
-  <br/>
-  转换:
-  <input type="radio" name="pastFn" value="txtToJson"/><label for="txttoexcel">txtToJson</label>
-  <input type="radio" name="pastFn" value="jsonToTxt"/><label for="jsonToTxt">jsonToTxt</label>
-  <input type="radio" name="pastFn" value="cvsToJson"/><label for="cvsToJson">cvsToJson</label>
-  <input type="radio" name="pastFn" value="jsonToCvs"/><label for="jsonToCvs">jsonToCvs</label>
-  <br/>
-  <input type="radio" name="pastFn" value="jsonToMark"/><label for="jsonToMark">jsonToMark</label>
-  <input type="radio" name="pastFn" value="markToJson"/><label for="markToJson">markToJson</label>
-  应用：
-  <br/>
-  其他:
+  
+  <div id="evaluation"></div>
+ <script id="arraystmpl" type="text/x-dot-template">
+  {{ for(var prop in it) { }}
+		{{= prop }}
+		{{~it[prop] :subValue:subIndex }}
+			<input type="radio" name="pastFn" value="{{=subValue.name}}"/><label for="{{=subValue.name}}">{{=subValue.label}}</label>
+		
+		{{~}}
+		<br/>
+    {{ } }}
+	
+	</script>
+	其他:
 <label for="csvfile">
         <input type="button" id="btn" value="选择cvs"><span id="cvsfiletip">cvsTojson</span>
         <input type="file" id="csvfile">
 </label>
   <br/>
   日志:<br/>
-  <span id="runtime"></span>
+  <pre id="runtime"></pre>
 
   <script>
 	
 var editor = document.getElementById("editor")
-function jsonToMark(event){
-	var clipboard = event.clipboardData;
-	var data = clipboard.getData('text/plain');
-	cvs=Papa.unparse(data)
-	editor.value = cvs;
-	return "成功处理"
-}
 function jsonToCvs(event){
 	var clipboard = event.clipboardData;
 	var data = clipboard.getData('text/plain');
@@ -89,7 +83,7 @@ function jsonToCvs(event){
 function cvsToJson(event){
 	var clipboard = event.clipboardData;
 	var data = clipboard.getData('text/plain');
-	arr=Papa.parse(JSON.parse(data))
+	arr=Papa.parse(data)
 	editor.value = JSON.stringify(arr);
 	return "成功处理：" + arr.length + "个"
 }
@@ -108,13 +102,14 @@ function jsonToTxt(event) {
 			return
 		}
 
-		keyArray = arr[0]
-		str = keyArray.join("\n\n")
+		keyArray = arr[0].keys()
+		str = keyArray.join("\n")
+		idsuffix=". "
 		for (var i = 1; i < arr.length; i++) {
 			str += "\n"
 			for (var j = 0; j < keyArray.length; j++) {
 				key = keyArray[j]
-				str += "\n\n" + (typeof(arr[i][key]) == "undefined" ? "" : arr[i][key])
+				str += (j==1?idsuffix:"\n")+(typeof(arr[i][key]) == "undefined" ? "" : arr[i][key])
 				//console.log(key+":"+arr[i]);
 			}
 		}
@@ -134,10 +129,25 @@ function txtToJson(event) {
 	var clipboard = event.clipboardData;
 	var data = clipboard.getData('text/plain');
 	//**/[\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_-]|["',，.。\/、\]\[\{\}【】\n\s！!?？——_<>%;‘’；)《（）》(&+=`“”·*#@]+/g**/
-	arr = data.replace(/\r/g, "").split('\n\n\n');
-	if (arr.length == 1) {
-		return "对象之间隔3行，对象属性值之间隔2行，第一个对象为属性名数组。"
+	//console.log(data)
+	data=data.replace(/\r/g,'')
+	withoutNo=/(.+)\n((.+\n)*)\n/g
+	withId=/(([0-9]{1,})|no). (.+)\n((.+\n)*)/g
+	idFlag=data.substring(0,4)=="no. "?true:false
+	re=idFlag?withNo:withoutNo
+	arr=[]
+	if(idFlag){
+		while(r = re.exec(data)) {  
+		  arr.push(r[1]+"\n\n"+r[3] + "\n\n" + r[4]);  
+		} 
+	}else{
+		while(r = re.exec(data)) {  
+		  arr.push(arr.length+"\n\n"+r[1] + "\n\n" + r[2]);  
+		}
+		arr[0]=arr[0].replace("0\n\n","no\n\n")
 	}
+	
+	console.log(arr)
 	jsonObjs=$.rowsToJson(arr,function(nameRow){
 		return nameRow.split("\n\n").trim()
 	},function(dataRow){
@@ -146,7 +156,7 @@ function txtToJson(event) {
 	})
 	editor.value = JSON.stringify(jsonObjs);
 	//返回结果
-	return "对象之间隔3行，对象属性值之间隔2行，第一个对象为属性名数组。共：" + (jsonObjs.length) + "对象。";
+	return "no.开头带编号，第一个对象为属性名数组。对象之间两个\\n换行符，对象第一行为标题。共：" + (jsonObjs.length) + "对象。";
 }
 
 function quchong(event) {
@@ -182,7 +192,39 @@ editor.addEventListener('paste', function(e) {
 	console.log('执行结束：' + funName + '耗时：' + (end - start) + "ms")
 	document.getElementById("runtime").innerHTML = log;
 }, false);
+tipMap={}
+init()
 
+function init(){
+	typeArr=["选项","文本","转换","其他"]
+	radioArr=[{"type":"文本","name":"quchong","label":"去重","tip":""},
+	{"type":"转换","name":"txtToJson","label":"txtToJson","tip":"pattern:(.+)\\n((.+\\n)*):\npString:(.+)\\\\n((.+\\\\n)*)\ncontent:(title)\\n((content)*)\n-----\ntitle1\ncontent1\n\ntitle2\ncontent2\n---\npattern:([0-9]{1,}). (.+)\\n((.+\\n)*)\npString:([0-9]{1,})\. (.+)\\\\n((.+\\\\n)*)\ncontent:(no)\. (title)\\n((content)*)\n---\nno1. title1\ncontent1\n\nno2. title2\ncontent2\n\n"},
+	{"type":"转换","name":"jsonToTxt","label":"jsonToTxt","tip":"jsonToTxt"},
+	{"type":"转换","name":"cvsToJson","label":"cvsToJson","tip":"cvsToJson"},
+	{"type":"转换","name":"jsonToCvs","label":"jsonToCvs","tip":"jsonToCvs"}]
+	radioObjs={}
+	for(var i=0;i<typeArr.length;i++){
+		radioObjs[typeArr[i]]=[]
+		for(var j=radioArr.length-1;j>=0;j--){
+			if(radioArr[j].type==typeArr[i]){
+			radioObjs[typeArr[i]].push(radioArr[j])
+			tipMap[radioArr[j]["name"]]=radioArr[j]["tip"]
+			radioArr.splice(j,1)
+			}
+		}
+	}
+	console.log(radioObjs)
+	var evalText = doT.template($("#arraystmpl").text());
+	$("#evaluation").html(evalText(radioObjs));
+	lastEle=$('input[type=radio][name=pastFn]:last')
+	lastEle.click()
+	$("#runtime").text(tipMap[lastEle.val()])
+}
+
+
+$('input[type=radio][name=pastFn]').change(function() {
+    $("#runtime").text(tipMap[this.value])
+});
 function parseStrToJson(str) {
 	var p = new Promise(function(resolve, reject) {
 		var cc = JSON.parse(str);
