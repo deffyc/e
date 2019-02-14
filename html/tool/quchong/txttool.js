@@ -79,7 +79,7 @@ Array.prototype.trim = function() {
 $.rowsToJson=function(arr,nameFn,dataFn){
 	keyArray = nameFn(arr[0])
 	jsonObjs = []
-	jsonObjs.push(keyArray)
+	//jsonObjs.push(keyArray)
 	for (var i = 1; i < arr.length; i++) {
 		arr[i] = dataFn(arr[i])
 		minLength = keyArray.length - arr[i].length <= 0 ? keyArray.length : arr[i].length
