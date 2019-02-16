@@ -164,7 +164,7 @@ function txtToJson(event) {
 	nameArr=[]
 	data=data.replace(/\r/g,'')
 	
-	reReg=/(.*\\n.*)\n{1,}/g
+	reReg=/((.*\(.+\).*){2,})\n+/g
 	dataIndex=0
 	matches =reReg.exec(data)
 	hasNameReg=false
@@ -194,7 +194,7 @@ function txtToJson(event) {
 		
 	}
 	
-	data=data.substring(dataIndex)
+	data=data.substring(dataIndex)+'\n'
 	matches =data.match(dataReg)
 	
 	jsonObjs=[]
