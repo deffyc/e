@@ -262,7 +262,16 @@ editor.addEventListener('paste', function(e) {
 }, false);
 tipMap={}
 init()
+function log(str,addType){
+	if(addType=="pre"){
+		document.getElementById("runtime").innerHTML = log+document.getElementById("runtime").innerHTML;
+	}else if(addType=="append"){
+		document.getElementById("runtime").innerHTML += log;
+	}else{
+		document.getElementById("runtime").innerHTML = log;
+	}
 
+}
 function init(){
 	typeArr=["选项","文本","转换","其他"]
 	radioArr=[{"type":"文本","name":"quchong","label":"去重","tip":""},
