@@ -1,0 +1,113 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+<script src="SHA1.js"></script>
+<script>
+	var AppId= "";
+	var AppKey="";
+	function getAppKey(){
+		var now = Date.now();
+		var appKey = SHA1(AppId+"UZ"+AppKey+"UZ"+now)+"."+now;
+		return {"X-APICloud-AppId":AppId,"X-APICloud-AppKey":appKey}
+	}
+	requests=[]
+	errorArr=[]
+	for(var i in pinyin_dict_all){
+		strs=pinyin_dict_all[i].split(",");
+		for(var j=0;j<strs.length;j++){
+			diaos=strs[j].match(/([āáǎàōóǒòēéěèīíǐìūúǔùüǖǘǚǜńň])/)
+			diao=5
+			if(diaos){
+				diao=toneMap[diaos[1]][1]
+			}
+			if(strs[j].length==0) diao=""
+			strs[j]=strs[j].replace(/[āáǎàōóǒòēéěèīíǐìūúǔùüǖǘǚǜńň]/g, function(m){ return toneMap[m][0];})+diao;
+		}
+		requests.push({
+            "method": "POST",
+            "path": "/mcm/api/hanzi",
+            "body": {
+                "xing": i[0],
+                "yin": strs
+            }})
+	}
+	
+	maxAsyncNum=5//ajax最大请求数
+	curAsyncNum=0//ajax当前请求数量
+	
+	batchNum=500//数据每次的提交量
+	var batchi=parseInt(requests.length/batchNum)
+	this.curi=0
+	var batchj=requests.length%batchNum
+	
+	var timer = setInterval(function(){
+		if(curi<batchi){
+			if(curAsyncNum<maxAsyncNum){
+				num=maxAsyncNum-curAsyncNum
+				curi+=num
+				curAsyncNum+=num
+				for(var i=num;i>0;i--){
+					start=(curi-i)*batchNum
+					end=start+batchNum
+					batchTask(requests.slice(start,end))
+				}
+			}
+		}else{
+			curAsyncNum=1
+			batchTask(requests.slice(curi*batchNum))
+			clearInterval(timer)
+		}
+		$("#log").html("当前上传进度:"+parseInt(curi*100/batchi)+"%"+",当前队列数量:"+curAsyncNum)
+	}, 500);
+	
+	function batchTask(params){
+		$.ajax({
+		  "url": "https://d.apicloud.com/mcm/api/batch",
+		  "type": "POST",
+		  "cache": false,
+		  "headers": getAppKey(),
+		  "data": {
+			"requests": params
+		  }
+		}).done(function (data, status, header) {
+			console.log(data.length)
+			for(var i=0;i<data.length;i++){
+				delete pinyin_dict_all[data[i]["xing"]] 
+			}
+			curAsyncNum--
+			if(curi==batchi && curAsyncNum==0){
+				getHanzi()
+				console.log(pinyin_dict_all)
+			}
+		}).fail(function (header, status, errorThrown) {
+			batchTask(params)//fail body
+		})
+	}
+	function getHanzi(){
+		var filter = {
+			"fields":["xing"],
+			"where":{},
+			"skip":0,
+			"limit":0,
+		}
+		$.ajax({
+					url:'https://d.apicloud.com/mcm/api/hanzi?filter=' + encodeURIComponent(JSON.stringify(filter)),
+					cache: false,
+					headers:getAppKey(),
+					type: 'GET',
+					dataType: 'json', 
+					success: function(data) { 
+						console.log(data)
+					}
+				});
+		
+		
+	}
+</script>
+</head>
+<body>
+	<div id="log">
+	</div>
+</body>
+</html>
