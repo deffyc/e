@@ -5,9 +5,9 @@
 <script src="SHA1.js"></script>
 <script src="pinyin_dict_all_new.js"></script>
 <script>
+	var AppId= "";
+	var AppKey="";
 	function getAppKey(){
-		var AppId= "A6092908275637";
-		var AppKey="E27A3D9A-5F86-FB65-0273-DFFDF84FF8A4";
 		var now = Date.now();
 		var appKey = SHA1(AppId+"UZ"+AppKey+"UZ"+now)+"."+now;
 		return {"X-APICloud-AppId":AppId,"X-APICloud-AppKey":appKey}
