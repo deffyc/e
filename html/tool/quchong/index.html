@@ -275,7 +275,7 @@ function log(str,addType){
 function init(){
 	typeArr=["选项","文本","转换","其他"]
 	radioArr=[{"type":"文本","name":"quchong","label":"去重","tip":""},
-	{"type":"转换","name":"txtToJson","label":"txtToJson","tip":"(\.+)\\n((\.+\\n)*)\n(title)\\n(content)\n-----------------------------------\nexample:\ntitle1\ncontent1\ncontent1\n\ntitle2\ncontent2\ncontent2\n-----------------------------------\n([0-9]{1,})\. (\.+)\\n((\.+\\n)*)\n(no)\. (title)\\n(congtent)\n-----------------------------------\nno1\. title1\ncontent1\ncontent1\n\n\nno2\. title2\ncontent2\ncontent2\n"},
+	{"type":"转换","name":"txtToJson","label":"txtToJson","tip":"(title)\\n(content)\n(\.+)\\n((\.+\\n)*)\n-----------------------------------\nexample:\ntitle1\ncontent1\ncontent1\n\ntitle2\ncontent2\ncontent2\n-----------------------------------\n(no)\. (title)\\n(congtent)\n([0-9]{1,})\. (\.+)\\n((\.+\\n)*)\n-----------------------------------\nno1\. title1\ncontent1\ncontent1\n\n\nno2\. title2\ncontent2\ncontent2\n"},
 	{"type":"转换","name":"jsonToTxt","label":"jsonToTxt","tip":"1、第一行定义文本模板：(\\n)[\\n\\n]{'attr1':'#..(attr1)\\n'}\n第一个圆括号是对象分隔符，第一格中括号是属性值分隔符.\n花括号是特殊定制：key为属性名，value为替换模板其中必须包含“(key)”串"},
 	{"type":"转换","name":"cvsToJson","label":"cvsToJson","tip":"cvsToJson"},
 	{"type":"转换","name":"jsonToCvs","label":"jsonToCvs","tip":"jsonToCvs"}]
