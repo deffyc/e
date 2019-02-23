@@ -95,7 +95,7 @@ function jsonToTxt(event) {
 	ojbSplit='\n'
 	atrrSplitObj={}
 	data=data.replace(/\r/g,'')
-	splitReg=/^\(([\d\D]{2,50})\)\[([\d\D]{2,50})\](\{[\d\D]{2,50}\})?\n/
+	splitReg=/^\(([\d\D]{2,50})\)\[([\d\D]{2,50})\](\{[\d\D]{2,1000}\})?\n/
 	template="(\n)[\n\n]"//第一个圆括号是对象分隔符，第一个中括号是属性值分隔符
 	matches =splitReg.exec(data)
 	hasSplit=false
