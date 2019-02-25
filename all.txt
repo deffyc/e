@@ -189,11 +189,6 @@ http://cloud.ccsyue.com
 http://plex.ccsyue.com
 收藏夹
 
-祥和RenRen
-祥和
-http://rrshare.ccsyue.com
-收藏夹
-
 缠论K线
 K线
 tool/chanlun/
