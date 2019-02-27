@@ -18,10 +18,10 @@
 			<input v-model="AppId" placeholder="AppId" />
 			<input v-model="AppKey" placeholder="AppKey" />
 			<input v-model="clazz" placeholder="clazz" />
-			<input v-model.number="_threadNum" placeholder="threadNum" />
-			<input v-model.number="_maxErrorNum" placeholder="maxErrorNum" />
+			<input v-model.number="threadNum" placeholder="threadNum" />
+			<input v-model.number="maxErrorNum" placeholder="maxErrorNum" />
 			<textarea rows="10" v-model="jsonStr" @paste="solveIt" placeholder="pasteJson"></textarea>
-			<div v-for="(item, index) in percents" :width="item+'%'" style="background:#EC5D14" :key="index" >{{item+'%'}}</div>
+			<progress v-for="(item, index) in percents"  :max="item.total" :value="item.percent_no" :key="item.thread_no">{{(item.percent_no/item.total)+'%'}}</progress>
 		</div>
 
 	</body>
@@ -39,34 +39,18 @@
 				percents: [],
 				AppId: "A6054809905051",
 				AppKey: "F3CF370F-7899-A546-2085-011623A74CE7",
-				clazz: "articles",
-				threadNum: "1",
-				maxErrorNum:"1",
+				clazz: "wenku",
+				threadNum: 1,
+				maxErrorNum:1,
 				curentErrorNum:0
 			}
 		var vm = new Vue({
 			el: '#editor',
 			data: data,
-			computed: {
-				_threadNum: {
-					set: function(value) {
-						this.threadNum = value;
-					},
-					get: function() {
-						return this.threadNum.replace(/[^0-9]+/g, '')
-					}
-				},
-			_maxErrorNum: {
-					set: function(value) {
-						this.maxErrorNum = value;
-					},
-					get: function() {
-						return this.maxErrorNum.replace(/[^0-9]+/g, '')
-					}
-				}
-			},
 			methods: {
 				solveIt: function(event) {
+					maxBatchSize=1000
+					maxThreadNum=5
 					vm.percents.splice(0,vm.percents.length)
 					_.forEach(data, function(value, key) {
 					  if(typeof(value)=='String' && _.trim(value).length<10) return
@@ -79,25 +63,23 @@
 					_.forEach(arr, function(value, index, collection) { //这里规定的就是第一个参数返回的是value值，第二个参数是下标index
 						requests.push({
 							"method": "POST",
-							"path": "/mcm/api/" + vm.clazz+"/465c70b10abc2a2e606ba7271a/bookId",
+							"path": "/mcm/api/" + vm.clazz,//+"/465c70b10abc2a2e606ba7271a/bookId",
 							"body": value
 						})
 					});
-					if(requests.length>1000*vm.threadNum) vm.threadNum=parseInt(requests.length/1000)>5?5:parseInt(requests.length/1000) 
-					
-					chunks = _.chunk(requests, parseInt(requests.length/vm.threadNum)); //每一份requests.length/threadNum个
+					vm.threadNum=requests.length>maxBatchSize*vm.threadNum?maxThreadNum:parseInt(requests.length/maxBatchSize)
+					chunks = _.chunk(requests, parseInt(requests.length/vm.threadNum)); //每一份requests.length/vm.threadNum个
 					_.forEach(chunks, function(value, index, collection) {
-						childChunks = _.chunk(value, 1000)
-						vm.percents.push(0)
-						process(childChunks, 0,function(i){
-							vm.percents.splice(index,1, parseInt(i * 100 / childChunks.length))
-						});
-					})
+						childChunks=_.chunk(value, maxBatchSize);
+						vm.percents.push({"thread_no":index,"total":childChunks.length,"percent_no":0})
+						process(index,childChunks, 0);
+					});
+					
 				}
 			}
 		})
 		//处理chunks，无限递归
-		function process(chunks, index,successCallback) {
+		function process(chunk_no,chunks, index) {
 			//找到需要被处理的chunk
 			var chunk = chunks[index];
 			//判断chunk是否为undefined
@@ -111,17 +93,21 @@
 					"headers": getAppKey(),
 				}).then(function(response) {
 					++index
-					successCallback(index)
-					_.defer(_.partial(process, chunks, index));
+					percentUI(chunk_no,index,chunks.length)
+					_.defer(_.partial(process, chunk_no,chunks, index));
 				})
 				.catch(function(error) {
-					console.log("insert error:" + error)
+					console.log(chunks)
+					console.log(error)
 					if(vm.curentErrorNum>= vm.maxErrorNum) return
-					_.defer(_.partial(process, chunks, index));
+					_.defer(_.partial(process,chunk_no, chunks, ++index));
 					vm.curentErrorNum++
-					
 				})
 
+		}
+		
+		percentUI=function(index,i,totle){
+			vm.percents.splice(index,1, {"thread_no":index,"total":totle,"percent_no":i})
 		}
 	</script>
 </html>
