@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>课文抄写</title>
+        <style type="text/css">
+        * {
+            padding:0px;
+            margin:0px;
+            overflow: hidden;
+            font-size: 1.1em;
+        }
+        body {
+            position:relative;
+        }
+        html, body {
+            height:100%;
+        }
+        iframe {
+            height:55%;
+        }
+        .adv {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            width:100%;
+            height:45%;
+            background-color:grey;
+            position:absolute;
+            bottom:0px;
+            right:0px;
+            text-align:center;
+        }
+        select {
+            opacity:0;
+            position:fixed;
+            z-index: 999;
+            bottom: 0px;
+            border:none;
+            outline: none;
+            width: 1em;
+            height: 1.1em;
+            bottom:0.5em;
+            appearance:none;
+            -moz-appearance:none;
+            -webkit-appearance:none;
+        }
+        #footer {
+            position:fixed;
+            bottom:0.3em;
+            height: 1.8em;
+            z-index: 999;
+            text-align:center;
+            right: 2em;
+            vertical-align:bottom;
+            background-color:grey;
+        }
+        .circle {
+            width: 1.4em;
+            height: 1.4em;
+            background-color:pink;
+            color:grey;
+            border-radius: 50%;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            white-space:normal;
+            text-align:center;
+            display:inline-block;
+            vertical-align:bottom;
+            overflow:hidden;
+            margin:0 0.2em;
+        }
+        #prev {
+            background-color:pink;
+        }
+        #resize {
+            background-color:yellow;
+        }
+        #content {
+            width: 91%;
+            position: relative;
+            overflow: auto;
+            padding: 1em 0;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            -ms-box-flex: 1;
+            box-flex: 1;
+            -webkit-overflow-scrolling: touch;
+            background-color:grey;
+            color:white;
+            text-align:left;
+            margin:auto;
+            word-wrap:break-word;
+            letter-spacing:0.2em;
+        }
+        #content p, a {
+            color:white;
+            text-decoration:none;
+        }
+        #hanziImg {
+            width: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+        p {
+            text-indent: 2em;
+            margin-bottom:1em;
+        }
+        </style>
+        <link href="loading/loading.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="SHA1.js"></script>
+        <script type="text/javascript" src="ajax.js"></script>
+        <script type="text/javascript" src="books.js?v=1"></script>
+    </head>
+    
+    <body>
+        <div id="loadingDiv" style="display: none;position: absolute;top: 0;left: 0; width: 100%;height: 100%; background-color: rgba(0,0,0,0.7);opacity:1;z-index: 1000;">
+            <img id="hanziImg" display="none" />
+            <div id="spinner" class="spinner" display="block">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
+            </div>
+        </div>
+        <iframe id="baidu" src="https://hanyu.baidu.com/" width="100%" height="50%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="yes" allowtransparency="yes"></iframe>
+        <div id="adv" class="adv" style="height: 45%;">
+            <div id="content"></div>
+            <div id="footer">
+                <div id="resize" class="circle">变</div>
+                <div id="book" class="circle">
+                    <select id="bookSelect"></select>书</div>
+                <div id="mulu" class="circle">
+                    <select id="articleSelect"></select>目</div>
+                <div id="prev" class="circle">左</div>
+                <div id="next" class="circle">右</div>
+            </div>
+        </div>
+        <script>
+        document.documentElement.style.overflow = 'hidden';
+        articleSelect = document.getElementById('articleSelect')
+         bookSelect = document.getElementById('bookSelect')
+         contentNode = document.getElementById('content')
+         iframeNode = document.getElementById('baidu')
+         advNode = document.getElementById('adv')
+         resize = document.getElementById("resize")
+
+         loadingDiv = document.getElementById("loadingDiv")
+         spinnerDiv = document.getElementById("spinner")
+         hanziDiv = document.getElementById("hanzi")
+         books = []
+        var curBook = null
+        var timesRun = 0;
+          
+          var filter = {
+            "where": {
+                "userId": "59f6ec437d81dd386e4987f0"
+            },
+            "limit":100,
+            "skip": 0,
+            "order": "sortNum ASC",
+        }
+           basicUrl="https://d.apicloud.com/mcm/api/"
+           ajax({
+            url: basicUrl+"books?filter="+encodeURIComponent(JSON.stringify(filter)),
+            type: 'GET',
+            dataType: 'json',
+            header:getAppKey(),
+            success: function (response, xml) {
+                books = response
+                var curbookId = localStorage.getItem("curbookId")
+                if (isEmpty(curbookId)) curbookId = books[0]["id"]
+                    //clearStorage()
+                    
+                openDB(myDB, function () {
+                    initEvent()
+                    initBooks(curbookId)
+                })
+            },
+            error: function (status) {
+                //失败后执行的代码
+            }
+        });
+          function initEvent() {
+            readMode = localStorage.getItem("readMode")
+            if (!isEmpty(readMode)) adv.style.height = readMode
+            resize.onclick = function () {
+                adv.style.height = adv.style.height == "100%" ? "45%" : "100%"
+                localStorage.setItem("readMode", adv.style.height)
+            }
+            loadingDiv.onclick = function () {
+                if (hanziImg.style.display != "none") {
+                    hanziImg.style.display = "none"
+                    spinnerDiv.style.display = "block"
+                    clearLoding()
+                }
+            }
+            hanziImg.onload = function () {
+                spinnerDiv.style.display = "none"
+                hanziImg.style.display = "block"
+            }
+            bookSelect.onchange = function () {
+                selectedOption = this[this.options.selectedIndex]
+                bookId = selectedOption.value
+                document.getElementsByTagName("title")[0].innerText = selectedOption.innerText
+                localStorage.setItem("curbookId", bookId)
+                getDataByIndex(myDB.db, "books", "id", bookId, function (e) {
+                    curBook = e
+                    initArticles(curBook)
+                })
+            }
+            articleSelect.onchange = function () {
+                curbookId = localStorage.getItem("curbookId")
+                no = parseInt(this[this.options.selectedIndex].value)
+                curBook["curArticleIndex"] = no
+                //alert(curBook["curArticleIndex"])
+                updateData(myDB.db, "books", curBook)
+                getAritcleAndInit(curbookId, no)
+            }
+            prev = document.getElementById("prev");
+            prev.onclick = function () {
+                curbookId = localStorage.getItem("curbookId")
+                no = articleSelect.options.selectedIndex
+                if (no <= 0) return
+                no--
+                articleSelect[no].selected = 'selected'
+                curBook["curArticleIndex"] = parseInt(no)
+                updateData(myDB.db, "books", curBook)
+                getAritcleAndInit(curbookId, no)
+            }
+            next = document.getElementById("next");
+            next.onclick = function () {
+                curbookId = localStorage.getItem("curbookId")
+                no = articleSelect.options.selectedIndex
+                curBookP = articleSelect.options.length
+                if (no >= curBookP.length - 1) return
+                no++
+                articleSelect[no].selected = 'selected'
+                curBook["curArticleIndex"] = no
+                updateData(myDB.db, "books", curBook)
+                getAritcleAndInit(curbookId, no)
+            }
+            baidu = document.getElementById("baidu");
+            baidu.onload = function () {
+                clearLoding()
+            };
+        }
+          
+          function initBooks(bookId) {
+            loading()
+            updateBooks=[]
+            getMultipleData(myDB.db, "books", "id", null, function (cursor) {
+                if (isEmpty(cursor)) {
+                    localStorage.setItem("curbookId", bookId)
+                    if (timesRun == 0) {
+                        for (var i = 0; i < books.length; i++) {
+                            books[i]["curArticleIndex"] = 0
+                            addData(myDB.db, "books", books[i])
+                        }
+                    }
+                    books=books.concat(updateBooks)
+                    books.sort(function(a,b){
+                        return a["sortNum"]-b["sortNum"]
+                    })
+                    console.log(books)
+                    bookSelect.innerHTML = ""
+                    for (var i = 0; i < books.length; i++) {
+                        option = optionHtml(books[i]["id"], books[i]["name"], bookId, i + 1)
+                        bookSelect.innerHTML += option["html"]
+                        if (option["selected"]) curBook = books[i]
+                    }
+                    
+                    document.getElementsByTagName("title")[0].innerText = bookSelect[bookSelect.options.selectedIndex].innerText
+                    initArticles(curBook)
+                    console.log(curBook["bookId"]+":"+curBook["curArticleIndex"])
+                } else {
+                    val = cursor.value
+                    deleteFlag = true
+                    for (var i = books.length - 1; i >= 0; i--) {
+                        oval = books[i]
+                        if (oval["id"] == val["id"]) {
+                            oval["curArticleIndex"] = val["curArticleIndex"]
+                            if (oval["updatedAt"] != val["updatedAt"]) {
+                                //更新书的信息
+                                cursor.update(oval);
+                                //清空文章列表
+                                getMultipleData(myDB.db, "articles", "bookId", IDBKeyRange.only(oval["id"]), function (
+                                    articleCursor) {
+                                    if (articleCursor) deleteRequest = articleCursor.delete();
+                                })
+                            }
+                            deleteFlag = false
+                            console.log(books[i])
+                            updateBooks.push(books[i])
+                            books.splice(i, 1)
+                            break;
+                        }
+                    }
+                    if (deleteFlag) {
+                        if (val["bookId"] == bookId) bookId = books[0]["bookId"]
+                        deleteRequest = cursor.delete();
+                    }
+                }
+            })
+        }
+
+        function loading() {
+            loadingDiv.style.display = "block";
+            articleSelect.disabled="disabled"
+            bookSelect.disabled="disabled"
+        }
+
+        function clearLoding() {
+            loadingDiv.style.display = "none";
+            articleSelect.disabled=""
+            bookSelect.disabled=""
+        }
+
+        function optionHtml(value, text, no, index) {
+            index = index || false
+            selected = value == no
+            html = "<option value='" + value + "' " + (selected ? "selected='selected'" : "") + ">" +
+                (index ? index + ". " : "") + text.replace(/\([a-zA-Z0-9]{1,20}\)/g, '') + "</option>"
+            option = {
+                "html": html,
+                "selected": selected
+            }
+            return option
+        }
+           function initArticles(book) {
+            no = isEmpty(book["curArticleIndex"])?0:book["curArticleIndex"]
+            bookId = book["id"]
+            
+            getDataByIndex(myDB.db, "articles", "bookId_no", [bookId, 0], function (data) {
+                if (isEmpty(data)) {
+                    loading()
+                    var filter = {
+                        "where": {
+                            "bookId": bookId
+                        },
+                        "limit":100,
+                        "skip": 0,
+                        "order": "sortNum ASC",
+                    }
+                    ajax({
+                        url: basicUrl+"articles?filter="+encodeURIComponent(JSON.stringify(filter)),
+                        type: 'GET',
+                        header:getAppKey(),
+                        dataType: 'json',
+                        success: function (response, xml) {
+                            articleSelect.innerHTML = ""
+                            articles = response
+                            for (var i = 0; i < articles.length; i++) {
+                                articleSelect.innerHTML += optionHtml(i, articles[i]["title"],
+                                    no, (i + 1))["html"]
+                                articles[i]["no"] = i
+                                articles[i]["bookId"] = bookId
+                                articles[i]["scrollTop"] = 0
+                                saveArticle(articles[i])
+                            }
+                            initArticle(articles[no])
+                        },
+                        error: function (status) {
+                            clearLoding()
+                            //失败后执行的代码
+                        }
+                    });
+                } else {
+                    articleSelect.innerHTML = ""
+                    articlesTmp=[]
+                    getMultipleData(myDB.db, "articles", "bookId", IDBKeyRange.only(bookId), function (cursor) {
+                        if (cursor) {
+                            articlesTmp.push(cursor.value)
+                        }else{
+                            articlesTmp.sort(function(a,b){
+                                return a["sortNum"]-b["sortNum"]
+                            })
+                            for(var i=0;i<articlesTmp.length;i++){
+                                val = articlesTmp[i]
+                                option = optionHtml(val["no"], val["title"], no, val["no"] + 1)
+                                articleSelect.innerHTML += option["html"]
+                                if (option["selected"]) initArticle(val)
+                            }
+                        }
+                    })
+                }
+            })
+        }
+
+        
+          function clearStorage() {
+            clearObjectStore(myDB.db, "books")
+            clearObjectStore(myDB.db, "articles")
+            localStorage.clear();
+        }
+
+        function saveArticle(article) {
+            addData(myDB.db, "articles", article)
+        }
+
+
+
+        function saveScrollTop(bookId, articleno, scrollTop) {
+            scrollTopArr = localStorage.getItem("scrollTopArr")
+            scrollTopArr = isEmpty(scrollTopArr) ? [] : JSON.parse(scrollTopArr)
+            //scrollTop.push()
+            //localStorage.setItem("")
+            //$("a").offsetTop-$("#content").clientHeight/5
+        }
+
+        function getAritcleAndInit(bookId, no) {
+            no = no
+            getDataByIndex(myDB.db, "articles", "bookId_no", IDBKeyRange.only([bookId, no]), function (article) {
+                if (!isEmpty(article)) {
+                    initArticle(article)
+                }
+
+            })
+        }
+
+        
+          function initArticle(article) {
+            clearLoding()
+            no = article["no"]
+            title = article["title"]
+            content = article["content"]
+            changeContent((no + 1) + ". " + title + "\n" + content)
+            contentNode.scrollTop = 0
+            titlep = contentNode.getElementsByTagName("p")[0]
+            titlep.style.cssText = "text-indent:0em;text-align:center;"
+            //titlep.getElementsByTagName("a")[0].click()
+        }
+
+        function changeContent(contentTxt) {
+            matches = contentTxt
+            contentNode.innerHTML = "<p>" + contentTxt.replace(/\([a-zA-Z0-9]{1,20}\)/g, '').replace(
+                /([\u4e00-\u9fa5])/g, function (m) {
+                return "<a class='zi' href='javascript:void(0);' onclick='openIframe(this,\"" + m + "\")'>" + m +
+                    "</a>"
+            }).replace(/\n/g, "</p><p>") + "</p>";
+        }
+
+        
+          function openIframe(alink, hanzi) {
+            loading()
+            if (adv.style.height == "45%") {
+                iframeNode.src = "https://hanyu.baidu.com/s?wd=" + hanzi + "&ptype=zici"
+            } else {
+                filter = {
+                    "fields": ["hanzi", "jpg", "gif"],
+                    "where": {
+                        "hanzi": hanzi
+                    },
+                    "skip": 0,
+                    "limit": 1
+                }
+                ajax({
+                    url: "https://d.apicloud.com/mcm/api/wenku?filter=" + encodeURIComponent(JSON.stringify(filter)),
+                    type: 'GET',
+                    dataType: 'json',
+                    header: getAppKey(),
+                    success: function (response, xml) {
+                        hanziObj = response[0]
+                        hanziImg.src = isEmpty(hanziObj["gif"]) ? hanziObj["jpg"] : hanziObj["gif"]
+                    },
+                    error: function (status) {
+                        //失败后执行的代码
+                    }
+                });
+            }
+            var alist = document.getElementsByTagName('a');
+                for (var i = 0; i < alist.length; i++) {
+                    alist[i].style.color = "white";
+                }
+                alink.style.color = "pink";
+        }
+        </script>
+    </body>
+
+</html>
