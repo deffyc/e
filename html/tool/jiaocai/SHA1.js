@@ -5,7 +5,6 @@
  *
  *  Secure Hash Algorithm (SHA1)
  *  http://www.webtoolkit.info/
- *
  **/
 
 function SHA1(msg) {
