@@ -1,5 +1,5 @@
-/********»¡ĞÎ²Ëµ¥²å¼ş***************
- ********×÷Õß£º¾öÃ÷×Ó***************
+/********å¼§å½¢èœå•æ’ä»¶***************
+ ********ä½œè€…ï¼šå†³æ˜å­***************
  ***********************************/
 var ArcMenu;
 (function () {
@@ -7,19 +7,19 @@ var ArcMenu;
         this.showStatus = false;
         this.initMenu = function () {
             var defaultPra = {
-                mainMenuId: "ArcMenu",//Ö÷²Ëµ¥id
-                menuBoxId: "menuBox",//²Ëµ¥°ü¹üid
-                position: "",//»¡ĞÎ²Ëµ¥
-                customPosition: "0,0",//×Ô¶¨ÒåÎ»ÖÃ
-                speed: 20,//Õ¹¿ªËÙ¶È
-                radius: 100,//·ÅÉä¾àÀë,
-                menuRange: 100,//²Ëµ¥Õ¹¿ª·¶Î§
+                mainMenuId: "ArcMenu",//ä¸»èœå•id
+                menuBoxId: "menuBox",//èœå•åŒ…è£¹id
+                position: "",//å¼§å½¢èœå•
+                customPosition: "0,0",//è‡ªå®šä¹‰ä½ç½®
+                speed: 20,//å±•å¼€é€Ÿåº¦
+                radius: 100,//æ”¾å°„è·ç¦»,
+                menuRange: 100,//èœå•å±•å¼€èŒƒå›´
                 childMenuClass: "Menu",
                 triggerWay: "click",
                 showStatus: false,
-                childMenu: [//×Ó²Ëµ¥ÄÚÈİ
+                childMenu: [//å­èœå•å†…å®¹
                     { linkContent: getCancelFlagName(), linkUrl: "javascript:changeCancelFlag();", className: "Menu",id:"moshi"},
-                    { linkContent: "ÍøÖ·", linkUrl: "javascript:copyToClipBoard();",className: "Menu"},
+                    { linkContent: "ç½‘å€", linkUrl: "javascript:copyToClipBoard();",className: "Menu"},
                     { linkContent: getTTSTypeName(), linkUrl: "javascript:setTTSType();", className: "Menu",id:"ttsType" }
                 ]
             }
@@ -31,10 +31,10 @@ var ArcMenu;
             var mainMenu = document.getElementById(defaultPra.mainMenuId);
             var menuBox = document.getElementById(defaultPra.menuBoxId);
             mainMenu.setAttribute("class", "topMenu")
-            var childLen = defaultPra.childMenu.length;//×Ó²Ëµ¥¸öÊı
-            var circular = 2 * Math.PI / 360 * (parseFloat(defaultPra.menuRange) / childLen); //·Ö¸îºóµÄ»¡¶È
-            var positionStr = defaultPra.position ? defaultPra.position : "left,top";//Ö÷°´Å¥Î»ÖÃ
-            var customPositionStr = /^\d+,\d+$/.test(defaultPra.customPosition) ? defaultPra.customPosition : "0,0";//×Ô¶¨ÒåÎ»ÖÃ
+            var childLen = defaultPra.childMenu.length;//å­èœå•ä¸ªæ•°
+            var circular = 2 * Math.PI / 360 * (parseFloat(defaultPra.menuRange) / childLen); //åˆ†å‰²åçš„å¼§åº¦
+            var positionStr = defaultPra.position ? defaultPra.position : "left,top";//ä¸»æŒ‰é’®ä½ç½®
+            var customPositionStr = /^\d+,\d+$/.test(defaultPra.customPosition) ? defaultPra.customPosition : "0,0";//è‡ªå®šä¹‰ä½ç½®
             var positionVal = defaultPra.position.split(",");
             var customPositionVal = defaultPra.customPosition.split(",")
             mainMenu.style[positionVal[0]] = customPositionVal[0] + "px";
