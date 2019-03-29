@@ -1,12 +1,12 @@
-//orientationchange·½Ïò¸Ä±äÊÂ¼ş
+//orientationchangeæ–¹å‘æ”¹å˜äº‹ä»¶
 (function(doc, win) {
-    var docEl = doc.documentElement, //¸ùÔªËØhtml
-        //ÅĞ¶Ï´°¿ÚÓĞÃ»ÓĞorientationchangeÕâ¸ö·½·¨£¬ÓĞ¾Í¸³Öµ¸øÒ»¸ö±äÁ¿£¬Ã»ÓĞ¾Í·µ»Øresize·½·¨¡£
+    var docEl = doc.documentElement, //æ ¹å…ƒç´ html
+        //åˆ¤æ–­çª—å£æœ‰æ²¡æœ‰orientationchangeè¿™ä¸ªæ–¹æ³•ï¼Œæœ‰å°±èµ‹å€¼ç»™ä¸€ä¸ªå˜é‡ï¼Œæ²¡æœ‰å°±è¿”å›resizeæ–¹æ³•ã€‚
         resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
         recalc = function() {
             var clientWidth = docEl.clientWidth;
             if (!clientWidth) return;
-            //°ÑdocumentµÄfontSize´óĞ¡ÉèÖÃ³É¸ú´°¿Ú³ÉÒ»¶¨±ÈÀıµÄ´óĞ¡£¬´Ó¶øÊµÏÖÏìÓ¦Ê½Ğ§¹û¡£
+            //æŠŠdocumentçš„fontSizeå¤§å°è®¾ç½®æˆè·Ÿçª—å£æˆä¸€å®šæ¯”ä¾‹çš„å¤§å°ï¼Œä»è€Œå®ç°å“åº”å¼æ•ˆæœã€‚
             if(clientWidth<700){
                 docEl.style.fontSize = (clientWidth / 19) + 'px';
             }else{
@@ -16,8 +16,8 @@
         };
     //alert(docEl)
     if (!doc.addEventListener) return;
-    win.addEventListener(resizeEvt, recalc, false); //addEventListenerÊÂ¼ş·½·¨½ÓÊÜÈı¸ö²ÎÊı£ºµÚÒ»¸öÊÇÊÂ¼şÃû³Æ±ÈÈçµã»÷ÊÂ¼şonclick£¬µÚ¶ş¸öÊÇÒªÖ´ĞĞµÄº¯Êı£¬µÚÈı¸öÊÇ²¼¶ûÖµ
-    doc.addEventListener('DOMContentLoaded', recalc, false) //°ó¶¨ä¯ÀÀÆ÷Ëõ·ÅÓë¼ÓÔØÊ±¼ä
+    win.addEventListener(resizeEvt, recalc, false); //addEventListeneräº‹ä»¶æ–¹æ³•æ¥å—ä¸‰ä¸ªå‚æ•°ï¼šç¬¬ä¸€ä¸ªæ˜¯äº‹ä»¶åç§°æ¯”å¦‚ç‚¹å‡»äº‹ä»¶onclickï¼Œç¬¬äºŒä¸ªæ˜¯è¦æ‰§è¡Œçš„å‡½æ•°ï¼Œç¬¬ä¸‰ä¸ªæ˜¯å¸ƒå°”å€¼
+    doc.addEventListener('DOMContentLoaded', recalc, false) //ç»‘å®šæµè§ˆå™¨ç¼©æ”¾ä¸åŠ è½½æ—¶é—´
 })(document, window);
 //alert(document.documentElement.clientWidth/320)
 var PlayTool = (function() {
@@ -25,7 +25,7 @@ var PlayTool = (function() {
     var pointer;
     var autoNextPointer;
 
-    //audioÁĞ±í[HtmlElement]
+    //audioåˆ—è¡¨[HtmlElement]
     var playAudioPointer = -1;
     var audioList = [];
     var downloadNum;
@@ -38,10 +38,10 @@ var PlayTool = (function() {
 
     function PlayTool(args) {
 
-        //²ÎÊı£º´«µİ¸øµ¥ÀıµÄÒ»¸ö²ÎÊı¼¯ºÏ
-        //ÉèÖÃargs±äÁ¿Îª½ÓÊÕµÄ²ÎÊı»òÕßÎª¿Õ£¨Èç¹ûÃ»ÓĞÌá¹©µÄ»°£©
+        //å‚æ•°ï¼šä¼ é€’ç»™å•ä¾‹çš„ä¸€ä¸ªå‚æ•°é›†åˆ 
+        //è®¾ç½®argså˜é‡ä¸ºæ¥æ”¶çš„å‚æ•°æˆ–è€…ä¸ºç©ºï¼ˆå¦‚æœæ²¡æœ‰æä¾›çš„è¯ï¼‰
         args = args || {};
-        //ÉèÖÃhtml nodeÖ¸Õë
+        //è®¾ç½®html nodeæŒ‡é’ˆ
         pointer = args.pointer || null;
         autoNextPointer = true;
         downloadNum = args.downloadNum || 2
@@ -206,13 +206,13 @@ var PlayTool = (function() {
         }
         if (tmpString.length > 0) textList.push(tmpString);
     }
-    //ÊµÀıÈİÆ÷
+    //å®ä¾‹å®¹å™¨
     var instance;
 
     var _static = {
         name: 'PlayTool',
 
-        //»ñÈ¡ÊµÀıµÄ·½·¨
+        //è·å–å®ä¾‹çš„æ–¹æ³•
         //PlayTool
         getInstance: function(args) {
             if (window.localStorage) {
@@ -243,9 +243,9 @@ function getCancelFlag(){
 }
 function getCancelFlagName(){
     if(getCancelFlag()){
-        return "²¥·Å"
+        return "æ’­æ”¾"
     }else{
-        return "Ëø¶¨"
+        return "é”å®š"
     }
 }
 function changeCancelFlag(){
@@ -256,9 +256,9 @@ function changeCancelFlag(){
 
 function getTTSTypeName(){
     if(window.localStorage.getItem('ttsType')=="google"){
-        return "¹È¸è"
+        return "è°·æ­Œ"
     }else{
-        return "°Ù¶È"
+        return "ç™¾åº¦"
     }
 }
 
@@ -272,9 +272,9 @@ function copyToClipBoard(content){
     var content= content || window.location;
     var input=document.getElementById("url");
     input.value=content
-    input.select(); // Ñ¡Ôñ¶ÔÏó
-    document.execCommand("Copy"); // Ö´ĞĞä¯ÀÀÆ÷¸´ÖÆÃüÁî
-    alert("ÒÑ¸´ÖÆ£¬ÇëÕ³Ìùµ½ Î¢ĞÅ/QQ ·ÖÏí¸øÅóÓÑ");
+    input.select(); // é€‰æ‹©å¯¹è±¡
+    document.execCommand("Copy"); // æ‰§è¡Œæµè§ˆå™¨å¤åˆ¶å‘½ä»¤
+    alert("å·²å¤åˆ¶ï¼Œè¯·ç²˜è´´åˆ° å¾®ä¿¡/QQ åˆ†äº«ç»™æœ‹å‹");
 }
 window.onload = function() {
     ArcMenu({
@@ -290,7 +290,7 @@ window.onload = function() {
         document.getElementsByTagName('head')[0].appendChild(oMeta);
     }
 
-    //È¥³ı¿ªÍ·½áÎ²µÄ±ê¼Ç
+    //å»é™¤å¼€å¤´ç»“å°¾çš„æ ‡è®°
 
     var pArr = document.getElementsByTagName("p");
     var start;
@@ -339,22 +339,22 @@ window.onload = function() {
 
 
         if (Math.abs(X) > Math.abs(Y) && X > 50) {
-            //alert("ÏòÓÒ");
+            //alert("å‘å³");
         } else if (Math.abs(X) > Math.abs(Y) && X < -3) {
-            //alert("Ïò×ó");
+            //alert("å‘å·¦");
             PlayTool.getInstance({
                     pointer: startPoint
                 }).click();
         } else if (Math.abs(Y) > Math.abs(X) && Y > 0) {
 
-            //alert("ÏòÏÂ");
+            //alert("å‘ä¸‹");
 
         } else if (Math.abs(Y) > Math.abs(X) && Y < 0) {
 
-            //alert("ÏòÉÏ");
+            //alert("å‘ä¸Š");
 
         } else {
-            //alert("Ã»»¬¶¯");
+            //alert("æ²¡æ»‘åŠ¨");
 
         }
         startPoint=null;
