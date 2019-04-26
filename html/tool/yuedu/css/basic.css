@@ -1,0 +1,264 @@
+/* Basic sample */
+html,body {
+	width: 100%;
+	height: 100%;
+}
+body{
+	overflow:hidden;
+	background:url("../pages/goodfather12.png") no-repeat;
+	background-size:100% 100%;
+	margin:0;
+	padding:0;
+	user-select: none;
+}
+
+/*背景云*/
+.cloud img:nth-child(1){
+	position: fixed;
+	left: 0;
+	bottom: 0;
+}
+
+.cloud img:nth-child(2){
+	position: fixed;
+	right: 0;
+	bottom: 0;
+}
+
+.catalog {
+	position: absolute;
+	top: 59px;
+	left: 75px;
+	cursor: pointer;
+}
+.singleplay {
+	position: absolute;
+	top: 36px;
+	left: 458px;
+	cursor: pointer;
+}
+.paus {
+	position: absolute;
+	top: 25px;
+	left: 551px;
+	cursor: pointer;
+}
+.allplay {
+	position: absolute;
+	top: 38px;
+	left: 668px;
+	cursor: pointer;
+}
+.close {
+	position: absolute;
+	top: 59px;
+	right:68px;
+	cursor: pointer;
+}
+.deepleft {
+	position: absolute;
+	top: 115px;
+	left:48px;
+
+}
+.deepright {
+	position: absolute;
+	top: 115px;
+	right:48px;
+
+}
+
+.shadoleft {
+	position: absolute;
+	top: 400px;
+	right:590px;
+	z-index: 150;
+	pointer-events:none;
+	display: block;
+
+}
+.shadoright {
+	position: absolute;
+	top: 120px;
+	left:585px;
+	z-index: 100;
+	pointer-events:none;
+	display: block;
+
+}
+
+
+
+.flipbook-viewport{
+	overflow:hidden;
+	width:100%;
+	height:100%;
+
+
+}
+
+.flipbook-viewport .container{
+	width:1176px;
+	height:917px;
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin-left:-588px;
+	margin-top:-458.5px;
+	background:url(../pages/goodfather13.png) no-repeat;
+
+}
+
+
+.flipbook-viewport .flipbook{
+	width: 1050px;
+	height:743px;
+	position: absolute;
+	left:65px;
+	top:120px;
+
+}
+
+
+.flipbook .page{
+	width:525px;
+	height:745px;
+	background-color:white;
+	background-repeat:no-repeat;
+	background-size:100% 100%;
+}
+.imgsize {
+	width:525px;
+	height:745px;
+}
+
+.flipbook .page{
+	-webkit-box-shadow:0 0 20px rgba(0,0,0,0.3);
+	-moz-box-shadow:0 0 20px rgba(0,0,0,0.3);
+	-ms-box-shadow:0 0 20px rgba(0,0,0,0.3);
+	-o-box-shadow:0 0 20px rgba(0,0,0,0.3);
+	box-shadow:10px 10px 20px rgba(0,0,0,0.3);
+}
+
+.flipbook-viewport .page img{
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	margin:0;
+}
+.flipbook .shadow{
+	-webkit-box-shadow: 0 4px 10px #666;
+	-moz-box-shadow: 0 4px 10px #666;
+	-ms-box-shadow: 0 4px 10px #666;
+	-o-box-shadow: 0 4px 10px #666;
+	box-shadow: 0 4px 10px #666;
+}
+
+.flipbook-viewport .shadow{
+	-webkit-transition: -webkit-box-shadow 0.8s;
+	-moz-transition: -moz-box-shadow 0.8s;
+	-o-transition: -webkit-box-shadow 0.8s;
+	-ms-transition: -ms-box-shadow 0.8s;
+
+	-webkit-box-shadow:0 0 20px #ccc;
+	-moz-box-shadow:0 0 20px #ccc;
+	-o-box-shadow:0 0 20px #ccc;
+	-ms-box-shadow:0 0 20px #ccc;
+	box-shadow:0 0 20px #ccc;
+}
+
+.suggest a {
+	width: 100%;
+	display: inline-block;
+	height: 25px;
+	line-height: 25px;
+	position: fixed;
+	bottom: 0;
+	background-color: rgba(248,234,193,0.75);
+	text-align: center;
+	display: none;
+	z-index: 90000;
+
+}
+.chinese {
+	position: absolute;
+	bottom: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 70%;
+	/*height: 32px;*/
+	line-height: 32px;
+	text-align: center;
+	border-radius: 10px;
+
+}
+
+/*点读公共类*/
+.public {
+	cursor: pointer;
+	position: absolute;
+	border-radius: 10px;
+	z-index: 1000;
+	box-shadow: 5px 1px 3px #ccc;
+}
+
+.public:hover {
+	background-color: rgba(220, 146, 149, 0.5);
+}
+
+.readColor {
+	background-color: rgba(220, 146, 149, 0.5);
+}
+
+.tip {
+	color:#6E6E6E;
+	font-size: 14px;
+	line-height:19px;
+	position: absolute;
+	left: 204px;
+	top: 77px;
+}
+.mulu {
+	padding-left:20px;
+}
+.lesson1 {
+	width: 80%;
+	height: 100%;
+	padding-top:30px;
+	margin-left:50px;
+	font-size:28px;
+	color:#4b4b4b ;
+	font-family: "微软雅黑";
+
+
+}
+
+.lesson2{
+	width: 100%;
+	height: 100%;
+	padding-top:30px;
+	margin-left:50px;
+	font-size:28px;
+	color:#4b4b4b ;
+	font-family: "微软雅黑";
+
+
+}
+.lesson {
+	padding-left:20px;
+	color:#6e6e6e ;
+	font-size:16px;
+	margin-top:2px;
+	/*line-height: 34px;*/
+	cursor: pointer;
+	/*width: 150px;*/
+	/*height: 34px;*/
+	border-radius:10px;
+
+}
+.lesson:hover {
+	background-color: #fcb88b;
+}
