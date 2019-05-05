@@ -33,7 +33,7 @@ var ArcMenu;
             mainMenu.setAttribute("class", "topMenu")
             var childLen = defaultPra.childMenu.length;//子菜单个数
             var circular = 2 * Math.PI / 360 * (parseFloat(defaultPra.menuRange) / childLen); //分割后的弧度
-            var positionStr = defaultPra.position ? defaultPra.position : "left,top";//主按钮位置
+            var positionStr = defaultPra.position ? defaultPra.position : "right,bottom";//主按钮位置: "left,top";
             var customPositionStr = /^\d+,\d+$/.test(defaultPra.customPosition) ? defaultPra.customPosition : "0,0";//自定义位置
             var positionVal = defaultPra.position.split(",");
             var customPositionVal = defaultPra.customPosition.split(",")
