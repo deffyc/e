@@ -461,12 +461,12 @@ function sendFile(file) {
 		$('#content').summernote('insertImage', imageInfo.data.url);
 		$.ajax({
 		   url: 'http://img.ccsyue.com/functions/sm.php',
-		   headers: { 'Access-Control-Allow-Origin': '*'},
+		   crossOrigin: true,
 		   data: imageInfo.data,
 		   type: 'json',
 		   /* etc */
 		   success: function(jsondata){
-
+			console.log(jsondata)
 		   }
 		})
         }
