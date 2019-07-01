@@ -458,9 +458,10 @@ function sendFile(file) {
         processData: false,
         success: function(imageInfo) {
 		$('#content').summernote('insertImage', imageInfo.data.url);
-		$.ajax(data:imageInfo.data,type:"POST",url:"http://img.ccsyue.com/functions/sm.php",contentType:"application/x-www-form-urlencoded; charset=UTF-8",success:function(data){
+		$.ajax({data:imageInfo.data,type:"POST",url:"http://img.ccsyue.com/functions/sm.php",contentType:"application/x-www-form-urlencoded; charset=UTF-8",success:function(data){
 			
-                });
+                }
+		 });
 
         }
     });
