@@ -461,9 +461,9 @@ function sendFile(file) {
 		$('#content').summernote('insertImage', imageInfo.data.url);
 		$.ajax({
 		   url: 'http://img.ccsyue.com/functions/sm.php',
-		   headers: {  'Access-Control-Allow-Origin': 'http://img.ccsyue.com' },
+		   headers: { 'Access-Control-Allow-Origin': '*'},
 		   data: imageInfo.data,
-		   type: 'dataType',
+		   type: 'json',
 		   /* etc */
 		   success: function(jsondata){
 
