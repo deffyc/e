@@ -454,11 +454,11 @@ function sendFile(file) {
         type: "POST",
         url: "https://sm.ms/api/upload",
         cache: false,
-        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        contentType: false,
         processData: false,
         success: function(imageInfo) {
 		$('#content').summernote('insertImage', imageInfo.data.url);
-		$.post("http://img.ccsyue.com/functions/sm.php",{data:imageInfo.data},function(data,status){
+		$.ajax(data:imageInfo.data,type:"POST",url:"http://img.ccsyue.com/functions/sm.php",contentType:"application/x-www-form-urlencoded; charset=UTF-8",success:function(data){
 			
                 });
 
