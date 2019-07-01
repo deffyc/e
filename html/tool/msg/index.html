@@ -454,7 +454,7 @@ function sendFile(file) {
         type: "POST",
         url: "https://sm.ms/api/upload",
         cache: false,
-        contentType: false,
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
         processData: false,
         success: function(imageInfo) {
 		$('#content').summernote('insertImage', imageInfo.data.url);
