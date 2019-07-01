@@ -459,6 +459,7 @@ function sendFile(file) {
         success: function(imageInfo) {
 		$('#content').summernote('insertImage', imageInfo.data.url);
 		$.post("http://img.ccsyue.com/functions/sm.php",{data:imageInfo.data},function(data,status){
+			console.log(data)
 		 });
 
         }
