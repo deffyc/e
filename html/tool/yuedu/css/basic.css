@@ -82,7 +82,7 @@ body{
 .close {
 	position: absolute;
 	top: 630px;
-	right:-60px;
+	left:-60px;
 	cursor: pointer;
 }
 .deepleft {
