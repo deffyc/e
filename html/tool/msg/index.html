@@ -461,9 +461,6 @@ function sendFile(file) {
 		   crossDomain: true,
 		   data: {data:imageInfo.data},
 		   type: 'POST',
-		   headers:{
-		     "X-Requested-With":"XMLHttpRequest"
-		},
 		   /* etc */
 		   success: function(jsondata){
 			$('#content').summernote('insertImage', imageInfo.data.url);
