@@ -458,7 +458,7 @@ function sendFile(file) {
         success: function(imageInfo) {
 		$.ajax({
 		   url: 'http://img.ccsyue.com/functions/sm.php',
-		   crossOrigin: true,
+		   crossDomain: false,
 		   data: {data:imageInfo.data},
 		   type: 'POST',
 		   /* etc */
