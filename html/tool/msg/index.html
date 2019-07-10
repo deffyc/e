@@ -461,6 +461,11 @@ function sendFile(file) {
 		   crossDomain: true,
 		   data: {data:imageInfo.data},
 		   type: 'POST',
+		   headers:{
+		    "Access-Control-Allow-Headers":"Referer, Origin, Content-Type, Cookie, Accept",
+		     "Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8",
+		     "X-Requested-With":"XMLHttpRequest"
+		},
 		   /* etc */
 		   success: function(jsondata){
 			$('#content').summernote('insertImage', imageInfo.data.url);
