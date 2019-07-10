@@ -456,7 +456,6 @@ function sendFile(file) {
         contentType: false,
         processData: false,
         success: function(imageInfo) {
-		$('#content').summernote('insertImage', imageInfo.data.url);
 		$.ajax({
 		   url: 'http://img.ccsyue.com/functions/sm.php',
 		   crossOrigin: true,
@@ -464,6 +463,7 @@ function sendFile(file) {
 		   type: 'POST',
 		   /* etc */
 		   success: function(jsondata){
+			$('#content').summernote('insertImage', imageInfo.data.url);
 			console.log(jsondata)
 		   }
 		})
