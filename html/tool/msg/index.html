@@ -418,7 +418,10 @@ $('#content').summernote({
   lang: 'zh-CN',
   callbacks: {
 	  onImageUpload: function(files) {
-		sendFile(files[0]);
+		console.log(files)
+		for(i=0;i<files.length;i++){
+			sendFile(files[i]);
+		}
 	  }
   }
   
@@ -456,15 +459,17 @@ function sendFile(file) {
         contentType: false,
         processData: false,
         success: function(imageInfo) {
+		$('#content').summernote('insertImage', imageInfo.data.url);
 		$.ajax({
 		   url: 'http://img.ccsyue.com/functions/sm.php',
 		   crossDomain: true,
 		   data: {data:imageInfo.data},
-		   dataType: 'JSON',
+		   xhrFields: {
+			withCredentials: true
+		    },
 		   type: 'POST',
 		   /* etc */
 		   success: function(jsondata){
-			$('#content').summernote('insertImage', imageInfo.data.url);
 			console.log(jsondata)
 		   }
 		})
