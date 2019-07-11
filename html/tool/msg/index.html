@@ -460,6 +460,7 @@ function sendFile(file) {
 		   url: 'http://img.ccsyue.com/functions/sm.php',
 		   crossDomain: true,
 		   data: {data:imageInfo.data},
+		   dataType: 'JSON',
 		   type: 'POST',
 		   /* etc */
 		   success: function(jsondata){
