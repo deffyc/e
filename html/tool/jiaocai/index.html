@@ -439,18 +439,18 @@
 
         function changeContent(no,title,content) {
             contentTxt = title+'\n'+content
-            contentNode.innerHTML = "<p>" + "<a class='zi' href='javascript:void(0);' onclick='openIframe(this,\"" + title.split("  ")[0] + "\")'>" +(no + 1) + "</a>"+ ". " +contentTxt.replace(/\([a-zA-Z0-9]{1,20}\)/g, '').replace(
+            contentNode.innerHTML = "<p>" + "<a class='zi' href='javascript:void(0);' onclick='openIframe(this,\"" + title.split("  ")[0] + "\",\"poem\")'>" +(no + 1) + "</a>"+ ". " +contentTxt.replace(/\([a-zA-Z0-9]{1,20}\)/g, '').replace(
                 /([\u4e00-\u9fa5])/g, function (m) {
-                return "<a class='zi' href='javascript:void(0);' onclick='openIframe(this,\"" + m + "\")'>" + m +
+                return "<a class='zi' href='javascript:void(0);' onclick='openIframe(this,\"" + m + "\",\"zici\")'>" + m +
                     "</a>"
             }).replace(/\n/g, "</p><p>") + "</p>";
         }
 
         
-          function openIframe(alink, hanzi) {
+          function openIframe(alink, hanzi,type) {
             loading()
             if (adv.style.height == "45%") {
-                iframeNode.src = "https://hanyu.baidu.com/s?wd=" + hanzi + "&ptype=zici"
+                iframeNode.src = "https://hanyu.baidu.com/s?wd=" + hanzi + "&ptype="+type
             } else {
                 filter = {
                     "fields": ["hanzi", "jpg", "gif"],
