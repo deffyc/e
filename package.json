@@ -6,7 +6,7 @@
   "keywords": "导航站",
   "author": "jserme",
   "dependencies": {
-    "clean-css": "1.0.11",
+    "clean-css": "4.2.1",
     "dateformat": "1.0.6-1.2.3",
     "jade": "^1.1.5",
     "uglify-js": ">=0.0.1"
