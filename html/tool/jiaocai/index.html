@@ -430,7 +430,7 @@
             no = article["no"]
             title = article["title"]
             content = article["content"]
-            changeContent((no + 1) + ". " + title + "\n" + content)
+            changeContent(<a class='zi' href='javascript:void(0);' onclick='openIframe(this,\"" + title + "\")'>" +(no + 1) "</a>"+ ". " + title + "\n" + content)
             contentNode.scrollTop = 0
             titlep = contentNode.getElementsByTagName("p")[0]
             titlep.style.cssText = "text-indent:0em;text-align:center;"
