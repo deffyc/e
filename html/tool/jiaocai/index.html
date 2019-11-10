@@ -443,7 +443,7 @@
                 /([\u4e00-\u9fa5])/g, function (m) {
                 return "<a class='zi' href='javascript:void(0);' onclick='openIframe(this,\"" + m + "\",\"zici\")'>" + m +
                     "</a>"
-            }).replace(/\n/g, "</p><p>") + "</p>";
+            }).replace(/\n/g, "</p><p>").replace(/\t/g, "&nbsp;&nbsp;") + "</p>";
         }
 
         
