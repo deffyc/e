@@ -123,6 +123,10 @@
         var mescroll = new MeScroll("body", { //第一个参数"mescroll"对应上面布局结构div的id
             up: {
                 callback: getListData, //下拉刷新的回调
+				page: {
+						num: 0, //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
+						size: 50 //每页数据条数,默认10
+					},
                 noMoreSize: 4, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
                 empty: {
                   tip: "暂无相关数据~", //提示
@@ -149,7 +153,6 @@
 
           }
         });
-        page = {num:1, size:50};
         function getListData(page){
           getListDataFromNet(page.num, page.size, function(curPageData){
             //联网成功的回调,隐藏下拉刷新和上拉加载的状态;
@@ -190,7 +193,7 @@
                       dataType: 'json',
                       success: function (response, xml) {
                           successCallback(response)
-                          console.log(JSON.stringify(response));
+                          //console.log(JSON.stringify(response));
                       },
                       error: function (status) {
                           errorCallback
