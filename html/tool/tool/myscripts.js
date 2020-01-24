@@ -269,9 +269,9 @@ function setTTSType(){
 }
 
 function copyToClipBoard(content){
-    var content= content || window.location;
+    //var content= content || window.location;
     var input=document.getElementById("url");
-    input.value=content
+    //input.value=content
     input.select(); // 选择对象
     document.execCommand("Copy"); // 执行浏览器复制命令
     alert("已复制，请粘贴到 微信/QQ 分享给朋友");
