@@ -279,7 +279,7 @@ function copyToClipBoard(content){
 window.onload = function() {
     ArcMenu({
         mainMenuId: "menu",
-        position: "left,top"
+        position: "right,bottom"//"left,top"
     })
     var metaArr = ['width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0|viewport', 'yes|apple-mobile-web-app-capable', 'black|apple-mobile-web-app-status-bar-style', 'telephone=no|format-detection'];
     for (var i = 0; i < metaArr.length; i++) {
