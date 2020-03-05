@@ -9,13 +9,13 @@ var metaArr = ['width=device-width, initial-scale=1.0, maximum-scale=1.0, user-s
     }
     
 
-    var g = document.getElementsByTagName('a');
+    /*var g = document.getElementsByTagName('a');
     for(var i=0;i<g.length;i++){
         var a = g[i];
         if(a.href.indexOf(".htm")>=0 || a.href.indexOf(".txt")>=0 ){
             a.href = a.href +(a.href.indexOf("?") != -1?"&":"?")+ 'title='+a.innerText;
         }
-    }
+    }*/
 
     var td1=document.getElementsByTagName("td")[0];
     if(typeof(td1)!="undefined"){
