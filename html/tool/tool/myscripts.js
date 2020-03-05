@@ -272,10 +272,10 @@ function copyToClipBoard(content){
       var url = document.getElementById("url").innerText;
       var input = document.getElementById("input");
       content=content || url;
-      input.value = content // 修改文本框的内容
+      input.innerText = content // 修改文本框的内容
       input.select(); // 选中文本
       document.execCommand("copy"); // 执行浏览器复制命令
-      input.value =url;
+      input.innerText =url;
     alert(content+"已复制，请粘贴到 微信/QQ 分享给朋友");
 }
 
