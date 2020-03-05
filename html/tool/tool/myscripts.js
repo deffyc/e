@@ -277,7 +277,8 @@ function getColor(nextFlag){
 function loadColor(color){
     document.getElementById('content').style.cssText=color
     htmlNode=document.getElementsByTagName('html')[0]
-    htmlNode.style.cssText=color+htmlNode.style.cssText
+    htmlNode.style.backgroundColor=document.getElementById('content').style.backgroundColor
+    htmlNode.style.color=document.getElementById('content').style.color
 }
 
 function changeColor(){
@@ -285,7 +286,9 @@ function changeColor(){
     console.log(themeColor)
     loadColor(themeColor)
 }
-
+function getThemeName(){
+    loadColor(getColor(false))
+}
 
 function changeCancelFlag(){
     window.localStorage.setItem('cancelFlag', !getCancelFlag())
