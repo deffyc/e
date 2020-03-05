@@ -270,7 +270,7 @@ function setTTSType(){
 
 function copyToClipBoard(content){
       var url = document.getElementById("url").innerText;
-      var input = document.getElementById("input");
+      var input = document.getElementById("url");
       content=content || url;
       input.innerText = content // 修改文本框的内容
       input.select(); // 选中文本
