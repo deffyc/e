@@ -258,7 +258,7 @@ function getColor(){
         "c5":"background-color: rgba(51, 51, 51, 0.6); color: rgb(181, 172, 162);"
     }
     //获取主题颜色
-    themeName=colornamewindow.localStorage.getItem('theme')
+    themeName=window.localStorage.getItem('theme')
     themeColor="";
     if(themeName && themes[themeName]){
         nextNum=(1+themeName.substr(1))
