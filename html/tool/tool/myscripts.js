@@ -269,6 +269,7 @@ function setTTSType(){
 }
 
 function copyToClipBoard(content){
+    var input=document.getElementById("url");
     copyContent=content || input.value
     copy(false,copyContent)
     alert(copyContent+"已复制，请粘贴到 微信/QQ 分享给朋友");
