@@ -249,7 +249,7 @@ function getCancelFlagName(){
     }
 }
 
-function getColor(){
+function getColor(nextFlag){
     themes={
         "c1":"background-color: rgb(248, 248, 250); color: rgb(51, 51, 51);",
         "c2":"background-color: rgba(244, 236, 216, 0.56); color: rgb(91, 70, 54);",
@@ -261,8 +261,10 @@ function getColor(){
     themeName=window.localStorage.getItem('themeName')
     themeColor="";
     if(themeName && themes[themeName]){
-        nextNum=themeName.substr(1)*1+1
-        themeName="c"+(nextNum>5?"1":nextNum)
+        if(nextFlag){
+            nextNum=themeName.substr(1)*1+1
+            themeName="c"+(nextNum>5?"1":nextNum)
+        }
         themeColor=themes[themeName]
     }else{
         themeName="c1"
@@ -272,14 +274,17 @@ function getColor(){
     return themeColor
     
 }
-
-function changeColor(){
-    themeColor=getColor()
-    console.log(themeColor)
-    document.getElementById('content').style.cssText=themeColor
+function loadColor(color){
+    document.getElementById('content').style.cssText=color
     htmlNode=document.getElementsByTagName('html')[0]
-    htmlNode.style.cssText=themeColor+htmlNode.style.cssText
+    htmlNode.style.cssText=color+htmlNode.style.cssText
 }
+function changeColor(){
+    themeColor=getColor(true)
+    console.log(themeColor)
+    loadColor(themeColor)
+}
+loadColor(getColor())
 
 
 function changeCancelFlag(){
