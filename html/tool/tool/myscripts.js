@@ -269,7 +269,6 @@ function getColor(){
         themeColor=themes[themeName]
     }
     window.localStorage.setItem('themeName',themeName)
-    console.log(themeName && themes[themeName])
     return themeColor
     
 }
@@ -278,12 +277,12 @@ function changeColor(){
     themeColor=getColor()
     console.log(themeColor)
     document.getElementById('content').style.cssText=themeColor
-    doucumnet.style.cssText=themeColor
+    htmlNode=document.getElementsByTagName('html')[0]
+    htmlNode.style.cssText=themeColor+htmlNode.style.cssText
 }
 
 
 function changeCancelFlag(){
-    //alert(document.getElementById('moshi').innerHTML)
     window.localStorage.setItem('cancelFlag', !getCancelFlag())
     document.getElementById('moshi').innerHTML=getCancelFlagName()
 }
