@@ -269,14 +269,14 @@ function setTTSType(){
 }
 
 function copyToClipBoard(content){
-      var url = document.getElementById("url").innerText;
-      var input = document.getElementById("url");
-      content=content || url;
-      input.innerText = content // 修改文本框的内容
-      input.select(); // 选中文本
-      document.execCommand("copy"); // 执行浏览器复制命令
-      input.innerText =url;
+    var input = document.getElementById("url");
+    var url = input.value;
+    content=content || url;
+    input.value = content // 修改文本框的内容
+    input.select(); // 选中文本
+    document.execCommand("copy"); // 执行浏览器复制命令
     alert(content+"已复制，请粘贴到 微信/QQ 分享给朋友");
+    input.value =url;
 }
 
 
