@@ -284,7 +284,6 @@ function changeColor(){
     console.log(themeColor)
     loadColor(themeColor)
 }
-loadColor(getColor())
 
 
 function changeCancelFlag(){
