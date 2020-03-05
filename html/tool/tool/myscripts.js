@@ -269,12 +269,15 @@ function setTTSType(){
 }
 
 function copyToClipBoard(content){
-    //var content= content || window.location;
     var input=document.getElementById("url");
-    //input.value=content
+    shareUrl=input.value
+    input.value=content || shareUrl
     input.select(); // 选择对象
     document.execCommand("Copy"); // 执行浏览器复制命令
-    alert("已复制，请粘贴到 微信/QQ 分享给朋友");
+    nput.value=Copycontent
+    document.selection.empty()
+    input.value=shareUrl
+    alert(content?"文字":"网址"+"已复制，请粘贴到 微信/QQ 分享给朋友");
 }
 window.onload = function() {
     ArcMenu({
