@@ -242,7 +242,7 @@ function getCancelFlag(){
     }
 }
 function getCancelFlagName(){
-    if(getColorName()){
+    if(getCancelFlag()){
         return "播放"
     }else{
         return "复制"
