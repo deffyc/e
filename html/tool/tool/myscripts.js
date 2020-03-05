@@ -269,62 +269,17 @@ function setTTSType(){
 }
 
 function copyToClipBoard(content){
-    var input=document.getElementById("url");
-    copyContent=content || input.value
-    copy(false,copyContent)
-    alert(copyContent+"已复制，请粘贴到 微信/QQ 分享给朋友");
+      var url = document.getElementById("url").innerText;
+      var input = document.getElementById("input");
+      content=content || url;
+      input.value = content // 修改文本框的内容
+      input.select(); // 选中文本
+      document.execCommand("copy"); // 执行浏览器复制命令
+      input.value =url;
+    alert(content+"已复制，请粘贴到 微信/QQ 分享给朋友");
 }
 
-/**
- * 一键粘贴
- * @param  {String} id [需要粘贴的内容]
- * @param  {String} attr [需要 copy 的属性，默认是 innerText，主要用途例如赋值 a 标签上的 href 链接]
- *
- * range + selection
- *
- * 1.创建一个 range
- * 2.把内容放入 range
- * 3.把 range 放入 selection
- *
- * 注意：参数 attr 不能是自定义属性
- * 注意：对于 user-select: none 的元素无效
- * 注意：当 id 为 false 且 attr 不会空，会直接复制 attr 的内容
- */
-function copy (id, attr) {
-    let target = null;
 
-    if (attr) {
-        target = document.createElement('div');
-        target.id = 'tempTarget';
-        target.style.opacity = '0';
-        if (id) {
-            let curNode = document.querySelector('#' + id);
-            target.innerText = curNode[attr];
-        } else {
-            target.innerText = attr;
-        }
-        document.body.appendChild(target);
-    } else {
-        target = document.querySelector('#' + id);
-    }
-
-    try {
-        let range = document.createRange();
-        range.selectNode(target);
-        window.getSelection().removeAllRanges();
-        window.getSelection().addRange(range);
-        document.execCommand('copy');
-        window.getSelection().removeAllRanges();
-        console.log('复制成功')
-    } catch (e) {
-        console.log('复制失败')
-    }
-
-    if (attr) {
-        // remove temp target
-        target.parentElement.removeChild(target);
-    }
-}
 window.onload = function() {
     ArcMenu({
         mainMenuId: "menu",
