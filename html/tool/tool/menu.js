@@ -19,7 +19,7 @@ var ArcMenu;
                 showStatus: false,
                 childMenu: [//子菜单内容
                     { linkContent: getCancelFlagName(), linkUrl: "javascript:changeCancelFlag();", className: "Menu",id:"moshi"},
-                    { linkContent: "网址", linkUrl: "javascript:copyToClipBoard();",className: "Menu"},
+                    { linkContent: "主题", linkUrl: "javascript:changeColor();",className: "Menu"},
                     { linkContent: getTTSTypeName(), linkUrl: "javascript:setTTSType();", className: "Menu",id:"ttsType" }
                 ]
             }
