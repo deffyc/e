@@ -279,6 +279,7 @@ function loadColor(color){
     htmlNode=document.getElementsByTagName('html')[0]
     htmlNode.style.cssText=color+htmlNode.style.cssText
 }
+
 function changeColor(){
     themeColor=getColor(true)
     console.log(themeColor)
