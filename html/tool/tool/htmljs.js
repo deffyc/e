@@ -8,9 +8,7 @@ var metaArr = ['width=device-width, initial-scale=1.0, maximum-scale=1.0, user-s
         document.getElementsByTagName('head')[0].appendChild(oMeta);
     }
     
-    var url = document.location.toString();
-    
-    currentUrl=arrUrl[0]+"//"+relUrl
+
     var g = document.getElementsByTagName('a');
     for(var i=0;i<g.length;i++){
         var a = g[i];
