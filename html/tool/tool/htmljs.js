@@ -9,20 +9,13 @@ var metaArr = ['width=device-width, initial-scale=1.0, maximum-scale=1.0, user-s
     }
     
     var url = document.location.toString();
-    var arrUrl = url.split("//");
-    var start = arrUrl[1].indexOf("/");
-　　var relUrl = arrUrl[1].substring(start);//stop省略，截取从start开始到结尾的所有字符
-
-　　if(relUrl.indexOf("?") != -1){
-　　　　relUrl = relUrl.split("?")[0];
-　　}
     
     currentUrl=arrUrl[0]+"//"+relUrl
     var g = document.getElementsByTagName('a');
     for(var i=0;i<g.length;i++){
         var a = g[i];
-        if(a.href.toLowerCase().indexOf(currentUrl.toLowerCase())>=0){
-            a.href = (a.href +a.href.indexOf("?") != -1?"&":"?")+ 'title='+a.innerText;
+        if(a.href.indexOf(".htm")>=0 || a.href.indexOf(".txt")>=0 ){
+            a.href = a.href +(a.href.indexOf("?") != -1?"&":"?")+ 'title='+a.innerText;
         }
     }
 
