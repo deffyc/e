@@ -288,6 +288,7 @@ function changeColor(){
 }
 function getThemeName(){
     loadColor(getColor(false))
+    return "主题"
 }
 
 function changeCancelFlag(){
