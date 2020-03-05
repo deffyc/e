@@ -242,12 +242,39 @@ function getCancelFlag(){
     }
 }
 function getCancelFlagName(){
-    if(getCancelFlag()){
+    if(getColorName()){
         return "播放"
     }else{
         return "复制"
     }
 }
+
+function getColor(){
+    themes={
+        "c1":"background-color: rgb(248, 248, 250); color: rgb(51, 51, 51);",
+        "c2":"background-color: rgba(244, 236, 216, 0.56); color: rgb(91, 70, 54);",
+        "c3":"background-color: rgba(206, 234, 186, 0.6); color: rgb(51, 51, 51);",
+        "c4":"background-color: rgba(64, 68, 71, 0.73); color: rgb(157, 159, 163);",
+        "c5":"background-color: rgba(51, 51, 51, 0.6); color: rgb(181, 172, 162);"
+    }
+    //获取主题颜色
+    themeName=colornamewindow.localStorage.getItem('theme')
+    themeColor="";
+    if(themeName && themes[themeName]){
+        nextNum=(1+themeName.substr(1))
+        theme=themes[themeName.substr(0,1)+nextNum>5?"1":nextNum]
+    }else{
+        theme=themes["c1"]
+    }
+    return themeColor
+    
+}
+
+function changeColor(){
+    themeColor=getColor()
+    document.getElementById('content').style.cssText=themeColor
+}
+
 function changeCancelFlag(){
     //alert(document.getElementById('moshi').innerHTML)
     window.localStorage.setItem('cancelFlag', !getCancelFlag())
@@ -271,7 +298,7 @@ function setTTSType(){
 function copyToClipBoard(content){
     var input = document.getElementById("url");
     var url = input.value;
-    content=content || url;
+    content=(content || "" )+ url;
     input.value = content // 修改文本框的内容
     input.select(); // 选中文本
     document.execCommand("copy"); // 执行浏览器复制命令
