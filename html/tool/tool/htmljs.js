@@ -24,7 +24,6 @@ var metaArr = ['width=device-width, initial-scale=1.0, maximum-scale=1.0, user-s
         if(a.href.toLowerCase().indexOf(currentUrl.toLowerCase())>=0){
             a.href = (a.href +a.href.indexOf("?") != -1?"&":"?")+ 'title='+a.innerText;
         }
-        }
     }
 
     var td1=document.getElementsByTagName("td")[0];
