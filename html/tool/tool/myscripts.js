@@ -245,7 +245,7 @@ function getCancelFlagName(){
     if(getCancelFlag()){
         return "播放"
     }else{
-        return "锁定"
+        return "复制"
     }
 }
 function changeCancelFlag(){
@@ -275,8 +275,9 @@ function copyToClipBoard(content){
     input.value = content // 修改文本框的内容
     input.select(); // 选中文本
     document.execCommand("copy"); // 执行浏览器复制命令
-    alert(content+"已复制，请粘贴到 微信/QQ 分享给朋友");
     input.value =url;
+    alert(content+"已复制，请粘贴到 微信/QQ 分享给朋友");
+    
 }
 
 
