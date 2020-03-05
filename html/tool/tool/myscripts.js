@@ -258,22 +258,29 @@ function getColor(){
         "c5":"background-color: rgba(51, 51, 51, 0.6); color: rgb(181, 172, 162);"
     }
     //获取主题颜色
-    themeName=window.localStorage.getItem('theme')
+    themeName=window.localStorage.getItem('themeName')
     themeColor="";
     if(themeName && themes[themeName]){
-        nextNum=(1+themeName.substr(1))
-        theme=themes[themeName.substr(0,1)+nextNum>5?"1":nextNum]
+        nextNum=themeName.substr(1)*1+1
+        themeName="c"+(nextNum>5?"1":nextNum)
+        themeColor=themes[themeName]
     }else{
-        theme=themes["c1"]
+        themeName="c1"
+        themeColor=themes[themeName]
     }
+    window.localStorage.setItem('themeName',themeName)
+    console.log(themeName && themes[themeName])
     return themeColor
     
 }
 
 function changeColor(){
     themeColor=getColor()
+    console.log(themeColor)
     document.getElementById('content').style.cssText=themeColor
+    doucumnet.style.cssText=themeColor
 }
+
 
 function changeCancelFlag(){
     //alert(document.getElementById('moshi').innerHTML)
