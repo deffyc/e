@@ -313,12 +313,12 @@ function setTTSType(){
 function copyToClipBoard(content){
     var input = document.getElementById("url");
     var url = input.value;
-    content=(content || "" )+ url;
+    content=(content.replace(/[\n\r]/g,'') || "\r\n" )+ url;
     input.value = content // 修改文本框的内容
     input.select(); // 选中文本
     document.execCommand("copy"); // 执行浏览器复制命令
     input.value =url;
-    alert(content+"已复制，请粘贴到 微信/QQ 分享给朋友");
+    alert(content+"\r\n已复制，请粘贴到 微信/QQ 分享给朋友");
     
 }
 
