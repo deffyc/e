@@ -9,7 +9,7 @@ LocalLang.WarnText="你有正在进行的定时，离开本页将撤销此定时
 function selectLang(lang,reload){
   if(lang.indexOf("zh")!=-1){
     if(reload==true){
-         document.location.href="/";
+         window.location.reload();
     }
   }else{
     $j("#inputSection").css("background","url(assets/img/inputbox_en.png) no-repeat");
