@@ -110,5 +110,5 @@ fs.readdir(DATAFOLDER, function(err, files) {
 });
 
 //最小化一下JS和CSS
-fs.writeFile(DSTJS, uglifyJS.minify(SRCJS).code,function(err) {});
-fs.writeFile(DSTCSS, cleanCSS.process(fs.readFileSync(SRCCSS, 'utf-8')),function(err) {});
+//fs.writeFile(DSTJS, uglifyJS.minify(SRCJS).code,function(err) {});
+//fs.writeFile(DSTCSS, cleanCSS.process(fs.readFileSync(SRCCSS, 'utf-8')),function(err) {});
