@@ -305,7 +305,7 @@
 							updateUrl= msgUrl +"/"+obj.id
 						}
 			    $("[name='onlyOne']").bootstrapSwitch("state", obj.onlyOne);
-			    $('#push').html( $('#push').html()+"<br>"+obj.content)
+			    $('#push').html( obj.content)//$('#push').html()+"<br>"+
 						
                     }
                 }, 300);
