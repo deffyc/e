@@ -291,13 +291,15 @@
                     var obj = eval(data[0]);
                     if ($.isEmptyObject(obj)) {
 						$('#content').summernote('code', '');
+			    			$("[name='onlyOne']").bootstrapSwitch("state", true);
                     } else {
 						$('#content').summernote('code', obj.content);
 						if(obj.onlyOne){
 							handleDel(obj.id);
 						}else{
-							updateUrl= msgUrl +"/"+obj.id,
+							updateUrl= msgUrl +"/"+obj.id
 						}
+			    $("[name='onlyOne']").bootstrapSwitch("state", obj.onlyOne);
 			    $('#push').html( $('#push').html()+"<br>"+obj.content)
 						
                     }
