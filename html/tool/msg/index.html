@@ -208,6 +208,7 @@
     var msgUrl="https://d.apicloud.com/mcm/api/msg";
     var getUrl = "https://d.apicloud.com/mcm/api/msg";
     var addUrl = "https://d.apicloud.com/mcm/api/msg";
+    var updateUrl=false;
     var postUrl = addUrl;
     $("#msgClear").click(function () {
 	$('#content').summernote('code', '');
@@ -244,7 +245,12 @@
                 return;
             }
         }
-        handlePost();
+	if(updateUrl){
+		handlePut();
+	}else{
+		handlePost();
+	}
+        
     });
     function changeOne(event, change) {
         isOne = !isOne;
@@ -289,6 +295,8 @@
 						$('#content').summernote('code', obj.content);
 						if(obj.onlyOne){
 							handleDel(obj.id);
+						}else{
+							updateUrl= msgUrl +"/"+obj.id,
 						}
 			    $('#push').html( $('#push').html()+"<br>"+obj.content)
 						
@@ -322,7 +330,34 @@
                     waitingDialog.hide();
                     var obj = eval(data);
                     $("#textId").val(obj.no);
-					$("#msgId").val(obj.id);
+		    $("#msgId").val(obj.id);
+                }, 300);
+            }
+        });
+    }
+	function handlePut() {
+        waitingDialog.show();
+        $.ajax({
+            url: updateUrl,
+            type: 'PUT',
+	   cache: false,
+	   headers: getAppKey(),
+            async: true, //默认为true 异步
+            dataType: 'JSON',
+            data: {content: $('#content').summernote('code')},
+            error: function () {
+                setTimeout(function () {
+                    waitingDialog.hide();
+                    if ($.support.leadingWhitespace) {
+                        $.toaster({ priority: 'danger', title: '错误', message: '系统错误，请稍后重试'})
+                    } else {
+                        alert("错误：系统错误，请稍后重试");
+                    }
+                }, 300);
+            },
+            success: function (data) {
+                setTimeout(function () {
+                    waitingDialog.hide();
                 }, 300);
             }
         });
