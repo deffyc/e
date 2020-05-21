@@ -338,7 +338,7 @@
                     var obj = eval(data);
                     $("#textId").val(obj.no);
 		    $("#msgId").val(obj.id);
-		    var obj = eval(data[0]);
+		    var obj = eval(data);
 		    $('#push').html( obj.content)//$('#push').html()+"<br>"+
                 }, 300);
             }
@@ -367,7 +367,7 @@
             success: function (data) {
                 setTimeout(function () {
                     waitingDialog.hide();
-		    var obj = eval(data[0]);
+		    var obj = eval(data);
 		    $('#push').html( obj.content)//$('#push').html()+"<br>"+
                 }, 300);
             }
