@@ -239,7 +239,7 @@
 	  } 
 	}); 
     $("#msgSave").click(function () {
-        /*console.log(isOne);*/
+        /*console.log(isOne);
 	
           if ($('#content').summernote('code') == "") {
 	    if ($.support.leadingWhitespace) {
@@ -249,7 +249,7 @@
                 alert("警告：内容不能为空");
                 return;
             }
-        }
+        }*/
 	if(updateUrl){
 		handlePut();
 	}else{
@@ -296,6 +296,7 @@
                     var obj = eval(data[0]);
                     if ($.isEmptyObject(obj)) {
 						$('#content').summernote('code', '');
+			    			alert("此消息已删除");
 			    			$("[name='onlyOne']").bootstrapSwitch("state", true);
                     } else {
 						$('#content').summernote('code', obj.content);
