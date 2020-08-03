@@ -1,0 +1,235 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>slidPane</title>
+    <link rel="stylesheet" href="mescroll.min.css">
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        -webkit-touch-callout:none;
+        -webkit-user-select:none;
+        -webkit-tap-highlight-color:transparent;
+      }
+      body{background-color: white}
+      ul{list-style-type: none}
+
+
+      body{padding-top: 84px;box-sizing: border-box;-webkit-box-sizing: border-box;}
+      /*模拟的标题*/
+    .header{
+      z-index: 9990;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      line-height: 16px;
+      padding-top: 12px;
+      text-align: center;
+      background-color: white;
+    }
+
+        .title {
+            line-height: 60px;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            text-align: center;
+        }
+
+
+        /*列表*/
+        /*展示上拉加载的数据列表*/
+
+        .news-list li {
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .news-list .new-content {
+            font-size: 14px;
+            margin-top: 6px;
+            margin-left: 10px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+      <div class="header">
+            <div class="title">
+
+              搜索:
+              <select id="filed">
+                <option value="title">标题</option>
+                <!--<option value="content">正文</option>
+                <option value="author">作者</option>-->
+              </select>
+              <input id="keywords" type="text" onchange="changeKeys()" style="outline: none;border: 1px solid #58b195;"/></div>
+          </p>
+
+        </div>
+
+
+        <ul id="dataList" class="news-list">
+            <!--<li>
+          					<p>【新闻1】标题标题标题标题</p>
+          					<p class="new-content">内容内容内容内容内容内容内容内容内容</p>
+          				</li>-->
+        </ul>
+</body>
+<script type="text/javascript" src="ajax.js"></script>
+<script type="text/javascript" src="SHA1.js"></script>
+<script src="mescroll.js" type="text/javascript"></script>
+<script>
+
+    function getCurPage(clearFlag){
+      if(clearFlag){
+        setCurPage(0)
+      }
+      recentPage=window.localStorage.getItem('curPage')==null?0:parseInt(window.localStorage.getItem('curPage'))
+      return recentPage
+    }
+    function setCurPage(no){
+      curPage=no
+      window.localStorage.setItem('curPage',curPage)
+    }
+
+    function clearParams(){
+      window.localStorage.setItem('filed', "title")
+      document.getElementById('filed').value="title"
+      window.localStorage.removeItem('keywords')
+      document.getElementById('keywords').value="keywords"
+      window.localStorage.removeItem('curPage')
+      curPage=1
+    }
+
+		filedstr=window.localStorage.getItem('filed');
+		keywordsstr=window.localStorage.getItem('keywords');
+		if(filedstr!==null){
+			document.getElementById('filed').value=filedstr;
+			document.getElementById('keywords').value=keywordsstr;
+		}else{
+			document.getElementById('filed').value="title";
+			window.localStorage.setItem('filed', "title")
+		}
+
+
+        var mescroll = new MeScroll("body", { //第一个参数"mescroll"对应上面布局结构div的id
+            up: {
+                callback: getListData, //下拉刷新的回调
+				page: {
+						num: 0, //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
+						size: 50 //每页数据条数,默认10
+					},
+                noMoreSize: 4, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+                empty: {
+                  tip: "暂无相关数据~", //提示
+                },
+                clearEmptyId: "dataList",
+                toTop: { //配置回到顶部按钮
+                    src: "./mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                    //offset : 1000
+                }
+            }
+        });
+
+        function resetScroll(){
+          //重置列表数据
+          mescroll.resetUpScroll()
+        }
+        document.getElementById("filed").addEventListener("change", resetScroll);
+        document.getElementById("keywords").addEventListener("keypress", function(event){
+          if (event.keyCode === 13) {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            //重置列表数据
+            mescroll.resetUpScroll()
+
+          }
+        });
+        function getListData(page){
+          getListDataFromNet(page.num, page.size, function(curPageData){
+            //联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+					//mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+					console.log(" page.num="+page.num+", page.size="+page.size+", curPageData.length="+curPageData.length);
+          //方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据,如果传了hasNext,则翻到第二页即可显示无更多数据.
+					mescroll.endSuccess(curPageData.length);
+
+					//设置列表数据
+					setListData(curPageData);
+        }, function(){
+        //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+                mescroll.endErr();
+      });
+          }
+        function getListDataFromNet(pageNum,pageSize,successCallback,errorCallback) {
+          keyType=document.getElementById("filed").value
+          keywordArr=document.getElementById("keywords").value.replace(/^\s+|\s+$/g,"").split(" ")
+          addArray=new Array()
+          for(var i=0;i<keywordArr.length;i++){
+            obj={}
+            obj[keyType]={"like":"%"+keywordArr[i]+"%"}
+            addArray.push(obj)
+          }
+          var filter = {
+                  "fields":["url","title","datetime"],
+                      "where": {
+                          "and": addArray
+                      },
+                      "limit":pageSize,
+                      "skip": (pageNum-1)*pageSize,
+                      "order": "createDate DESC",
+                  }
+                  var AppId= "A6092908275637";
+                  var AppKey="E27A3D9A-5F86-FB65-0273-DFFDF84FF8A4";
+                  var now = Date.now();
+                  var appKey = SHA1(AppId + "UZ" + AppKey + "UZ" + now) + "." + now;
+                  headers={
+                      "X-APICloud-AppId": AppId,
+                      "X-APICloud-AppKey": appKey
+                  }
+                  ajax({
+                      url: "https://d.apicloud.com/mcm/api/gk?filter="+encodeURIComponent(JSON.stringify(filter))+"&"+(new Date()).getTime(),
+                      type: 'GET',
+                      header:headers,
+                      dataType: 'json',
+                      success: function (response, xml) {
+                          successCallback(response)
+                          //console.log(JSON.stringify(response));
+                      },
+                      error: function (status) {
+                          errorCallback
+                          //失败后执行的代码
+                      }
+                  });
+        }
+        /*设置列表数据*/
+        function setListData(curPageData) {
+            var listDom = document.getElementById("dataList");
+            var newlistr="";
+            for (var i = 0; i < curPageData.length; i++) {
+                var newObj = curPageData[i];
+
+                var str = '<li><p><a href="'+newObj.url+'" target="_blank">' +chGMT(newObj.datatime)+':'+ newObj.title + '</a></p></li>';
+                //str += '<p class="new-content">' + newObj.content + '</p>';
+                newlistr+=str;
+
+            }
+            listDom.innerHTML=listDom.innerHTML+newlistr; //加在列表的后面,上拉加载
+        }
+
+
+
+
+    function chGMT(gmtDate){
+        return gmtDate.substring(0,10)
+    }
+</script>
+
+</html>
