@@ -216,7 +216,7 @@
             for (var i = 0; i < curPageData.length; i++) {
                 var newObj = curPageData[i];
 
-                var str = '<li><p><a href="'+newObj.url+'" target="_blank">' +chGMT(newObj.datatime)+':'+ newObj.title + '</a></p></li>';
+                var str = '<li><p><a href="'+newObj.url+'" target="_blank">' +chGMT(newObj["datatime"])+':'+ newObj.title + '</a></p></li>';
                 //str += '<p class="new-content">' + newObj.content + '</p>';
                 newlistr+=str;
 
