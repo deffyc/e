@@ -189,7 +189,7 @@ function timeout(){
 			var notification = new Notification(LocalLang.TimeUp,{body:promptText,icon:'',dir:'auto'});
 			setTimeout(function() {
 			    notification.close();//关闭桌面通知
-			}, 5000);
+			}, 30*60*1000);
 			notification.onclick = function(){
 				//点击桌面通知，模拟实现把用户小化的窗口大化并刷新
 				notification.close();//关闭桌面通知
