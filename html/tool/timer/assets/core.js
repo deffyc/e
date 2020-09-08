@@ -181,6 +181,32 @@ function timeout(){
   }else{
     alert(LocalLang.TimeUp);
   }
+    if(! ('Notification' in window) ){
+		alert('Sorry bro, your browser is not good enough to display notification');
+		return;
+		}	
+		Notification.requestPermission(function(permission){
+			var notification = new Notification(LocalLang.TimeUp,{body:promptText,icon:'',dir:'auto'});
+			setTimeout(function() {
+			    notification.close();//关闭桌面通知
+			}, 5000);
+			notification.onclick = function(){
+				//点击桌面通知，模拟实现把用户小化的窗口大化并刷新
+				notification.close();//关闭桌面通知
+				var href = window.location.href;//获取当前页面的url
+				window.close();//将当前页面关闭
+				window.open(href);//新开一个页面，url为当前页面
+			}
+			navigator.onerror = function(){
+				//当有错误发生时会onerror函数会被调用
+				console.log('桌面通知发生了错误');
+			}
+			navigator.onshow = function(){
+				//消息框显示时会被调用
+				console.log('桌面通知显示ing');
+			}
+		});
+
     document.title=siteTitle;
     stopSound();
     toggleProgressSection();
