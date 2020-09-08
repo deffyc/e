@@ -193,9 +193,10 @@ function timeout(){
 			notification.onclick = function(){
 				//点击桌面通知，模拟实现把用户小化的窗口大化并刷新
 				notification.close();//关闭桌面通知
-				var href = window.location.href;//获取当前页面的url
-				window.close();//将当前页面关闭
-				window.open(href);//新开一个页面，url为当前页面
+				//var href = window.location.href;//获取当前页面的url
+				//window.close();//将当前页面关闭
+				//window.open(href);//新开一个页面，url为当前页面
+				window.focus();
 			}
 			navigator.onerror = function(){
 				//当有错误发生时会onerror函数会被调用
