@@ -173,15 +173,7 @@ function timeout(){
   isTiming=false;
   playSound();
   $j("#progressBar").animate({width:progressWidth},200,function(){
-  if(promptText!=""){
-    if(promptText.match(/^http/)){
-      window.open(promptText);
-    }
-    alert(LocalLang.TimeUp+"\n"+promptText);
-  }else{
-    alert(LocalLang.TimeUp);
-  }
-    if(! ('Notification' in window) ){
+  if(! ('Notification' in window) ){
 		alert('Sorry bro, your browser is not good enough to display notification');
 		return;
 		}	
@@ -207,6 +199,15 @@ function timeout(){
 				console.log('桌面通知显示ing');
 			}
 		});
+  if(promptText!=""){
+    if(promptText.match(/^http/)){
+      window.open(promptText);
+    }
+    alert(LocalLang.TimeUp+"\n"+promptText);
+  }else{
+    alert(LocalLang.TimeUp);
+  }
+    
 
     document.title=siteTitle;
     stopSound();
