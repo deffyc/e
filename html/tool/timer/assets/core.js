@@ -201,6 +201,7 @@ function timeout() {
                 var notification = new Notification(LocalLang.TimeUp, {
                     body: promptText,
                     icon: '',
+                    requireInteraction: true,
                     dir: 'auto'
                 });
                 setTimeout(function() {
