@@ -13,7 +13,8 @@ function selectLang(lang, reload) {
         }
     } else {
         $j("#inputSection").css("background", "url(assets/img/inputbox_en.png) no-repeat");
-        $j("#switchUntil").css("background", "url(assets/img/switchuntil_en.png) no-repeat 0 0") $j("#ok-button").css("background", "url(assets/img/okbtn_en.png) no-repeat");
+        $j("#switchUntil").css("background", "url(assets/img/switchuntil_en.png) no-repeat 0 0");
+        $j("#ok-button").css("background", "url(assets/img/okbtn_en.png) no-repeat");
         $j("#cancelTimingBtn").css("background", "url(assets/img/canceltiming_en.gif) no-repeat");
         $j("#switchNoLoop").css("background", "url(assets/img/switchnoloop_en.png) no-repeat 0 0");
         $j("#additionSettings").css("background", "url(assets/img/inputbox2_en.png) no-repeat");
