@@ -79,9 +79,9 @@ markdown 在线编辑与预览
 tool/markdown/
 web
 
-uzer
-web应用
-https://uzer.me/
+kast
+原rabb.it应用
+https://kast.gg/
 web
 
 手写查字
