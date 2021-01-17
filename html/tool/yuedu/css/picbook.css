@@ -88,14 +88,14 @@ body{
 }
 
 #swiper-button-prev{
-    background: url("../../img/goodfather10.png") no-repeat;
+    background: url("../pages/goodfather10.png") no-repeat;
     background-size: cover;
     width: 80px;
     height: 80px;
     border-radius:50%;
 }
 #swiper-button-next{
-    background: url("../../img/goodfather11.png") no-repeat;
+    background: url("../pages/goodfather11.png") no-repeat;
     background-size: cover;
     width: 80px;
     height: 80px;
