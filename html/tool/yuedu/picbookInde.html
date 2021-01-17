@@ -307,9 +307,9 @@
                 }
 
                 if(lessons!=""&&mode==1){
-                    if(!Page[page].isFree&&!unlock){
+                    /*if(!Page[page].isFree&&!unlock){
                         window.location.href="../websiteViews/picBookIndex.html?bookId="+bookId+"&publishingId="+publishingId+"&productionId="+productionId+"&from=1"
-                    }else{
+                    }else{*/
                         if(Page[page].lessonId!=Page[pagePre].lessonId&&Page[page].beginTime!=null&&page+1<=Page.length){
                             audio.src=m.get(Page[page].lessonId);
                             audio.load();
@@ -341,7 +341,7 @@
                         Timer=setTimeout(function(){
                             mySwiper.slideTo(Page[page].pageNo , 200, true)
                         }, playTime)
-                    }
+                    //}
                   
                 }else if(lessons==""&&mode==1&&page+1<Page.length){
                       stop=true;
