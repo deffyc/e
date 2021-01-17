@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <meta name="Keywords"
+          content=""/>
+    <title>课本点读,习题练习</title>
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/gfbase.css">
+    <link rel="stylesheet" href="css/picbook.css">
+</head>
+<body>
+<audio id="audio"></audio>
+<div class="cloud">
+    <img src="pages/goodfather04.png"/>
+    <img src="pages/goodfather05.png"/>
+</div>
+
+<div class="cataBg">
+    <img src="pages/picbookBg.png" alt="">
+    <div class="tip">提示：鼠标滚轮上下滚动 <br>
+        　　　或按键盘方向键翻页
+    </div>
+    <img class="allplay" src="pages/goodfather33.png" alt="">
+    <img class="paus" src="pages/goodfather14.png" alt="">
+    <img class="singleplay" src="pages/goodfather32.png" alt="">
+    <img class="close" src="pages/goodfather17.png" alt="">
+
+</div>
+
+<div class="swiper-content  myswiper">
+
+    <div class="swiper-wrapper">
+    </div>
+
+    <div class="swiper-button-prev swiper-button-blue" id="swiper-button-prev"></div>
+    <div class="swiper-button-next swiper-button-blue" id="swiper-button-next"></div>
+</div>
+
+<script>
+    window.onload=function(){
+        // var IP="http://test.goodfatherapp.com/"
+        var IP="http://www.goodfatherapp.com"
+        var loading;
+
+//        页数
+        var Page = [];
+        var count=0;
+//        单元
+        var lessons = [];
+
+        var Timer;
+        var target;
+//        var当前句子索引;
+
+        var playing = false;
+//        点读模式
+        mode = 0;
+//        暂停模式
+        stop ;
+
+        var flag=false;
+        var audio=document.getElementById("audio");
+
+
+//        检测用户是否登录
+        var BookName;
+        var firstPage
+
+        var getUrlParam = function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg); //匹配目标参数
+            if (r != null) return unescape(r[2]);
+            return null; //返回参数值
+        };
+        var bookId = getUrlParam('bookId');
+        var publishingId = getUrlParam('publishingId');
+        var productionId = getUrlParam('productionId');
+        var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        if(userInfo){
+            var unlock = false;
+            var user=userInfo.phoneNumber;
+    //        var user = AV.User.current();
+    //        var unlock = false;
+    //        if (user) {
+    //            user = AV.User.current().getUsername();
+            $.ajax({
+                url: IP+"/production/recover",
+                type: "get",
+                dataType: 'json',
+                async: false,
+                data: {
+                    username: user,
+                    bookId: bookId,
+                    publishingId: publishingId
+                },
+                success: function (data) {
+                    unlock = data.date.purchased;
+                    //    if (unlock) {
+                    //        //已经购买了直接解锁
+                    //    } else {
+                    //        var validity = AV.User.current().get('validity');
+
+                    //        if (!validity) {//为空说明第一次
+                    //            validity = new Date();
+                    //            validity = new Date(validity.getTime() +  24 * 60 * 60 * 1000 * 3);
+                    //            AV.User.current().set('validity', validity);
+                    //            AV.User.current().save();
+                    //            unlock = true;
+                    //        } else {
+                    //            var current = new Date();
+                    //            unlock = validity > current;
+                    //        }
+                    //    }
+                }
+            })
+
+    //        }
+        }else{
+            unlock=false;
+        }
+
+
+        $.ajax({
+            url: IP+"/book/bookDetail",
+            type: "get",
+            dataType: 'json',
+            async: false,
+            data: {
+                bookId: bookId,
+                publishingId: publishingId
+
+
+            },
+            beforeSend: function(xhr){
+                xhr.setRequestHeader('packageName','com.yixinjiang.goodbaba.app.presentation.pep');
+                xhr.setRequestHeader('versionName','8.12.18');
+                xhr.setRequestHeader('channel','OfficialWeb');
+            },
+            
+            success: function (data) {
+                Page = data.data.pages;
+                lessons = data.data.lessons;
+                BookName=data.data.bookName;
+                document.title= BookName+"-有声绘本-好爸爸学习机"
+
+            }
+        })
+
+
+        window.onbeforeunload=function(){
+            var currentPage=mySwiper.activeIndex;
+            localStorage.setItem(BookName,currentPage)
+
+        };
+
+
+        Page.sort(function (a, b) {
+            return a.pageNo - b.pageNo;
+        })
+
+
+        var m=new Map();
+        if(lessons!=""){
+            $.each(lessons,function(i,n){
+                m.set(n.lessonId,n.audioUrl)
+            })
+            mode=1;
+        }else {
+                $(".singleplay").attr("src", "pages/goodfather31.png");
+                $(".allplay").attr("src", "pages/goodfather34.png");
+        }
+
+
+
+        var displayMode;
+        var imgWidth;
+        var mySwiper;
+
+        var imgSize = new Image();
+        imgSize.src = Page[1].imageUrl;
+        imgSize.onload = function () {
+            displayMode = imgSize.width /imgSize.height>1? 1:2;
+
+            mySwiper = new Swiper('.myswiper',{
+
+                //其他设置
+                effect : 'coverflow',
+                slidesPerView: displayMode,
+                centeredSlides: true,
+                keyboardControl : true,
+                mousewheelControl : true,
+                grabCursor : true,
+                prevButton:'.swiper-button-prev',
+                nextButton:'.swiper-button-next',
+                coverflow: {
+                    rotate: 30,
+                    stretch: 10,
+                    depth: 10,
+                    modifier: 2,
+                    slideShadows : true
+                },
+                eventTarget : 'container',
+                speed : 500, //设置动画持续时间500ms
+                lazyLoading:true,
+                autoHeight: true, //高度随内容变化
+                lazyLoadingInPrevNext : true,
+                lazyLoadingInPrevNextAmount : 2,
+
+
+//             翻页回调函数
+                onInit: function(swiper){
+
+                    setTimeout(function(){
+                        if(Page[0].displayCn){
+                            $(".displayCN").text(Page[0].displayCn)
+                        }
+                        if(lessons){
+                            $(".paus").trigger("click")
+                        }
+                        var flag = getUrlParam('flag');
+                        if(flag==1){
+                            firstPage=0;
+                            count++
+                        }else{
+                            firstPage=localStorage.getItem(BookName);
+                        }
+                        if(count>1){
+                            firstPage=localStorage.getItem(BookName);
+                        }
+                        
+                        if(firstPage!=null){
+                            mySwiper.slideTo(firstPage, 200, true)
+                        }
+                    },1000)
+
+
+
+                },
+//            onSlideChangeStart: function(swiper){
+//                var page = mySwiper.activeIndex;
+//                if(mySwiper.isEnd&&unlock==false){
+//                    if(user!=undefined &&stop==false){
+//                        stop=true;
+//                        layer.open({
+//                            type: 2,
+//                            title: false,
+//                            scrollbar: false,
+//                            // shadeClose: true,
+//                            // shade: false,
+//                            area: ['483px', '373px'],
+//                            content: ['tips.html', 'no'],
+//                            cancel: function(index, layero){
+//                                stop=false
+//                            }
+//                        });
+//
+//                    }else if(user==undefined &&stop==false){
+//                        stop=true;
+//                        layer.open({
+//                            type: 2,
+//                            title: false,
+//                            scrollbar: false,
+//                            area: ['483px', '373px'],
+//                            content: ['../loadpage/webload.html', 'no'],
+//                            cancel: function(index, layero){
+//                                stop=false;
+//                            }
+//
+//                        });
+//                    }
+//
+//                }
+////                return false;
+//            },
+            
+            onSlideChangeStart: function(swiper){
+                
+                
+                // var page=0;
+                // var pagePre=0;
+                // if(flag==1){
+                //     page = 1;
+                //     pagePre=0;
+                //     count++;
+                // }else{
+                //     page = mySwiper.activeIndex;
+                //     pagePre=mySwiper.previousIndex;
+                // }
+                // if(count>1){
+                //     page = mySwiper.activeIndex;
+                //     pagePre=mySwiper.previousIndex;
+                // } 
+                
+                var page = mySwiper.activeIndex;
+                var pagePre=mySwiper.previousIndex;
+
+                clearTimeout(target);
+                flag=false;
+
+                if(Page[page].displayCn!=""&&Page[page].displayCn!=null){
+                    $(".displayCN").text(Page[page].displayCn)
+                }
+
+                if(lessons!=""&&mode==1){
+                    if(!Page[page].isFree&&!unlock){
+                        window.location.href="../websiteViews/picBookIndex.html?bookId="+bookId+"&publishingId="+publishingId+"&productionId="+productionId+"&from=1"
+                    }else{
+                        if(Page[page].lessonId!=Page[pagePre].lessonId&&Page[page].beginTime!=null&&page+1<=Page.length){
+                            audio.src=m.get(Page[page].lessonId);
+                            audio.load();
+                            audio.currentTime=Page[page].beginTime;
+                            audio.play();
+                            playing=true;
+                            $(".paus").attr("src", "pages/goodfather20.png");
+
+                        } else if(Page[page].lessonId==Page[pagePre].lessonId&&Page[page].beginTime!=null){
+                            audio.src=m.get(Page[page].lessonId);
+                            audio.currentTime=Page[page].beginTime;
+                            audio.play();
+                            playing=true;
+                            $(".paus").attr("src", "pages/goodfather20.png");
+                        }else if(Page[page].beginTime==null){
+
+                            audio.pause();
+                            $(".paus").attr("src", "pages/goodfather14.png");
+                            playing=false;
+
+                            target=setTimeout(function(){
+                                mySwiper.slideTo(Page[page+1].pageNo , 200, true)
+                            }, 5000);
+                            return false;
+                        }
+
+                        var playTime=(Page[page].endTime - Page[page].beginTime) * 1000;
+                            clearTimeout(Timer);
+                        Timer=setTimeout(function(){
+                            mySwiper.slideTo(Page[page].pageNo , 200, true)
+                        }, playTime)
+                    }
+                  
+                }else if(lessons==""&&mode==1&&page+1<Page.length){
+                      stop=true;
+                    $(".paus").attr("src", "pages/goodfather20.png");
+                    target=setTimeout(function(){
+                        mySwiper.slideTo(Page[page+1].pageNo , 200, true)
+                    }, 5000);
+                }
+
+
+            },
+
+            });
+
+
+
+            for (var i = 0; i < Page.length; i++) {
+//           创建页面
+                if (i < 1) {
+                    mySwiper.appendSlide('<div class="swiper-slide"><img  src=' + Page[i].imageUrl + ' ><div class="displayCN" ></div></div>');
+//
+                } else {
+                    mySwiper.appendSlide('<div class="swiper-slide"><div class="swiper-lazy-preloader "></div><img data-src=' + Page[i].imageUrl + ' class="swiper-lazy"><div class="displayCN" ></div></div>');
+                }
+
+            }
+        }
+        var Current;
+
+        $(".paus").click(function(){
+
+
+            var currentpage = mySwiper.activeIndex;
+//              当时绘本且自动播放的时候
+              if(lessons==""&&mode==1&&stop==true){
+                  $(".paus").attr("src", "pages/goodfather14.png");
+                  clearTimeout(target);
+                  stop=false;
+              }else if(lessons==""&&mode==1&&stop==false){
+                  stop=true;
+                  $(".paus").attr("src", "pages/goodfather20.png");
+                  clearTimeout(target);
+                  target=setTimeout(function(){
+                      mySwiper.slideTo(Page[currentpage+1].pageNo , 200, true)
+                  }, 5000);
+              }
+
+
+
+            if(lessons==""||Page[currentpage].lessonId==null){
+//                layer.msg("当前页没有点读");
+                return false;
+            }
+             if(mode==0&&playing==false){
+
+                 var playTime;
+                 audio.src=m.get(Page[currentpage].lessonId);
+                 audio.load();
+                 if(flag==false){
+                     audio.currentTime=Page[currentpage].beginTime;
+                     playTime=(Page[currentpage ].endTime - Page[currentpage ].beginTime) * 1000;
+                 }else {
+                     audio.currentTime=Current;
+                     playTime=(Page[currentpage ].endTime - Current) * 1000;
+                 }
+                 audio.play();
+                 playing=true;
+                 $(".paus").attr("src", "pages/goodfather20.png");
+
+                 clearTimeout(Timer);
+                 Timer=setTimeout(function(){
+                     audio.pause();
+                 }, playTime)
+
+             }else if(mode==0&&playing==true){
+                 audio.pause();
+                 clearTimeout(Timer);
+                 flag=true;
+                 playing=false;
+                 Current=audio.currentTime;
+                 $(".paus").attr("src", "pages/goodfather14.png");
+
+             }else if(mode==1&&playing==false){
+
+                 var playTime
+                 audio.src=m.get(Page[currentpage].lessonId);
+                 audio.load();
+                 if(flag==false){
+                     audio.currentTime=Page[currentpage].beginTime;
+                     playTime=(Page[currentpage ].endTime - Page[currentpage ].beginTime) * 1000;
+                 }else {
+                     audio.currentTime=Current;
+                     playTime=(Page[currentpage ].endTime - Current) * 1000;
+                 }
+                 audio.play();
+                 playing=true;
+                 $(".paus").attr("src", "pages/goodfather20.png");
+
+                 clearTimeout(Timer);
+                 Timer=setTimeout(function(){
+
+                     mySwiper.slideTo(Page[currentpage].pageNo , 200, true)
+                 }, playTime)
+
+             }else if(mode==1&&playing==true){
+                 audio.pause();
+                 clearTimeout(Timer);
+                 flag=true;
+                 playing=false;
+                 Current=audio.currentTime;
+                 $(".paus").attr("src", "pages/goodfather14.png");
+             }
+
+        })
+
+
+
+
+        //   关闭书本
+        $(".close").click(function () {
+            window.close();
+        })
+//连续播放
+        $(".allplay").click(function () {
+            $(this).attr("src", "pages/goodfather33.png");
+            $(".singleplay").attr("src", "pages/goodfather32.png");
+            var page = mySwiper.activeIndex;
+            target=setTimeout(function(){
+                mySwiper.slideTo(Page[page+1].pageNo , 200, true)
+            }, 5000);
+            mode = 1;
+
+        });
+//        单句点读
+        $(".singleplay").click(function () {
+            $(this).attr("src", "pages/goodfather31.png");
+            $(".allplay").attr("src", "pages/goodfather34.png");
+            clearTimeout(target);
+            $(".paus").attr("src", "pages/goodfather14.png");
+            mode = 0;
+        });
+
+//        window.addEventListener("storage",function(){
+//            var storage=sessionStorage.getItem("getlocalStorage");
+//            var  reload=sessionStorage.getItem("reload");
+//
+//            if(reload){
+//                sessionStorage.removeItem("reload");
+//                setTimeout(function(){
+//                    location.reload()
+//                },800);
+//
+//            }
+//            if(storage=="loadhtml"){
+//                layer.open({
+//                    type: 2,
+//                    title:false,
+//                    scrollbar: false,
+//                    // shadeClose: true,
+//                    // shade: false,
+//                    area: ['483px', '373px'],
+//                    content:['../loadpage/webload.html', 'no'],
+//                    cancel: function(index, layero){
+//                        stop=false;
+//                    }
+//
+//                });
+//                sessionStorage.removeItem("getlocalStorage");
+//
+//            }else if(storage=="registerhtml"){
+//                layer.open({
+//                    type: 2,
+//                    title:false,
+//                    scrollbar: false,
+//                    // shadeClose: true,
+//                    // shade: false,
+//                    area: ['483px', '373px'],
+//                    content:['../loadpage/register.html', 'no'],
+//                    cancel: function(index, layero){
+//                        stop=false;
+//                    }
+//
+//                });
+//                sessionStorage.removeItem("getlocalStorage");
+//
+//            }else if(storage=="setpasswordhtml"){
+//                layer.open({
+//                    type: 2,
+//                    title:false,
+//                    scrollbar: false,
+//                    // shadeClose: true,
+//                    // shade: false,
+//                    area: ['483px', '373px'],
+//                    content:['../loadpage/setpassword.html', 'no'],
+//                    cancel: function(index, layero){
+//                        stop=false;
+//                    }
+//
+//                });
+//                sessionStorage.removeItem("getlocalStorage");
+//
+//            }else if(storage=="forgethtml"){
+//                layer.open({
+//                    type: 2,
+//                    title:false,
+//                    scrollbar: false,
+//                    // shadeClose: true,
+//                    // shade: false,
+//                    area: ['483px', '373px'],
+//                    content:['../loadpage/forgetpassword.html', 'no'],
+//                    cancel: function(index, layero){
+//                        stop=false;
+//                    }
+//
+//                });
+//                sessionStorage.removeItem("getlocalStorage")
+//
+//            }
+//
+//        },false);
+
+
+    }
+
+
+</script>
+
+
+
+<!--<script src="../loadpage/js/leancloud.js"></script>
+<script src="../loadpage/js/begain.js"></script>-->
+<script src="js/jquery.min.js"></script>
+<script src="js/swiper.min.js"></script>
+<script src="layer/layer.js"></script>
+
+</body>
+</html>
