@@ -196,6 +196,7 @@ function timeout() {
             } else {
                 alert(LocalLang.TimeUp);
             }
+            playSound();
         } else {
             Notification.requestPermission(function(permission) {
                 var notification = new Notification(LocalLang.TimeUp, {
