@@ -313,7 +313,7 @@ function setTTSType(){
 function copyToClipBoard(content){
     var input = document.getElementById("url");
     var url = input.value;
-    content=(content.replace(/[\n\r　]/g,'') || "" )+"\r\n"+ url;
+    content=(content.replace(/[\n\r　]/g,'') || "" )+"\r\n"+ url.substr(0, url.indexOf("?"));
     input.value = content // 修改文本框的内容
     input.select(); // 选中文本
     document.execCommand("copy"); // 执行浏览器复制命令
