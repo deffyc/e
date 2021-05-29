@@ -1,0 +1,40 @@
+body {
+    word-wrap:break-word;
+    font-family:Arial;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+h1 {
+    font-size: 2em;
+    text-align: center;
+}
+/*p {
+    text-indent: 2em;
+}*/
+#menuBox .topMenu , #menuBox .Menu{
+    display: block;
+    width: 50px;
+    height: 50px;
+    background-color: red;
+    border-radius: 25px;
+    text-align: center;
+    line-height: 50px;
+    font-family: 微软雅黑;
+    font-size: 14px;
+    color: #fff;
+    position: fixed;
+    display: none;
+}
+#menuBox .topMenu {
+    position: fixed;
+    z-index: 99999;
+    display: block;
+}
+#menuBox .slefclass {
+    width:50px;
+    height:50px;
+    background-color:#00ff21;
+}
