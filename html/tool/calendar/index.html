@@ -41,6 +41,21 @@ $(function () {
 		
 		
 	}
+	function getParm(name) {
+	    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	    var r = window.location.search.substr(1).match(reg);
+	    if (r !== null) return unescape(r[2]);
+	    return "none";
+	}
+	caldata=getParm("data");
+	if(caldata!="none"){
+	    caltype=getParm("type");
+	    if(caltype!="none"){
+	    	$('#yinli').val(caldata).trigger('change');
+	    }else{
+	    	$('#yangli').val(caldata).trigger('change');
+	    }
+	}
 	function copyToClipBoard(str){
 	    var input=document.getElementById("url");
 	    input.value=str
