@@ -2,7 +2,7 @@ name: 部署导航
 
 on:
   push:
-    branches: [ master ]
+    branches: [ src ]
 
 jobs:
   build:
