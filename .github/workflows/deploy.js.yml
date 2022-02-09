@@ -1,0 +1,44 @@
+name: 部署导航
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ src ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - name: 开始运行
+      uses: actions/checkout@v2
+      
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - name: 生成文件
+      run: |        
+        rm ./html/data/sites/* -rf
+        node add-all.js
+        node build.js
+        
+    - name: 开始部署
+      run: |
+        cd ./html
+        git init
+        git config user.name "${{secrets.USER_NAME}}"
+        git config user.email "${{secrets.EMAIL}}"
+        git add .
+        git commit -m "Update docs"
+        git push --force --quiet "https://${{secrets.GH_TOKEN}}@${{secrets.GH_REF}}" master:master
+        git push --force --quiet "https://${{secrets.CD_TOKEN}}@${{secrets.CD_REF}}" master:master
