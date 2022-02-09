@@ -3,8 +3,6 @@ name: 部署导航
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ src ]
 
 jobs:
   build:
