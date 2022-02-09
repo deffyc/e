@@ -33,7 +33,7 @@ jobs:
         node build.js
         
     - name: 开始部署
-    - run: |
+      run: |
         cd ./html
         git init
         git config user.name "${{secrets.USER_NAME}}"
