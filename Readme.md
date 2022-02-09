@@ -1,4 +1,5 @@
 [![部署导航](https://github.com/deffyc/e/actions/workflows/deploy.js.yml/badge.svg)](https://github.com/deffyc/e/actions/workflows/deploy.js.yml)
+
 #已使用持续集成工具[=travis=]github actions，静态页面在html文件夹，脚本自动运行add-all.js，根据根目录all.txt的内容动态生成。源码在src分支，master对应src分支里的html目录。若要使用以下文档请将html下的内容移动到根目录即可。
 ##准备
  1. 本地nodejs环境
