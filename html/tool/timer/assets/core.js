@@ -215,7 +215,6 @@ function timeout() {
                     //window.close();//将当前页面关闭
                     //window.open(href);//新开一个页面，url为当前页面
                     window.focus();
-                    var promptText=$("#promptText").val();
                     var reg=/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
                     if(!reg.test(promptText)){
                         window.open(promptText)
