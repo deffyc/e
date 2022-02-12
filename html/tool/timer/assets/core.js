@@ -216,7 +216,7 @@ function timeout() {
                     //window.open(href);//新开一个页面，url为当前页面
                     window.focus();
                     var reg=/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
-                    if(!reg.test(promptText)){
+                    if(reg.test(promptText)){
                         window.open(promptText)
                     }
                 }
