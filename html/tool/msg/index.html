@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="zh">
 
-    
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <meta name="description" content="">
@@ -13,7 +16,7 @@
     <!-- Bootstrap Core CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link href="js/bootstrap-switch.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote.css" rel="stylesheet">
     <!-- Custom CSS -->
 
     <style>
@@ -21,16 +24,21 @@
             font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
             background-color: #EBF5F3;
         }
+
         * {
             margin: 0;
         }
-        html, body {
+
+        html,
+        body {
             height: 100%;
         }
+
         .navbar-custom {
             /*color: #FFFFFF;*/
             background-color: #56b9ab;
         }
+
         .navbar-brand,
         .navbar-nav li a {
             line-height: 55px;
@@ -38,73 +46,92 @@
             padding-top: 0px;
             font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
         }
-        .navbar-default .navbar-nav > li > a {
+
+        .navbar-default .navbar-nav>li>a {
             color: #ffffff;
         }
-        .navbar-default .navbar-nav > li > a:hover {
+
+        .navbar-default .navbar-nav>li>a:hover {
             color: #175A94;
         }
+
         .page-header {
             font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
             /* border-bottom: 1px solid #bbb;*/
         }
+
         hr {
             border-bottom: 1px solid #bbb;
         }
+
         .img_border {
             border: 1px solid #bbb;
         }
+
         @media screen and (min-width: 800px) {
             .container {
                 width: 800px;
             }
         }
+
         @media screen and (min-width: 800px) {
             .center_toaster {
                 right: 35%;
                 width: 30%;
             }
         }
+
         @media screen and (min-width: 400px) and (max-width: 799px) {
             .center_toaster {
                 right: 25%;
                 width: 50%;
             }
         }
-        @media screen and (min-width: 200px ) and (max-width: 399px) {
+
+        @media screen and (min-width: 200px) and (max-width: 399px) {
             .center_toaster {
                 right: 10%;
                 width: 80%;
             }
         }
+
         .row a {
             text-decoration: none;
         }
+
         .row a:hover {
             text-decoration: none;
         }
+
         .addMaigin {
             margin-bottom: 30px;
         }
+
         .change_font {
             font-size: 1.5em;
         }
+
         .button_width {
             width: 4em;
         }
+
         .button_width2 {
             width: 4em;
         }
+
         .wrapper {
             min-height: 100%;
             height: auto !important;
             height: 100%;
             margin: 0 auto -6em;
         }
+
         .push {
             height: 6em;
         }
-        .footer,  {
+
+        .footer,
+            {
             height: 4em;
         }
     </style>
@@ -121,8 +148,8 @@
 
 <body>
 
-<div class="wrapper">
-   <!-- <div class="navbar navbar-default navbar-custom" role="navigation">
+    <div class="wrapper">
+        <!-- <div class="navbar navbar-default navbar-custom" role="navigation">
         <div class="navbar-header">
             <a class="navbar-brand" href="http://ccsyue.com">
                 <img alt="ccsyue" src="http://blog.ccsyue.com/css/images/logo.png" height="50">
@@ -136,50 +163,50 @@
         </div>
     </div>-->
 
-    <!-- Page Content -->
+        <!-- Page Content -->
 
-    <div class="container ">
-        <div class="row ">
-            <div style="padding:10px; ">
-                <form class="bs-example bs-example-form" role="form">
-                    <div class="col-lg-12">
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-addon">编号</span>
-                            <input type="text" class="form-control" id="textId">
-			    <input type="hidden" id="msgId">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" id="msgGet">获取信息</button>
-                           </span>
-                        </div>
-                        <br>
+        <div class="container ">
+            <div class="row ">
+                <div style="padding:10px; ">
+                    <form class="bs-example bs-example-form" role="form">
+                        <div class="col-lg-12">
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon">编号</span>
+                                <input type="text" class="form-control" id="textId">
+                                <input type="hidden" id="msgId">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" id="msgGet">获取信息</button>
+                                </span>
+                            </div>
+                            <br>
 
-                        <!--<div class="form-group ">
+                            <!--<div class="form-group ">
                             <textarea class="form-control custom-control change_font" style="resize:none" rows="8" placeholder="请输入信息" id="mainText"></textarea>
                         </div>-->
-			<div id="content"></div>
-                        <div class="text-center">
-                            <button type="button" class="btn btn-primary button_width" id="msgClear">清空</button>
-                            <button type="button" class="btn btn-primary button_width2 " id="msgSave">保存</button>
-                            <div class="bootstrap-switch ">
-                                <input type="checkbox" name="onlyOne" data-label-text="阅后即焚" data-on-text="是"
-                                       data-off-text="否" onSwitchChange="changeOne">
+                            <div id="content"></div>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-primary button_width" id="msgClear">清空</button>
+                                <button type="button" class="btn btn-primary button_width2 " id="msgSave">保存</button>
+                                <div class="bootstrap-switch ">
+                                    <input type="checkbox" name="onlyOne" data-label-text="阅后即焚" data-on-text="是"
+                                        data-off-text="否" onSwitchChange="changeOne">
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                </form>
+                    </form>
+                </div>
+
+
             </div>
 
 
+
         </div>
-
-
-
+        <div id="push" class="push"></div>
     </div>
-    <div id="push" class="push"></div>
-</div>
 
-<!-- Footer
+    <!-- Footer
 <footer class="footer">
     <div class=" col-lg-12 text-center">
        <hr>
@@ -187,345 +214,368 @@
     </div>
    
 </footer> -->
- <!-- /.col-lg-12 -->
+    <!-- /.col-lg-12 -->
     <!-- /.row -->
 
-<!-- /.container -->
+    <!-- /.container -->
 
-<!-- jQuery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="js/bootstrap-switch.js" type="text/javascript"></script>
-<script src="js/bootstrap-waitingfor.js" type="text/javascript"></script>
-<script src="js/jquery.toaster.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/lang/summernote-zh-CN.min.js"></script>
-<script src="js/SHA1.js"></script>
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"
+        type="text/javascript"></script>
+    <script src="js/bootstrap-switch.js" type="text/javascript"></script>
+    <script src="js/bootstrap-waitingfor.js" type="text/javascript"></script>
+    <script src="js/jquery.toaster.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/lang/summernote-zh-CN.min.js"></script>
+    <script src="js/SHA1.js"></script>
 
 
-<script type="text/javascript">
-    var isOne = false;
-    var msgUrl="https://d.apicloud.com/mcm/api/msg";
-    var getUrl = "https://d.apicloud.com/mcm/api/msg";
-    var addUrl = "https://d.apicloud.com/mcm/api/msg";
-    var updateUrl=false;
-    var postUrl = addUrl;
-    $("#msgClear").click(function () {
-	$('#content').summernote('code', '');
-    });
-    $("#msgGet").click(function () {
-        if ($("#textId").val() == null || $("#textId").val() == "") {
-            if ($.support.leadingWhitespace) {
-                $.toaster({ priority: 'warning', title: '警告', message: '编号不能为空'});
-                return;
-            } else {
-                alert("警告：编号不能为空");
-                return;
+    <script type="text/javascript">
+        var isOne = false;
+        var msgUrl = "https://d.apicloud.com/mcm/api/msg";
+        var getUrl = "https://d.apicloud.com/mcm/api/msg";
+        var addUrl = "https://d.apicloud.com/mcm/api/msg";
+        var updateUrl = false;
+        var postUrl = addUrl;
+        $("#msgClear").click(function () {
+            $('#content').summernote('code', '');
+        });
+        $("#msgGet").click(function () {
+            if ($("#textId").val() == null || $("#textId").val() == "") {
+                if ($.support.leadingWhitespace) {
+                    $.toaster({ priority: 'warning', title: '警告', message: '编号不能为空' });
+                    return;
+                } else {
+                    alert("警告：编号不能为空");
+                    return;
+                }
             }
-        }
-        waitingDialog.show();
-        //console.log(11);
-        handleGet();
-    });
-	//获取url中的参数
+            waitingDialog.show();
+            //console.log(11);
+            handleGet();
+        });
+        //获取url中的参数
         function getUrlParam(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
             var r = window.location.search.substr(1).match(reg);  //匹配目标参数
             if (r != null) return unescape(r[2]); return null; //返回参数值
         }
-    $("#textId").keydown(function(event){ 
-	  if(event.keyCode==13){ 
-	  $("#msgGet").click(); 
-	  } 
-	}); 
-    $("#msgSave").click(function () {
-        /*console.log(isOne);
-	
-          if ($('#content').summernote('code') == "") {
-	    if ($.support.leadingWhitespace) {
-                $.toaster({ priority: 'warning', title: '警告', message: '内容不能为空'});
-                return;
-            } else {
-                alert("警告：内容不能为空");
-                return;
+        $("#textId").keydown(function (event) {
+            if (event.keyCode == 13) {
+                $("#msgGet").click();
             }
-        }*/
-	if(updateUrl){
-		handlePut();
-	}else{
-		handlePost();
-	}
-        
-    });
-    function changeOne(event, change) {
-        isOne = !isOne;
-    }
-    $(document).ready(function () {
-        $("[name='onlyOne']").bootstrapSwitch();
-        $('input[name="onlyOne"]').on('switchChange.bootstrapSwitch', function (event, state) {
-            isOne = state;
         });
-    });
-	function getAppKey(){
-		var AppId= "A6931714739310";
-		var AppKey="5F6ECB35-3791-9274-B1FC-21FFF01E93BE";
-		var now = Date.now();
-		var appKey = SHA1(AppId+"UZ"+AppKey+"UZ"+now)+"."+now;
-		return {"X-APICloud-AppId":AppId,"X-APICloud-AppKey":appKey}
-	}
-    function handleGet() {
-        $.ajax({
-            url: msgUrl +"?filter=%7B%22where%22%3A%7B%22no%22%3A"+$("#textId").val()+"%2C%22delflag%22%3Afalse%7D%2C%22limit%22%3A1%7D",
-            type: 'GET',
-           // async: true, //默认为true 异步
-            dataType: 'JSON',
-			headers: getAppKey(),
-            error: function (data) {
-                setTimeout(function () {
-                    waitingDialog.hide();
-                    if ($.support.leadingWhitespace) {
-                            $.toaster({ priority: 'info', title: '信息', message: '没有对应数据'})
+        $("#msgSave").click(function () {
+            /*console.log(isOne);
+    	
+              if ($('#content').summernote('code') == "") {
+            if ($.support.leadingWhitespace) {
+                    $.toaster({ priority: 'warning', title: '警告', message: '内容不能为空'});
+                    return;
+                } else {
+                    alert("警告：内容不能为空");
+                    return;
+                }
+            }*/
+            if (updateUrl) {
+                handlePut();
+            } else {
+                handlePost();
+            }
+
+        });
+        function changeOne(event, change) {
+            isOne = !isOne;
+        }
+        $(document).ready(function () {
+            $("[name='onlyOne']").bootstrapSwitch();
+            $('input[name="onlyOne"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                isOne = state;
+            });
+        });
+        function getAppKey() {
+            var AppId = "A6931714739310";
+            var AppKey = "5F6ECB35-3791-9274-B1FC-21FFF01E93BE";
+            var now = Date.now();
+            var appKey = SHA1(AppId + "UZ" + AppKey + "UZ" + now) + "." + now;
+            return { "X-APICloud-AppId": AppId, "X-APICloud-AppKey": appKey }
+        }
+        function handleGet() {
+            $.ajax({
+                url: msgUrl + "?filter=%7B%22where%22%3A%7B%22no%22%3A" + $("#textId").val() + "%2C%22delflag%22%3Afalse%7D%2C%22limit%22%3A1%7D",
+                type: 'GET',
+                // async: true, //默认为true 异步
+                dataType: 'JSON',
+                headers: getAppKey(),
+                error: function (data) {
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                        if ($.support.leadingWhitespace) {
+                            $.toaster({ priority: 'info', title: '信息', message: '没有对应数据' })
                         } else {
                             alert("信息：没有对应数据");
                         }
-                }, 300);
-            },
-            success: function (data) {
-                setTimeout(function () {
-                    waitingDialog.hide();
-                    var obj = eval(data[0]);
-                    if ($.isEmptyObject(obj)) {
-						$('#content').summernote('code', '');
-			    			alert("此消息已删除");
-			    			$("[name='onlyOne']").bootstrapSwitch("state", true);
-                    } else {
-						$('#content').summernote('code', obj.content);
-						if(obj.onlyOne){
-							handleDel(obj.id);
-						}else{
-							updateUrl= msgUrl +"/"+obj.id
-						}
-			    $("[name='onlyOne']").bootstrapSwitch("state", obj.onlyOne);
-			    $('#push').html( obj.content)//$('#push').html()+"<br>"+
-						
-                    }
-                }, 300);
-            }
-        });
-    }
-    function handlePost() {
-        waitingDialog.show();
-        $.ajax({
-            url: addUrl,
-            type: 'POST',
-	   cache: false,
-	   headers: getAppKey(),
-            async: true, //默认为true 异步
-            dataType: 'JSON',
-            data: {content: $('#content').summernote('code'),onlyOne:isOne,no:getNo(),delflag:false},
-            error: function () {
-                setTimeout(function () {
-                    waitingDialog.hide();
-                    if ($.support.leadingWhitespace) {
-                        $.toaster({ priority: 'danger', title: '错误', message: '系统错误，请稍后重试'})
-                    } else {
-                        alert("错误：系统错误，请稍后重试");
-                    }
-                }, 300);
-            },
-            success: function (data) {
-                setTimeout(function () {
-                    waitingDialog.hide();
-                    var obj = eval(data);
-                    $("#textId").val(obj.no);
-		    $("#msgId").val(obj.id);
-		    var obj = eval(data);
-		    $('#push').html( obj.content)//$('#push').html()+"<br>"+
-                }, 300);
-            }
-        });
-    }
-	function handlePut() {
-        waitingDialog.show();
-        $.ajax({
-            url: updateUrl,
-            type: 'PUT',
-	   cache: false,
-	   headers: getAppKey(),
-            async: true, //默认为true 异步
-            dataType: 'JSON',
-            data: {content: $('#content').summernote('code')},
-            error: function () {
-                setTimeout(function () {
-                    waitingDialog.hide();
-                    if ($.support.leadingWhitespace) {
-                        $.toaster({ priority: 'danger', title: '错误', message: '系统错误，请稍后重试'})
-                    } else {
-                        alert("错误：系统错误，请稍后重试");
-                    }
-                }, 300);
-            },
-            success: function (data) {
-                setTimeout(function () {
-                    waitingDialog.hide();
-		    var obj = eval(data);
-		    $('#push').html( obj.content)//$('#push').html()+"<br>"+
-                }, 300);
-            }
-        });
-    }
-	function getNo(){
-	no=0;
-	$.ajax({
-		  url: 'https://d.apicloud.com/mcm/api/msg/count?filter={"where":{}}',
-		  cache: false,
-		  headers: getAppKey(),
-		  type: "GET",
-		async: false //默认为true 异步
-		}).success(function (data, status, header) {
-		var obj = eval(data);
-		  no=obj.count+1;
-		}).fail(function (header, status, errorThrown) {
-		  //fail body
-		});
-	return no;
-	}
-	function handleDel(id){
-		$.ajax({
-            url: msgUrl +"/"+id,
-            type: 'PUT',
-	    cache: false,
-	   headers: getAppKey(),
-            async: true, //默认为true 异步
-            dataType: 'JSON',
-			data:{delflag:true},
-            error: function (data) {
-                setTimeout(function () {
-                    waitingDialog.hide();
-                    if ($.support.leadingWhitespace) {
-                        $.toaster({ priority: 'danger', title: '错误', message: '系统错误，请稍后重试'})
-                    } else {
-                        alert("错误：系统错误，请稍后重试");
-                    }
-                }, 300);
-            }
-        });
-	}
-	var noStr=getUrlParam("no");
-	if(noStr){
-		$("#textId").val(noStr);
-		handleGet();
-	}
-</script>
+                    }, 300);
+                },
+                success: function (data) {
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                        var obj = eval(data[0]);
+                        if ($.isEmptyObject(obj)) {
+                            $('#content').summernote('code', '');
+                            alert("此消息已删除");
+                            $("[name='onlyOne']").bootstrapSwitch("state", true);
+                        } else {
+                            $('#content').summernote('code', obj.content);
+                            if (obj.onlyOne) {
+                                handleDel(obj.id);
+                            } else {
+                                updateUrl = msgUrl + "/" + obj.id
+                            }
+                            $("[name='onlyOne']").bootstrapSwitch("state", obj.onlyOne);
+                            $('#push').html(obj.content)//$('#push').html()+"<br>"+
 
-
-<script type="text/javascript">
-    var JPlaceHolder = {
-        //检测
-        _check: function () {
-            return 'placeholder' in document.createElement('input');
-        },
-        //初始化
-        init: function () {
-            if (!this._check()) {
-                this.fix();
-            }
-        },
-        //修复
-        fix: function () {
-            jQuery(':input[placeholder]').each(function (index, element) {
-                var self = $(this), txt = self.attr('placeholder');
-                self.wrap($('<div></div>').css({position: 'relative', zoom: '1', border: 'none', background: 'none', padding: 'none', margin: 'none'}));
-                var pos = self.position(), h = self.outerHeight(true), paddingleft = self.css('padding-left');
-                var holder = $('<span></span>').text(txt).css({position: 'absolute', left: pos.left, top: pos.top, height: h, lienHeight: h, paddingLeft: paddingleft, fontSize: '1.5em', color: '#aaa'}).appendTo(self.parent());
-                self.focusin(function (e) {
-                    holder.hide();
-                }).focusout(function (e) {
-                    if (!self.val()) {
-                        holder.show();
-                    }
-                });
-                holder.click(function (e) {
-                    holder.hide();
-                    self.focus();
-                });
+                        }
+                    }, 300);
+                }
             });
         }
-    };
-    //执行
-    jQuery(function () {
-        JPlaceHolder.init();
-    });
-$('#content').summernote({
-  toolbar: [['picture',['picture']],['codeview', ['codeview']]],
-  height: 250,                 // set editor height
-  minHeight: null,             // set minimum height of editor
-  maxHeight: null,             // set maximum height of editor
-  focus: true,                  // set focus to editable area after initializing summernote
-  lang: 'zh-CN',
-  callbacks: {
-	  onImageUpload: function(files) {
-		console.log(files)
-		for(i=0;i<files.length;i++){
-			sendFile(files[i]);
-		}
-	  }
-  }
-  
-});
-/*function sendFile(file) {
-    var fromstr=typeof(file)=="object"?"file":"web";
-    var file_token ="4e53713043ccbba49fcd4911dd148bdf354fc4db:CiN-HNRtJ42gadCN8JGoxmcOuzg=:eyJkZWFkbGluZSI6MTQ4NDU2MzkwMSwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTgzNjcxIiwiYWlkIjoiMTI3MzM5MCIsImZyb20iOiJmaWxlIn0=";
-    data = new FormData();
-    data.append("from", fromstr);
-    data.append("httptype", "1");
-    data.append("file", file);
-    data.append("Token",file_token);
-    $.ajax({
-        data: data,
-        type: "POST",
-        url: "http://up.imgapi.com/",
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function(imageInfo) {
-		$('#content').summernote('insertImage', imageInfo.s_url);
-
+        function handlePost() {
+            waitingDialog.show();
+            $.ajax({
+                url: addUrl,
+                type: 'POST',
+                cache: false,
+                headers: getAppKey(),
+                async: true, //默认为true 异步
+                dataType: 'JSON',
+                data: { content: $('#content').summernote('code'), onlyOne: isOne, no: getNo(), delflag: false },
+                error: function () {
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                        if ($.support.leadingWhitespace) {
+                            $.toaster({ priority: 'danger', title: '错误', message: '系统错误，请稍后重试' })
+                        } else {
+                            alert("错误：系统错误，请稍后重试");
+                        }
+                    }, 300);
+                },
+                success: function (data) {
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                        var obj = eval(data);
+                        $("#textId").val(obj.no);
+                        $("#msgId").val(obj.id);
+                        var obj = eval(data);
+                        $('#push').html(obj.content)//$('#push').html()+"<br>"+
+                    }, 300);
+                }
+            });
         }
-    });
-}*/
-function sendFile(file) {
-    data = new FormData();
-    data.append("smfile", file);
-    data.append("file", file);
-    data.append("userkey", "DgZECjhdqAugDG2xmyhMngW9PCXNxqF7");
-    $.ajax({
-        data: data,
-        type: "POST",
-        url: "https://vgy.me/upload",
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function(imageInfo) {
-		$('#content').summernote('insertImage', imageInfo.data.url);
-		/*$.ajax({
-		   url: 'http://img.ccsyue.com/functions/sm.php',
-		   crossDomain: true,
-		   data: {data:imageInfo.data},
-		   xhrFields: {
-			withCredentials: true
-		    },
-		   type: 'POST',
-		   /* etc */
-		   success: function(jsondata){
-			console.log(jsondata)
-		   }
-		})*/
+        function handlePut() {
+            waitingDialog.show();
+            $.ajax({
+                url: updateUrl,
+                type: 'PUT',
+                cache: false,
+                headers: getAppKey(),
+                async: true, //默认为true 异步
+                dataType: 'JSON',
+                data: { content: $('#content').summernote('code') },
+                error: function () {
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                        if ($.support.leadingWhitespace) {
+                            $.toaster({ priority: 'danger', title: '错误', message: '系统错误，请稍后重试' })
+                        } else {
+                            alert("错误：系统错误，请稍后重试");
+                        }
+                    }, 300);
+                },
+                success: function (data) {
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                        var obj = eval(data);
+                        $('#push').html(obj.content)//$('#push').html()+"<br>"+
+                    }, 300);
+                }
+            });
         }
-    });
-}
-</script>
+        function getNo() {
+            no = 0;
+            $.ajax({
+                url: 'https://d.apicloud.com/mcm/api/msg/count?filter={"where":{}}',
+                cache: false,
+                headers: getAppKey(),
+                type: "GET",
+                async: false //默认为true 异步
+            }).success(function (data, status, header) {
+                var obj = eval(data);
+                no = obj.count + 1;
+            }).fail(function (header, status, errorThrown) {
+                //fail body
+            });
+            return no;
+        }
+        function handleDel(id) {
+            $.ajax({
+                url: msgUrl + "/" + id,
+                type: 'PUT',
+                cache: false,
+                headers: getAppKey(),
+                async: true, //默认为true 异步
+                dataType: 'JSON',
+                data: { delflag: true },
+                error: function (data) {
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                        if ($.support.leadingWhitespace) {
+                            $.toaster({ priority: 'danger', title: '错误', message: '系统错误，请稍后重试' })
+                        } else {
+                            alert("错误：系统错误，请稍后重试");
+                        }
+                    }, 300);
+                }
+            });
+        }
+        var noStr = getUrlParam("no");
+        if (noStr) {
+            $("#textId").val(noStr);
+            handleGet();
+        }
+    </script>
+
+
+    <script type="text/javascript">
+        var JPlaceHolder = {
+            //检测
+            _check: function () {
+                return 'placeholder' in document.createElement('input');
+            },
+            //初始化
+            init: function () {
+                if (!this._check()) {
+                    this.fix();
+                }
+            },
+            //修复
+            fix: function () {
+                jQuery(':input[placeholder]').each(function (index, element) {
+                    var self = $(this), txt = self.attr('placeholder');
+                    self.wrap($('<div></div>').css({ position: 'relative', zoom: '1', border: 'none', background: 'none', padding: 'none', margin: 'none' }));
+                    var pos = self.position(), h = self.outerHeight(true), paddingleft = self.css('padding-left');
+                    var holder = $('<span></span>').text(txt).css({ position: 'absolute', left: pos.left, top: pos.top, height: h, lienHeight: h, paddingLeft: paddingleft, fontSize: '1.5em', color: '#aaa' }).appendTo(self.parent());
+                    self.focusin(function (e) {
+                        holder.hide();
+                    }).focusout(function (e) {
+                        if (!self.val()) {
+                            holder.show();
+                        }
+                    });
+                    holder.click(function (e) {
+                        holder.hide();
+                        self.focus();
+                    });
+                });
+            }
+        };
+        //执行
+        jQuery(function () {
+            JPlaceHolder.init();
+        });
+        $('#content').summernote({
+            toolbar: [['picture', ['picture']], ['codeview', ['codeview']]],
+            height: 250,                 // set editor height
+            minHeight: null,             // set minimum height of editor
+            maxHeight: null,             // set maximum height of editor
+            focus: true,                  // set focus to editable area after initializing summernote
+            lang: 'zh-CN',
+            callbacks: {
+                onImageUpload: function (files) {
+                    console.log(files)
+                    for (i = 0; i < files.length; i++) {
+                        sendFile(files[i]);
+                    }
+                }
+            }
+
+        });
+        /*function sendFile(file) {
+            var fromstr=typeof(file)=="object"?"file":"web";
+            var file_token ="4e53713043ccbba49fcd4911dd148bdf354fc4db:CiN-HNRtJ42gadCN8JGoxmcOuzg=:eyJkZWFkbGluZSI6MTQ4NDU2MzkwMSwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTgzNjcxIiwiYWlkIjoiMTI3MzM5MCIsImZyb20iOiJmaWxlIn0=";
+            data = new FormData();
+            data.append("from", fromstr);
+            data.append("httptype", "1");
+            data.append("file", file);
+            data.append("Token",file_token);
+            $.ajax({
+                data: data,
+                type: "POST",
+                url: "http://up.imgapi.com/",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(imageInfo) {
+                $('#content').summernote('insertImage', imageInfo.s_url);
+        
+                }
+            });
+        }*/
+        function sendFile(file) {
+            data = new FormData();
+            data.append("smfile", file);
+            data.append("file", file);
+            data.append("userkey", "DgZECjhdqAugDG2xmyhMngW9PCXNxqF7");
+            $.ajax({
+                data: data,
+                type: "POST",
+                url: "https://vgy.me/upload",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (imageInfo) {
+                    $('#content').summernote('insertImage', imageInfo.data.image);
+                    $.ajax({
+                        url: 'https://d.apicloud.com/mcm/api/log',
+                        cache: false,
+                        headers: getAppKey(),
+                        type: 'POST',
+                        dataType: 'json',
+                        data: imageInfo.data,
+                        success: function (result) {
+                            console.log("操作成功");
+                            console.log(imageInfo.data);
+                        }
+                    });
+
+                    /*$.ajax({
+                       url: 'http://img.ccsyue.com/functions/sm.php',
+                       crossDomain: true,
+                       data: {data:imageInfo.data},
+                       xhrFields: {
+                        withCredentials: true
+                        },
+                       type: 'POST',
+                       success: function(jsondata){
+                        console.log(jsondata)
+                       }
+                    })*/
+                }
+            });
+        }
+    </script>
 
 
 
-<style>@font-face {font-family: "yourDictFontAwesome";src: url("chrome-extension://dmckmhkomggmpalekfadjibdcknieljf/lib/fontawesome-webfont.ttf") format("truetype");font-weight: normal;font-style: normal;}</style></body></html>
+    <style>
+        @font-face {
+            font-family: "yourDictFontAwesome";
+            src: url("chrome-extension://dmckmhkomggmpalekfadjibdcknieljf/lib/fontawesome-webfont.ttf") format("truetype");
+            font-weight: normal;
+            font-style: normal;
+        }
+    </style>
+</body>
+
+</html>
