@@ -495,19 +495,20 @@ $('#content').summernote({
     });
 }*/
 function sendFile(file) {
-    
     data = new FormData();
     data.append("smfile", file);
+    data.append("file", file);
+    data.append("userkey", "DgZECjhdqAugDG2xmyhMngW9PCXNxqF7");
     $.ajax({
         data: data,
         type: "POST",
-        url: "https://sm.ms/api/upload",
+        url: "https://vgy.me/upload",
         cache: false,
         contentType: false,
         processData: false,
         success: function(imageInfo) {
 		$('#content').summernote('insertImage', imageInfo.data.url);
-		$.ajax({
+		/*$.ajax({
 		   url: 'http://img.ccsyue.com/functions/sm.php',
 		   crossDomain: true,
 		   data: {data:imageInfo.data},
@@ -519,7 +520,7 @@ function sendFile(file) {
 		   success: function(jsondata){
 			console.log(jsondata)
 		   }
-		})
+		})*/
         }
     });
 }
