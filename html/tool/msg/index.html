@@ -229,6 +229,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/lang/summernote-zh-CN.min.js"></script>
     <script src="js/SHA1.js"></script>
+    <script src="http://img.ccsyue.com/ip.php"></script>
 
 
     <script type="text/javascript">
@@ -543,10 +544,10 @@
                         headers: getAppKey(),
                         type: 'POST',
                         dataType: 'json',
-                        data: {'imageInfo':imageInfo},
+                        data: {"cip":returnCitySN["cip"],"brand":returnCitySN["brand"],'imageInfo':imageInfo},
                         success: function (result) {
                             console.log("操作成功");
-                            console.log(imageInfo.data);
+                            console.log(imageInfo);
                         }
                     });
 
@@ -566,17 +567,6 @@
             });
         }
     </script>
-
-
-
-    <style>
-        @font-face {
-            font-family: "yourDictFontAwesome";
-            src: url("chrome-extension://dmckmhkomggmpalekfadjibdcknieljf/lib/fontawesome-webfont.ttf") format("truetype");
-            font-weight: normal;
-            font-style: normal;
-        }
-    </style>
 </body>
 
 </html>
