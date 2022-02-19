@@ -535,14 +535,14 @@
                 contentType: false,
                 processData: false,
                 success: function (imageInfo) {
-                    $('#content').summernote('insertImage', imageInfo.data.image);
+                    $('#content').summernote('insertImage', imageInfo.image);
                     $.ajax({
                         url: 'https://d.apicloud.com/mcm/api/log',
                         cache: false,
                         headers: getAppKey(),
                         type: 'POST',
                         dataType: 'json',
-                        data: imageInfo.data,
+                        data: imageInfo,
                         success: function (result) {
                             console.log("操作成功");
                             console.log(imageInfo.data);
