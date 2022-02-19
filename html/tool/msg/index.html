@@ -295,6 +295,7 @@
             });
         });
         function getAppKey() {
+            //35hello App
             var AppId = "A6931714739310";
             var AppKey = "5F6ECB35-3791-9274-B1FC-21FFF01E93BE";
             var now = Date.now();
@@ -542,7 +543,7 @@
                         headers: getAppKey(),
                         type: 'POST',
                         dataType: 'json',
-                        data: imageInfo,
+                        data: {'imageInfo':imageInfo},
                         success: function (result) {
                             console.log("操作成功");
                             console.log(imageInfo.data);
