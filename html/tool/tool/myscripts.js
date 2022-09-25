@@ -298,9 +298,9 @@ function changeCancelFlag(){
 
 function getTTSTypeName(){
     if(window.localStorage.getItem('ttsType')=="google"){
-        return "谷歌"
-    }else{
         return "其它"
+    }else{
+        return "谷歌"
     }
 }
 
