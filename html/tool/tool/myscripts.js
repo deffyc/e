@@ -33,7 +33,7 @@ var PlayTool = (function() {
 
     var textList = [];
     var restText;
-    var ttsMap=new Map([['youdao','https://tts.youdao.com/fanyivoice?le=zh&keyfrom=speaker-target&word='],['google','https://translate.google.com/translate_tts?tl=zh-cn&client=tw-ob&q=']])
+    var ttsMap=new Map([['qita','https://tts.youdao.com/fanyivoice?le=zh&keyfrom=speaker-target&word='],['google','https://translate.google.com/translate_tts?tl=zh-cn&client=tw-ob&q=']])
     var TTS_STATIC="ttsType"
 
     function PlayTool(args) {
@@ -99,9 +99,9 @@ var PlayTool = (function() {
             var reg = /[\u3000|\uC2A7|\u223D|\uFE3B|\uFE3C|\uFE3D|\uFE3E|\u3012|\u2191|\u2193|\u2609|\u2299|\u25CF|\u3007|\u25CE|\uC2A4|\u2605|\u2606|\u25A0|\u2593|\u300C|\u300D|\u300E|\u300F|\u25C6|\u25C7|\u25B2|\u25B3|\u25BC|\u25BD|\u25E3|\u25E5|\u25E2|\u25E4| \u2116|\u2192|\u2190|\u2198|\u2199|\u03A8|\u203B|\u32A3|\u2211|\u2312|\u2229|\u3010|\u3011|\u3016|\u3017|\uFF20|\u03BE|\u03B6|\u03C9|\u25A1|\u222E|\u3013|\u300B|\u220F|\u5350|\u221A|\u2573|\u3005|\u2640|\u2642|\u221E|\u2460|\u3128|\u2261|\u256C|\u256D|\u256E|\u2570|\u256F|\u2571|\u2572|\u2582|\u2583|\u2584|\u2585|\u2586|\u2587|\u2588|\u2581|\u25CB|\u2295|\u0398|\u56DE|\u255D|\u255A|\u2554|\u2557|\u2550|\u2553|\u2569|\u2520|\u2528|\u252F|\u2537|\u250F|\u2513|\u2517|\u251B|\u2533|\u22A5|\u250C|\u22BF|\u250D|\u250E|\u2510|\u2511|\u2512|\u2014|\u2504|\u2508|\u251C|\u251D|\u251E|\u251F|\u2521|\u2522|\u2523||\u2506|\u250A|\u252C|\u252D|\u252E|\u2530|\u2531|\u2532|\u253C|\u253D|\u253E|\u253F|\u2540|\u2542|\u2541|\u2543|<br\/>|\n|\r]/g;
             audio.name = this.textPointer;
             text = textList[this.textPointer].replace(reg, "");
-            ttsType=window.localStorage.getItem(TTS_STATIC)==null?"baidu":window.localStorage.getItem(TTS_STATIC)
+            ttsType=window.localStorage.getItem(TTS_STATIC)==null?"google":window.localStorage.getItem(TTS_STATIC)
             audio.rel="noreferrer"
-            audio.src = ttsMap.get(ttsType) + (ttsType=="baidu"?encodeURI(encodeURI(text)):encodeURI(text));
+            audio.src = ttsMap.get(ttsType) + (ttsType=="google"?=encodeURI(text):encodeURI(text));
             console.log(text+":"+audio.src);
             audio.loop = false;
             try {
@@ -306,7 +306,7 @@ function getTTSTypeName(){
 
 function setTTSType(){
     ttsType=window.localStorage.getItem('ttsType')
-    window.localStorage.setItem('ttsType',ttsType=="baidu"?"google":"baidu");
+    window.localStorage.setItem('ttsType',ttsType=="google"?"google":"qita");
     document.getElementById('ttsType').innerHTML=getTTSTypeName()
 }
 
