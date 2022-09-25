@@ -101,7 +101,7 @@ var PlayTool = (function() {
             text = textList[this.textPointer].replace(reg, "");
             ttsType=window.localStorage.getItem(TTS_STATIC)==null?"google":window.localStorage.getItem(TTS_STATIC)
             audio.rel="noreferrer"
-            audio.src = ttsMap.get(ttsType) + (ttsType=="google"?=encodeURI(text):encodeURI(text));
+            audio.src = ttsMap.get(ttsType) + (ttsType=="google"?encodeURI(text):encodeURI(text));
             console.log(text+":"+audio.src);
             audio.loop = false;
             try {
