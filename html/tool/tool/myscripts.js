@@ -33,7 +33,7 @@ var PlayTool = (function() {
 
     var textList = [];
     var restText;
-    var ttsMap=new Map([['baidu','http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=5&text='],['google','https://translate.google.com/translate_tts?tl=zh-cn&client=tw-ob&q=']])
+    var ttsMap=new Map([['youdao','https://tts.youdao.com/fanyivoice?le=zh&keyfrom=speaker-target&word='],['google','https://translate.google.com/translate_tts?tl=zh-cn&client=tw-ob&q=']])
     var TTS_STATIC="ttsType"
 
     function PlayTool(args) {
@@ -300,7 +300,7 @@ function getTTSTypeName(){
     if(window.localStorage.getItem('ttsType')=="google"){
         return "谷歌"
     }else{
-        return "百度"
+        return "其它"
     }
 }
 
