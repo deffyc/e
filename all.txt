@@ -221,7 +221,7 @@ http://eh.ccsyue.com/tool/basic/web/index.php?r=cat/index&sort=-createtime
 
 报刊检索
 查找学校阅览室的报纸杂志，不知道地方可以问管理员
-http://e.ccsyue.com/tool/basic/web/index.php?r=paper
+http://eh.ccsyue.com/tool/basic/web/index.php?r=paper
 图书
 
 馆藏定位
