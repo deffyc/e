@@ -14,20 +14,6 @@ http://www.neat-reader.cn
 http://s.yc.lhlib.vip/
 文学
 
-馆藏检索
-二中图书馆馆藏检索，三步借书：第一步：打开http://www.hj2z.com ，点击“馆藏检索”链接。第二步：搜索想看的，在纸片上抄下索书号和书名。第三步：带上读者证和纸片，到二楼藏书室取书。
-http://eh.ccsyue.com/tool/basic/web/index.php?r=cat/index&sort=-createtime
-图书
-
-报刊检索
-查找学校阅览室的报纸杂志，不知道地方可以问管理员
-http://e.ccsyue.com/tool/basic/web/index.php?r=paper
-图书
-
-馆藏定位
-据索书号、图书编号搜索图书位置
-http://eh.ccsyue.com/tool/searchkeys/
-
 百花苑
 提高作文水平的文摘。
 http://jiehou.oschina.io/baihuayuan/
@@ -228,3 +214,17 @@ gdshare
 https://hougd.herokuapp.com/
 看看
 
+馆藏检索
+二中图书馆馆藏检索，三步借书：第一步：打开http://www.hj2z.com ，点击“馆藏检索”链接。第二步：搜索想看的，在纸片上抄下索书号和书名。第三步：带上读者证和纸片，到二楼藏书室取书。
+http://eh.ccsyue.com/tool/basic/web/index.php?r=cat/index&sort=-createtime
+图书
+
+报刊检索
+查找学校阅览室的报纸杂志，不知道地方可以问管理员
+http://e.ccsyue.com/tool/basic/web/index.php?r=paper
+图书
+
+馆藏定位
+据索书号、图书编号搜索图书位置
+http://eh.ccsyue.com/tool/searchkeys/
+图书
