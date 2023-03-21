@@ -6,7 +6,7 @@
   <title>文本工具包</title>
 <script type=""></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.slim.min.js"></script>
-<script src="https://unpkg.com/papaparse@4.6.3/papaparse.min.js"></script>
+<script src="https://unpkg.com/papaparse@5.4.0/papaparse.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jschardet/1.4.1/jschardet.min.js"></script>
 <script src="https://cdn.bootcss.com/dot/2.0.0-beta.0/doT.min.js"></script>
 
@@ -68,14 +68,7 @@ var editor = document.getElementById("editor")
 function jsonToCvs(event){
 	var clipboard = event.clipboardData;
 	var data = clipboard.getData('text/plain');
-	cvs=Papa.unparse(data)
-	editor.value = cvs;
-	return "成功处理"
-}
-function jsonToCvs(event){
-	var clipboard = event.clipboardData;
-	var data = clipboard.getData('text/plain');
-	cvs=Papa.unparse(data)
+	cvs=Papa.unparse(data,{delimiter: "\t"})
 	editor.value = cvs;
 	return "成功处理"
 }
