@@ -172,12 +172,14 @@
           keyType=document.getElementById("filed").value
           keywordArr=document.getElementById("keywords").value.replace(/^\s+|\s+$/g,"").split(" ")
           addArray=new Array()
+	  addStr=""
           for(var i=0;i<keywordArr.length;i++){
             obj={}
-            obj[keyType]={"like":"%"+keywordArr[i]+"%"}
-            addArray.push(obj)
+            //obj[keyType]={"like":"%"+keywordArr[i]+"%"}
+            //addArray.push(obj)
+            addStr=addStr+"&filter="+keyType+",cs,"+keywordArr[i]
           }
-          var filter = {
+          /*var filter = {
                   "fields":["url","title","datetime"],
                       "where": {
                           "and": addArray
@@ -185,23 +187,26 @@
                       "limit":pageSize,
                       "skip": (pageNum-1)*pageSize,
                       "order": "datetime DESC",
-                  }
+                  }*/
+		var filter='include=url,title,createdAt&order=createdAt,desc&'+addStr+'&page='+pageNum+','+pageSize
                   var AppId= "A6092908275637";
                   var AppKey="E27A3D9A-5F86-FB65-0273-DFFDF84FF8A4";
                   var now = Date.now();
                   var appKey = SHA1(AppId + "UZ" + AppKey + "UZ" + now) + "." + now;
                   headers={
-                      "X-APICloud-AppId": AppId,
-                      "X-APICloud-AppKey": appKey
+                      /*"X-APICloud-AppId": AppId,
+                      "X-APICloud-AppKey": appKey*/
                   }
                   ajax({
-                      url: "https://d.apicloud.com/mcm/api/gk?filter="+encodeURIComponent(JSON.stringify(filter))+"&"+(new Date()).getTime(),
+                      //url: "http://ho.ccsyue.com/api/records/api_gk?"+encodeURIComponent(JSON.stringify(filter))+"&"+(new Date()).getTime(),
+		      url: "http://ho.ccsyue.com/api/records/api_gk?"+filter+"&"+(new Date()).getTime(),
                       type: 'GET',
                       header:headers,
                       dataType: 'json',
                       success: function (response, xml) {
-                          successCallback(response)
-                          //console.log(JSON.stringify(response));
+                          //successCallback(response)
+                          successCallback(response.records)
+			      //console.log(JSON.stringify(response));
                       },
                       error: function (status) {
                           errorCallback
@@ -216,7 +221,7 @@
             for (var i = 0; i < curPageData.length; i++) {
                 var newObj = curPageData[i];
 
-                var str = '<li><p><a href="'+newObj.url+'" target="_blank">' +chGMT(newObj["datetime"])+':'+ newObj.title + '</a></p></li>';
+                var str = '<li><p><a href="'+newObj.url+'" target="_blank">' +chGMT(newObj["createdAt"])+':'+ newObj.title + '</a></p></li>';
                 //str += '<p class="new-content">' + newObj.content + '</p>';
                 newlistr+=str;
 
