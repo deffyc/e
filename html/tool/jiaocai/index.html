@@ -457,21 +457,23 @@
             if (adv.style.height == "45%") {
                 iframeNode.src = "https://hanyu.baidu.com/s?wd=" + hanzi + "&ptype="+type
             } else {
-                filter = {
+                /*filter = {
                     "fields": ["hanzi", "jpg", "gif"],
                     "where": {
                         "hanzi": hanzi
                     },
                     "skip": 0,
                     "limit": 1
-                }
+                }*/
+                var filter='filter=hanzi,eq,'+hanzi+'&include=hanzi,jpg,gif&size=1'
                 ajax({
-                    url: "https://d.apicloud.com/mcm/api/wenku?filter=" + encodeURIComponent(JSON.stringify(filter)),
+                    //url: "https://d.apicloud.com/mcm/api/wenku?filter=" + encodeURIComponent(JSON.stringify(filter)),
+                    url: "http://ho.ccsyue.com/api/api.php/records/api_b_wenku?" + filter,
                     type: 'GET',
                     dataType: 'json',
                     header: getAppKey(),
                     success: function (response, xml) {
-                        hanziObj = response[0]
+                        hanziObj = response.records[0]
                         hanziImg.src = isEmpty(hanziObj["gif"]) ? hanziObj["jpg"] : hanziObj["gif"]
                     },
                     error: function (status) {
