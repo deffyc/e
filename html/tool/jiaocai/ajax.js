@@ -4,8 +4,8 @@ function getAppKey() {
     var now = Date.now();
     var appKey = SHA1(AppId + "UZ" + AppKey + "UZ" + now) + "." + now;
     return {
-        "X-APICloud-AppId": AppId,
-        "X-APICloud-AppKey": appKey
+        /*"X-APICloud-AppId": AppId,
+        "X-APICloud-AppKey": appKey*/
     }
 }
 
