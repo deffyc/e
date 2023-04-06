@@ -158,22 +158,25 @@
         var curBook = null
         var timesRun = 0;
           
-          var filter = {
+          /*var filter = {
             "where": {
                 "userId": "59f6ec437d81dd386e4987f0"
             },
             "limit":100,
             "skip": 0,
             "order": "sortNum ASC",
-        }
-           basicUrl="https://d.apicloud.com/mcm/api/"
+        }*/
+           var filter='filter=userId,eq,2&order=sortNum,asc&size=100'
+           //basicUrl="https://d.apicloud.com/mcm/api/"
+           basicUrl="http://ho.ccsyue.com/api/api.php/records/"
            ajax({
-            url: basicUrl+"books?filter="+encodeURIComponent(JSON.stringify(filter)),
+            //url: basicUrl+"books?filter="+encodeURIComponent(JSON.stringify(filter)),
+            url: basicUrl+"api_b_books?"+filter+"#"+(new Date()).getTime(),
             type: 'GET',
             dataType: 'json',
             header:getAppKey(),
             success: function (response, xml) {
-                books = response
+                books = response.records
                 var curbookId = localStorage.getItem("curbookId")
                 if (isEmpty(curbookId)) curbookId = books[0]["id"]
                     //clearStorage()
@@ -340,22 +343,24 @@
             getDataByIndex(myDB.db, "articles", "bookId_no", [bookId, 0], function (data) {
                 if (isEmpty(data)) {
                     loading()
-                    var filter = {
+                    /*var filter = {
                         "where": {
                             "bookId": bookId
                         },
                         "limit":100,
                         "skip": 0,
                         "order": "sortNum ASC",
-                    }
+                    }*/
+                    var filter='filter=bookId,eq,'+bookId+'&order=sortNum,asc&size=100'
                     ajax({
-                        url: basicUrl+"articles?filter="+encodeURIComponent(JSON.stringify(filter)),
+                        //url: basicUrl+"articles?filter="+encodeURIComponent(JSON.stringify(filter)),
+                        url: basicUrl+"api_b_articles?"+filter+"#"+(new Date()).getTime(),
                         type: 'GET',
                         header:getAppKey(),
                         dataType: 'json',
                         success: function (response, xml) {
                             articleSelect.innerHTML = ""
-                            articles = response
+                            articles = response.records
                             for (var i = 0; i < articles.length; i++) {
                                 articleSelect.innerHTML += optionHtml(i, articles[i]["title"],
                                     no, (i + 1))["html"]
