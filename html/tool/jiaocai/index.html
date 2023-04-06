@@ -213,7 +213,7 @@
                 bookId = selectedOption.value
                 document.getElementsByTagName("title")[0].innerText = selectedOption.innerText
                 localStorage.setItem("curbookId", bookId)
-                getDataByIndex(myDB.db, "books", "id", bookId, function (e) {
+                getDataByIndex(myDB.db, "books", "id", parseInt(bookId), function (e) {
                     curBook = e
                     initArticles(curBook)
                 })
@@ -340,7 +340,7 @@
             no = isEmpty(book["curArticleIndex"])?0:book["curArticleIndex"]
             bookId = book["id"]
             
-            getDataByIndex(myDB.db, "articles", "bookId_no", [bookId, 0], function (data) {
+            getDataByIndex(myDB.db, "articles", "bookId_no", [parseInt(bookId), 0], function (data) {
                 if (isEmpty(data)) {
                     loading()
                     /*var filter = {
@@ -421,7 +421,7 @@
 
         function getAritcleAndInit(bookId, no) {
             no = no
-            getDataByIndex(myDB.db, "articles", "bookId_no", IDBKeyRange.only([bookId, no]), function (article) {
+            getDataByIndex(myDB.db, "articles", "bookId_no", IDBKeyRange.only([parseInt(bookId), no]), function (article) {
                 if (!isEmpty(article)) {
                     initArticle(article)
                 }
