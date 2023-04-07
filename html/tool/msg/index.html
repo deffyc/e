@@ -234,9 +234,12 @@
 
     <script type="text/javascript">
         var isOne = false;
-        var msgUrl = "https://d.apicloud.com/mcm/api/msg";
+        /*var msgUrl = "https://d.apicloud.com/mcm/api/msg";
         var getUrl = "https://d.apicloud.com/mcm/api/msg";
-        var addUrl = "https://d.apicloud.com/mcm/api/msg";
+        var addUrl = "https://d.apicloud.com/mcm/api/msg";*/
+        var msgUrl = "http://ho.ccsyue.com/api/api.php/records/api_m_msg";
+        var getUrl = "http://ho.ccsyue.com/api/api.php/records/api_m_msg";
+        var addUrl = "http://ho.ccsyue.com/api/api.php/records/api_m_msg";
         var updateUrl = false;
         var postUrl = addUrl;
         $("#msgClear").click(function () {
@@ -296,16 +299,18 @@
             });
         });
         function getAppKey() {
+            return {}
             //35hello App
-            var AppId = "A6931714739310";
+            /*var AppId = "A6931714739310";
             var AppKey = "5F6ECB35-3791-9274-B1FC-21FFF01E93BE";
             var now = Date.now();
             var appKey = SHA1(AppId + "UZ" + AppKey + "UZ" + now) + "." + now;
-            return { "X-APICloud-AppId": AppId, "X-APICloud-AppKey": appKey }
+            return { "X-APICloud-AppId": AppId, "X-APICloud-AppKey": appKey }*/
         }
         function handleGet() {
             $.ajax({
-                url: msgUrl + "?filter=%7B%22where%22%3A%7B%22no%22%3A" + $("#textId").val() + "%2C%22delflag%22%3Afalse%7D%2C%22limit%22%3A1%7D",
+                //url: msgUrl + "?filter=%7B%22where%22%3A%7B%22no%22%3A" + $("#textId").val() + "%2C%22delflag%22%3Afalse%7D%2C%22limit%22%3A1%7D",
+                url: msgUrl + "?filter=id,eq," + $("#textId").val() + "&filter=delflag,eq,0&filter=size,eq,1",
                 type: 'GET',
                 // async: true, //默认为true 异步
                 dataType: 'JSON',
@@ -323,14 +328,14 @@
                 success: function (data) {
                     setTimeout(function () {
                         waitingDialog.hide();
-                        var obj = eval(data[0]);
+                        var obj = eval(data.records[0]);
                         if ($.isEmptyObject(obj)) {
                             $('#content').summernote('code', '');
                             alert("此消息已删除");
                             $("[name='onlyOne']").bootstrapSwitch("state", true);
                         } else {
                             $('#content').summernote('code', obj.content);
-                            if (obj.onlyOne) {
+                            if (obj.onlyOne==1) {
                                 handleDel(obj.id);
                             } else {
                                 updateUrl = msgUrl + "/" + obj.id
@@ -352,7 +357,7 @@
                 headers: getAppKey(),
                 async: true, //默认为true 异步
                 dataType: 'JSON',
-                data: { content: $('#content').summernote('code'), onlyOne: isOne, no: getNo(), delflag: false },
+                data: { content: $('#content').summernote('code'), onlyOne: isOne?1:0,delflag: 0 },
                 error: function () {
                     setTimeout(function () {
                         waitingDialog.hide();
@@ -367,7 +372,8 @@
                     setTimeout(function () {
                         waitingDialog.hide();
                         var obj = eval(data);
-                        $("#textId").val(obj.no);
+                        //$("#textId").val(obj.no);
+                        $("#textId").val(obj.id);
                         $("#msgId").val(obj.id);
                         var obj = eval(data);
                         $('#push').html(obj.content)//$('#push').html()+"<br>"+
@@ -398,13 +404,14 @@
                 success: function (data) {
                     setTimeout(function () {
                         waitingDialog.hide();
-                        var obj = eval(data);
-                        $('#push').html(obj.content)//$('#push').html()+"<br>"+
+                        //var obj = eval(data);
+                        //$('#push').html(obj.content)//$('#push').html()+"<br>"+
+                        $('#push').html($('#content').summernote('code'))
                     }, 300);
                 }
             });
         }
-        function getNo() {
+        /*function getNo() {
             no = 0;
             $.ajax({
                 url: 'https://d.apicloud.com/mcm/api/msg/count?filter={"where":{}}',
@@ -419,7 +426,7 @@
                 //fail body
             });
             return no;
-        }
+        }*/
         function handleDel(id) {
             $.ajax({
                 url: msgUrl + "/" + id,
@@ -428,7 +435,7 @@
                 headers: getAppKey(),
                 async: true, //默认为true 异步
                 dataType: 'JSON',
-                data: { delflag: true },
+                data: { delflag: 1 },
                 error: function (data) {
                     setTimeout(function () {
                         waitingDialog.hide();
@@ -539,7 +546,7 @@
                 success: function (imageInfo) {
                     $('#content').summernote('insertImage', imageInfo.image);
                     $.ajax({
-                        url: 'https://d.apicloud.com/mcm/api/log',
+                        url: 'http://ho.ccsyue.com/api/api.php/records/api_m_log',
                         cache: false,
                         headers: getAppKey(),
                         type: 'POST',
