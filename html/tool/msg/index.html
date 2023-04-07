@@ -244,7 +244,9 @@
         var postUrl = addUrl;
         $("#msgClear").click(function () {
             $('#content').summernote('code', '');
-            $('#textId').value='';
+            $('#textId').val('')
+            $('#msgId').val('')
+            updateUrl=flase
         });
         $("#msgGet").click(function () {
             if ($("#textId").val() == null || $("#textId").val() == "") {
