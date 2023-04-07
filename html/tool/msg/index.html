@@ -244,6 +244,7 @@
         var postUrl = addUrl;
         $("#msgClear").click(function () {
             $('#content').summernote('code', '');
+            $('#textId').value='';
         });
         $("#msgGet").click(function () {
             if ($("#textId").val() == null || $("#textId").val() == "") {
@@ -373,10 +374,11 @@
                         waitingDialog.hide();
                         var obj = eval(data);
                         //$("#textId").val(obj.no);
-                        $("#textId").val(obj.id);
-                        $("#msgId").val(obj.id);
-                        var obj = eval(data);
-                        $('#push').html(obj.content)//$('#push').html()+"<br>"+
+                        $("#textId").val(obj);
+                        $("#msgId").val(obj);
+                        //var obj = eval(data);
+                        //$('#push').html(obj.content)//$('#push').html()+"<br>"+
+                        $('#push').html($('#content').summernote('code'))
                     }, 300);
                 }
             });
