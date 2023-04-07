@@ -310,7 +310,7 @@
         function handleGet() {
             $.ajax({
                 //url: msgUrl + "?filter=%7B%22where%22%3A%7B%22no%22%3A" + $("#textId").val() + "%2C%22delflag%22%3Afalse%7D%2C%22limit%22%3A1%7D",
-                url: msgUrl + "?filter=id,eq," + $("#textId").val() + "&filter=delflag,eq,0&filter=size,eq,1",
+                url: msgUrl + "?filter=id,eq," + $("#textId").val() + "&filter=delflag,eq,0&size=1",
                 type: 'GET',
                 // async: true, //默认为true 异步
                 dataType: 'JSON',
