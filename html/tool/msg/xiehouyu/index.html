@@ -164,6 +164,7 @@ function logOp(logObj){
 				},
 	});
 	function ajaxRequest(params) {
+		filter = "include=id,content,result,labels&";
 		if(typeof(params.data.search)!="undefined"){
 			/*likeStr="%"+params.data.search+"%";
 			filter["where"]={"or":[{"content": {"like": likeStr}},{"result": {"like": likeStr}},{"lables": {"inq": params.data.search.split(" ")}}]}*/
