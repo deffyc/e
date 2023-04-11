@@ -168,7 +168,7 @@ function logOp(logObj){
 		if(typeof(params.data.search)!="undefined"){
 			/*likeStr="%"+params.data.search+"%";
 			filter["where"]={"or":[{"content": {"like": likeStr}},{"result": {"like": likeStr}},{"lables": {"inq": params.data.search.split(" ")}}]}*/
-			filter="filter1=content,cs,"+params.data.search+"&filter2=lables,cs,"+params.data.search+"&"
+			filter="filter1=content,cs,"+params.data.search+"&filter2=labels,cs,"+params.data.search+"&"
 			
 		}
 		
