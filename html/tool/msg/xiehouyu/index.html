@@ -173,9 +173,10 @@ function logOp(logObj){
 		
 		/*filter["skip"]=params.data.offset;
 		filter["limit"]=params.data.limit;*/
-		filter=filter+"page="+Math.floor(params.data.offset/params.data.limit)+","+params.data.limit
+		filter=filter+"page="+Math.floor(params.data.offset/params.data.limit)+","+params.data.limit+"&"
 		if(typeof(params.data.sort)!="undefined"){
 			//filter["order"]=params.data.sort+" "+params.data.order.toUpperCase()+",no";
+			filter+='order='+params.data.sort+','+params.data.order+'&order=id'
 		}
 		
 		//console.log(params.data);
@@ -184,6 +185,7 @@ function logOp(logObj){
 		var count=-1;
 		$.ajax({
 			//url:'https://d.apicloud.com/mcm/api/Xiehouyu/count?filter=' + encodeURIComponent(JSON.stringify(filter)),
+			url:'http://ho.ccsyue.com/api/api.php/records/api_x_xiehouyu?'+filter,
 			cache: false,
 			headers:getAppKey(),
 			type: 'GET',
