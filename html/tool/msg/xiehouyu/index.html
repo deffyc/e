@@ -91,12 +91,12 @@ function logOp(logObj){
         </table>
  </div>
 <script>
-	var filter = {
+	var filter = "include=id,content,result,labels&";/*{
 		"fields":["id","content","result","lables"],
 		"where":{},
 		"skip":0,
 		"limit":50,
-	}
+	}*/
 	
     var $table = $('#table');
     $(function () {
@@ -173,7 +173,7 @@ function logOp(logObj){
 		
 		/*filter["skip"]=params.data.offset;
 		filter["limit"]=params.data.limit;*/
-		filter=filter+"page="+Math.floor(params.data.offset/params.data.limit)+","+params.data.limit+"&"
+		filter=filter+"page="+Math.floor(params.data.offset/params.data.limit+1)+","+params.data.limit+"&"
 		if(typeof(params.data.sort)!="undefined"){
 			//filter["order"]=params.data.sort+" "+params.data.order.toUpperCase()+",no";
 			filter+='order='+params.data.sort+','+params.data.order+'&order=id'
