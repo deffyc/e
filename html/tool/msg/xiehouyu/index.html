@@ -114,8 +114,8 @@ function logOp(logObj){
 		}
 		
 		var splitStr="";
-		var lableArr=[];
-		if(field=="lables"){
+		/*var lableArr=[];
+		if(field=="labels"){
 			if(row[field].indexOf(",")>0){
 				lableArr=row[field].split(",");
 			}else if(row[field].indexOf("，")>0){
@@ -136,11 +136,14 @@ function logOp(logObj){
 				lableArr=[row[field]]
 			}
 		}
-		
+		*/
 		var successflag=false;
+		data[field]=row[field];
+			
+		/*var successflag=false;
 		var data={};
 		
-		if(field=="lables"){
+		if(field=="labels"){
 			data[field]=lableArr;
 		}else{
 			data[field]=row[field];
@@ -148,7 +151,7 @@ function logOp(logObj){
 			console.log(data);
 				
 				data["_method"]="PUT";
-					/*$.ajax({
+					$.ajax({
 						url:'https://d.apicloud.com/mcm/api/Xiehouyu/'+ row.id,
 						cache: false,
 						headers:getAppKey(),
