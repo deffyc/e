@@ -196,7 +196,7 @@
                       header:{},//getAppKey(),
                       dataType: 'json',
                       success: function (response, xml) {
-                          successCallback(response)
+                          successCallback(response.records)
                           //console.log(JSON.stringify(response));
                       },
                       error: function (status) {
