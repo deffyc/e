@@ -188,7 +188,7 @@
                       "skip": (pageNum-1)*pageSize,
                       "order": "createDate DESC",
                   }*/
-		var filter='include=url,title,createdAt&order=createdAt,desc&'+addStr+'&page='+pageNum+','+pageSize
+		var filter='include=url,title,author,createDate&order=createDate,desc&'+addStr+'&page='+pageNum+','+pageSize
                   ajax({
                       //url: "https://d.apicloud.com/mcm/api/article?filter="+encodeURIComponent(JSON.stringify(filter))+"&"+(new Date()).getTime(),
                       url: "http://db.ccsyue.com/api.php/records/article?"+filter+"#"+(new Date()).getTime(),
