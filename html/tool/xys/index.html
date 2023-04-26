@@ -193,7 +193,7 @@
                       //url: "https://d.apicloud.com/mcm/api/article?filter="+encodeURIComponent(JSON.stringify(filter))+"&"+(new Date()).getTime(),
                       url: "http://db.ccsyue.com/api.php/records/article?"+filter+"#"+(new Date()).getTime(),
 		      type: 'GET',
-                      header:{"X-API-Key":"d633436feb69632ad5a8fbb5900ffaba9dd5959f"},//{"X-API-Key":"d633436feb69632ad5a8fbb5900ffaba9dd5959f"},//getAppKey(),
+                      header:{},//{"X-API-Key":"d633436feb69632ad5a8fbb5900ffaba9dd5959f"},//getAppKey(),
                       dataType: 'json',
                       success: function (response, xml) {
                           successCallback(response.records)
