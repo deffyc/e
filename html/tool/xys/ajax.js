@@ -2,10 +2,11 @@ function getAppKey() {
     var AppId= "A6058950411861";
     var AppKey="739DA57D-5065-52EC-E3A0-E2BEE19F0CBB";
     var now = Date.now();
-    var appKey = SHA1(AppId + "UZ" + AppKey + "UZ" + now) + "." + now;
+    //var appKey = SHA1(AppId + "UZ" + AppKey + "UZ" + now) + "." + now;
     return {
-        "X-APICloud-AppId": AppId,
-        "X-APICloud-AppKey": appKey
+        /*"X-APICloud-AppId": AppId,
+        "X-APICloud-AppKey": appKey*/
+        "X-APICloud-AppKey":"d633436feb69632ad5a8fbb5900ffaba9dd5959f"
     }
 }
 
