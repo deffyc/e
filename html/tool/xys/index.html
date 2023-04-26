@@ -193,7 +193,7 @@
                       //url: "https://d.apicloud.com/mcm/api/article?filter="+encodeURIComponent(JSON.stringify(filter))+"&"+(new Date()).getTime(),
                       url: "http://db.ccsyue.com/api.php/records/article?"+filter+"#"+(new Date()).getTime(),
 		      type: 'GET',
-                      header:getAppKey(),
+                      header:{},//getAppKey(),
                       dataType: 'json',
                       success: function (response, xml) {
                           successCallback(response)
