@@ -172,12 +172,14 @@
           keyType=document.getElementById("filed").value
           keywordArr=document.getElementById("keywords").value.replace(/^\s+|\s+$/g,"").split(" ")
           addArray=new Array()
+	  addStr=""
           for(var i=0;i<keywordArr.length;i++){
             obj={}
-            obj[keyType]={"like":"%"+keywordArr[i]+"%"}
-            addArray.push(obj)
+            /*obj[keyType]={"like":"%"+keywordArr[i]+"%"}
+            addArray.push(obj)*/
+	    addStr=addStr+"&filter="+keyType+",cs,"+keywordArr[i]
           }
-          var filter = {
+          /*var filter = {
                   "fields":["url","title","author","createDate"],
                       "where": {
                           "and": addArray
@@ -185,10 +187,12 @@
                       "limit":pageSize,
                       "skip": (pageNum-1)*pageSize,
                       "order": "createDate DESC",
-                  }
+                  }*/
+		var filter='include=url,title,createdAt&order=createdAt,desc&'+addStr+'&page='+pageNum+','+pageSize
                   ajax({
-                      url: "https://d.apicloud.com/mcm/api/article?filter="+encodeURIComponent(JSON.stringify(filter))+"&"+(new Date()).getTime(),
-                      type: 'GET',
+                      //url: "https://d.apicloud.com/mcm/api/article?filter="+encodeURIComponent(JSON.stringify(filter))+"&"+(new Date()).getTime(),
+                      url: "http://db.ccsyue.com/api.php/records/article?"+filter+"#"+(new Date()).getTime(),
+		      type: 'GET',
                       header:getAppKey(),
                       dataType: 'json',
                       success: function (response, xml) {
