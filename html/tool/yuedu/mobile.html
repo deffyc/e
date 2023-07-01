@@ -110,11 +110,6 @@
                 bookId: bookId,
                 publishingId: publishingId
             },
-            beforeSend: function(xhr){
-                xhr.setRequestHeader('packageName','com.yixinjiang.goodbaba.app.presentation.pep');
-                xhr.setRequestHeader('versionName','8.12.18');
-                xhr.setRequestHeader('channel','OfficialWeb');
-            },
             success: function (data) {
                 Page = data.data.pages;
                 lessons = data.data.lessons;
