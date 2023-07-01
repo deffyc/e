@@ -116,7 +116,7 @@
                             $(".chinese").css("background", "").text("");
                             $(".public").removeClass("readColor");
                             var allPage = $(".flipbook").turn("pages");
-                            if (page == 1 || page == allPage) {
+                            if (page == 1 || page+1 == allPage) {
                                 //                                 禁止向前翻 到第一页
                                 event.preventDefault();
                             }
