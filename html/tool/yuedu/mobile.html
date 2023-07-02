@@ -141,16 +141,18 @@
 
         if (unlock == false) {
             $.each(lessons, function (index, n) {
-                if (n.isFree) {
-                    freepage.push(n.beginPage)
-                }
+                // if (n.isFree) {
+                //     freepage.push(n.beginPage)
+                // }
+                freepage.push(n.beginPage)
             })
 
             freeLargePage = lessons[freepage.length].beginPage;
             $.each(Page, function (index, n) {
-                if (n.pageNo < freeLargePage) {
-                    isfree.push(n);
-                }
+                // if (n.pageNo < freeLargePage) {
+                //     isfree.push(n);
+                // }
+                isfree.push(n);
             })
             Page = isfree;
 
