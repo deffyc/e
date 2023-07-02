@@ -1,93 +1,95 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="format-detection" content="telephone=yes"/>
+    <meta name="format-detection" content="telephone=yes" />
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="Cache" content="no-cache">
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="Keywords"
-          content="手机点读机软件,手机点读软件,点读机APP,ipad点读机,英语点读机软件,好爸爸点读机,英语复读机,PEP人教版,人教小学英语,一年级上,三年级上,小学英语教材,小学英语在线学习,牛津上海版,苏教译林版,在线教育平台"/>
-    <meta name="Description" content="好爸爸学习机是一款深受小学生欢迎的课本点读软件，还有丰富的课后练习题，让您的手机变成学习机。"/>
+        content="手机点读机软件,手机点读软件,点读机APP,ipad点读机,英语点读机软件,好爸爸点读机,英语复读机,PEP人教版,人教小学英语,一年级上,三年级上,小学英语教材,小学英语在线学习,牛津上海版,苏教译林版,在线教育平台" />
+    <meta name="Description" content="好爸爸学习机是一款深受小学生欢迎的课本点读软件，还有丰富的课后练习题，让您的手机变成学习机。" />
     <title>好爸爸学习机官网 - 课本点读,习题练习</title>
-    <link rel="icon" href="./img/haobabalogo.png"/>
+    <link rel="icon" href="./img/haobabalogo.png" />
     <link rel="stylesheet" href="./css/swiper.min.css">
     <link rel="stylesheet" href="./css/gfbase.css">
     <link rel="stylesheet" href="css/mobile1.css">
 
 </head>
+
 <body>
-<audio id="audio"></audio>
+    <audio id="audio"></audio>
 
-<div class="swiper-content  myswiper">
-    <div class="swiper-wrapper">
+    <div class="swiper-content  myswiper">
+        <div class="swiper-wrapper">
+        </div>
     </div>
-</div>
 
 
-<div class="control"><span>目录</span></div>
-<div class="lesson transL">
-    <div class="mulu">目录</div>
-    <ul class="lessonUl">
+    <div class="control"><span>目录</span></div>
+    <div class="lesson transL">
+        <div class="mulu">目录</div>
+        <ul class="lessonUl">
 
-    </ul>
+        </ul>
 
-</div>
-
-<div class="head-nav">
-    <img class="close" src="img/goodfather17.png" alt="">
-    <div class="bg" >
-        <img class="singleplay" src="img/goodfather15.png" alt="">
-        <img class="paus" src="img/goodfather14.png" alt="">
-        <img class="allplay" src="img/goodfather16.png" alt="">
     </div>
-    <img class="rainbow" src="img/2.png" alt="">
-</div>
 
-<div class="mask"></div>
+    <div class="head-nav">
+        <img class="close" src="img/goodfather17.png" alt="">
+        <div class="bg">
+            <img class="singleplay" src="img/goodfather15.png" alt="">
+            <img class="paus" src="img/goodfather14.png" alt="">
+            <img class="allplay" src="img/goodfather16.png" alt="">
+        </div>
+        <img class="rainbow" src="img/2.png" alt="">
+    </div>
+
+    <div class="mask"></div>
 
 </body>
 <script src="./js/common.js"></script>
 <script type="text/javascript">
-    window.onload = function() {
-         var audio=document.getElementById("audio");
+    window.onload = function () {
+        var audio = document.getElementById("audio");
         var loading;
         var json = [];
-//        页数
+        //        页数
         var Page = [];
-//        单元
+        //        单元
         var lessons = [];
         var allplayTime = [];
         var allbeginTime = [];
 
-//        对话框
+        //        对话框
         var alloDiv = [];
-//      索引
+        //      索引
         var thisoDiv;
         var target;
         var Timer;
-//        var当前句子索引;
+        //        var当前句子索引;
 
 
-//        所有对话ID
+        //        所有对话ID
         var data = [];
 
         var playing = false;
-//        点读模式
+        //        点读模式
         mode = 0;
-//        暂停模式
+        //        暂停模式
         stop = 0;
 
-        var flag=false;
+        var flag = false;
         var BookName;
 
 
-//        检测用户是否登录
+        //        检测用户是否登录
 
         var getUrlParam = function getUrlParam(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
@@ -99,10 +101,10 @@
         var publishingId = getUrlParam('publishingId');
         var unlock = false;
         var user;
- 
+
 
         $.ajax({
-            url: IP+"/book/bookDetail",
+            url: IP + "/book/bookDetail",
             type: "get",
             dataType: 'json',
             async: false,
@@ -113,31 +115,31 @@
             success: function (data) {
                 Page = data.data.pages;
                 lessons = data.data.lessons;
-                BookName=data.data.bookName;
+                BookName = data.data.bookName;
             }
         })
         var freeLargePage;
         var freepage = [];
         var isfree = [];
-       
-        lessons=lessons.filter(function(n,i){
-            return n.kindId==1;
+
+        lessons = lessons.filter(function (n, i) {
+            return n.kindId == 1;
         });
 
         lessons.sort(function (a, b) {
             return a.beginPage - b.beginPage;
         })
-//        console.log(JSON.stringify(lessons))
+        //        console.log(JSON.stringify(lessons))
 
         Page.sort(function (a, b) {
             return a.pageNo - b.pageNo;
         })
-        Page=Page.filter(function(n,i){
+        Page = Page.filter(function (n, i) {
             return n.pageNo >= lessons[0].beginPage
-        })  
-     
+        })
 
-        if (unlock==false) {
+
+        if (unlock == false) {
             $.each(lessons, function (index, n) {
                 if (n.isFree) {
                     freepage.push(n.beginPage)
@@ -159,28 +161,28 @@
                 json.push(n.sentences);
             }
         });
-//        二维数组变一维数组
+        //        二维数组变一维数组
         json = [].concat.apply([], json);
-//
-//        json.sort(function (a, b) {
-//            return a.sentenceId - b.sentenceId;
-//        });
-//
-       $.each(json,function (i,n) {
-            n.lessonId=n.lessonId.replace(/[^0-9]/ig,"")
+        //
+        //        json.sort(function (a, b) {
+        //            return a.sentenceId - b.sentenceId;
+        //        });
+        //
+        $.each(json, function (i, n) {
+            n.lessonId = n.lessonId.replace(/[^0-9]/ig, "")
         })
 
         json.sort(function (a, b) {
-            if(a.lessonId-b.lessonId){
-                return a.lessonId-b.lessonId
-            }else if(a.beginTime-b.beginTime){
-                return  a.beginTime-b.beginTime
+            if (a.lessonId - b.lessonId) {
+                return a.lessonId - b.lessonId
+            } else if (a.beginTime - b.beginTime) {
+                return a.beginTime - b.beginTime
             }
         });
 
 
         for (var i = 0; i < json.length; i++) {
-            allplayTime.push((json[i].endTime - json[i].beginTime+0.2) * 1000);
+            allplayTime.push((json[i].endTime - json[i].beginTime + 0.2) * 1000);
             data.push(json[i].sentenceId);
             allbeginTime.push(json[i].beginTime);
         }
@@ -188,45 +190,45 @@
         data = JSON.stringify(data);
         data = JSON.parse(data);
 
-        var mySwiper = new Swiper('.myswiper',{
+        var mySwiper = new Swiper('.myswiper', {
             //其他设置
-//            effect : 'coverflow',
-            eventTarget : 'container',
-            speed : 500, //设置动画持续时间500ms
-            lazyLoading:true,
-//            threshold : 5,
-            iOSEdgeSwipeDetection : true,
-//            lazyLoadingOnTransitionStart : true,
+            //            effect : 'coverflow',
+            eventTarget: 'container',
+            speed: 500, //设置动画持续时间500ms
+            lazyLoading: true,
+            //            threshold : 5,
+            iOSEdgeSwipeDetection: true,
+            //            lazyLoadingOnTransitionStart : true,
 
-            lazyLoadingInPrevNext : true,
-            lazyLoadingInPrevNextAmount : 2,
-       
-            onInit: function(swiper){
+            lazyLoadingInPrevNext: true,
+            lazyLoadingInPrevNextAmount: 2,
 
-                setTimeout(function(){
-//                      if(Page.length==0){
-//                          return false
-//                      }
+            onInit: function (swiper) {
+
+                setTimeout(function () {
+                    //                      if(Page.length==0){
+                    //                          return false
+                    //                      }
 
                     audio.src = Page[0].sentences[0].audioUrl;
                     audio.load();
-                    audio.preload="auto";
-                    firstPage=localStorage.getItem(BookName);
-                    if(firstPage!=null){
+                    audio.preload = "auto";
+                    firstPage = localStorage.getItem(BookName);
+                    if (firstPage != null) {
                         mySwiper.slideTo(firstPage, 200, true)
                     }
-                },500)
+                }, 500)
 
             },
 
-//             翻页回调函数
-            onSlideChangeStart: function(swiper){
+            //             翻页回调函数
+            onSlideChangeStart: function (swiper) {
                 var page = mySwiper.activeIndex;
-                var pagePre=mySwiper.previousIndex;
-                if(Page[page].lessonId!=Page[pagePre].lessonId&&Page[page].sentences!=""){
-                    audio.src=Page[page].sentences[0].audioUrl
+                var pagePre = mySwiper.previousIndex;
+                if (Page[page].lessonId != Page[pagePre].lessonId && Page[page].sentences != "") {
+                    audio.src = Page[page].sentences[0].audioUrl
                     audio.load();
-                    audio.currentTime=0;
+                    audio.currentTime = 0;
                 }
 
                 commonFunction.playPaused();
@@ -237,9 +239,9 @@
                 $(".public").removeClass("readColor");
 
             },
-            onTouchEnd: function(swiper){
+            onTouchEnd: function (swiper) {
                 var page = mySwiper.activeIndex;
-                var pagePre=mySwiper.previousIndex;
+                var pagePre = mySwiper.previousIndex;
 
 
             },
@@ -248,172 +250,179 @@
         });
 
 
-//        数据分类
-//        lessons渲染
+        //        数据分类
+        //        lessons渲染
         for (var i = 0; i < lessons.length; i++) {
             var lessonsName;
-            if(!lessons[i].lessonName){
-                lessonsName=lessons[i].unitName;
-            }else{
-                lessonsName=lessons[i].lessonName;
+            if (!lessons[i].lessonName) {
+                lessonsName = lessons[i].unitName;
+            } else {
+                lessonsName = lessons[i].lessonName;
             }
 
             var div = $("<li class='lessonLi' value=" + lessons[i].beginPage + ">" + lessonsName + "</li>")
-              $(".lessonUl").append(div);
+            $(".lessonUl").append(div);
 
             div.click(function (e) {
-                var num = Number($(this).attr("value"))-lessons[0].beginPage;
-
+                var num = Number($(this).attr("value")) - lessons[0].beginPage;
+                commonFunction.playPaused();
+                stop = 0;
+                thisoDiv = null;
+                if (Page[num].sentences != "") {
+                    audio.src = Page[num].sentences[0].audioUrl;
+                    audio.load();
+                }
+                mySwiper.slideTo(num, 200, true)
                 $(this).addClass("currentUt").siblings().removeClass("currentUt")
                 $(".control").trigger("click");
             })
         }
 
         var proportionW;
-        var windowWidth=window.screen.width;
-//        var windowHeight=window.screen.height;
-//        获取一张图片尺寸'
+        var windowWidth = window.screen.width;
+        //        var windowHeight=window.screen.height;
+        //        获取一张图片尺寸'
 
         var handlel1;
 
 
-//        点读数据渲染
-        for (var i = 0; i < Page.length; i++)  {
-//           创建页面
-            if(i<1){
-                mySwiper.appendSlide('<div class="swiper-slide"><img src='+Page[i].imageUrl+' ><div class="chinese" ></div></div>');
-            }else{
-                mySwiper.appendSlide('<div class="swiper-slide"><div class="swiper-lazy-preloader "></div><img data-src='+Page[i].imageUrl+' class="swiper-lazy"><div class="chinese" ></div></div>');
+        //        点读数据渲染
+        for (var i = 0; i < Page.length; i++) {
+            //           创建页面
+            if (i < 1) {
+                mySwiper.appendSlide('<div class="swiper-slide"><img src=' + Page[i].imageUrl + ' ><div class="chinese" ></div></div>');
+            } else {
+                mySwiper.appendSlide('<div class="swiper-slide"><div class="swiper-lazy-preloader "></div><img data-src=' + Page[i].imageUrl + ' class="swiper-lazy"><div class="chinese" ></div></div>');
 
             }
-            var temp=i;
-           if(Page[i].sentences!=""){
+            var temp = i;
+            if (Page[i].sentences != "") {
 
-               $.each(Page[i].sentences,function(index,n){
+                $.each(Page[i].sentences, function (index, n) {
 
-//                       创建点读div
-                   var sentenceID =n.sentenceId;
-                   var oDiv = $("<div class='public' id=" + sentenceID + "></div>")
-                   oDiv.beginTime=n.beginTime;
-                   oDiv.lessonId=n.lessonId;
+                    //                       创建点读div
+                    var sentenceID = n.sentenceId;
+                    var oDiv = $("<div class='public' id=" + sentenceID + "></div>")
+                    oDiv.beginTime = n.beginTime;
+                    oDiv.lessonId = n.lessonId;
 
-                   $(" .myswiper .swiper-slide").eq(temp).append(oDiv)
-                   //     页面对话设置ID
+                    $(" .myswiper .swiper-slide").eq(temp).append(oDiv)
+                    //     页面对话设置ID
 
-                   sentenceID = "#" + sentenceID;
-                   var img = new Image();
-                   img.src = Page[i].imageUrl;
-//                   img.index=i;
-                   img.onload = function () {
-                       proportionW = img.width / windowWidth;
-                       X = (n.endX - n.startX) / proportionW + "px"; //        横坐标
-                       Y = (n.endY - n.startY) / proportionW + "px"; //        纵坐标
-                       _left = (n.startX) / proportionW + "px";//        定位
-                       _top = (n.startY) /  proportionW + "px";
-                       $(sentenceID).css({"width": X, "height": Y, "left": _left, "top": _top}); //     大小位置
-//           i
-                   }
-//                       获取对话框
-                   alloDiv.push(oDiv);
-//                   alloDiv.sort(function (a, b) {
-//                       return a[0].id - b[0].id;
-//                   });
+                    sentenceID = "#" + sentenceID;
+                    var img = new Image();
+                    img.src = Page[i].imageUrl;
+                    //                   img.index=i;
+                    img.onload = function () {
+                        proportionW = img.width / windowWidth;
+                        X = (n.endX - n.startX) / proportionW + "px"; //        横坐标
+                        Y = (n.endY - n.startY) / proportionW + "px"; //        纵坐标
+                        _left = (n.startX) / proportionW + "px";//        定位
+                        _top = (n.startY) / proportionW + "px";
+                        $(sentenceID).css({ "width": X, "height": Y, "left": _left, "top": _top }); //     大小位置
+                        //           i
+                    }
+                    //                       获取对话框
+                    alloDiv.push(oDiv);
+                    //                   alloDiv.sort(function (a, b) {
+                    //                       return a[0].id - b[0].id;
+                    //                   });
 
 
-//                       点读mp3功能
+                    //                       点读mp3功能
 
-                   $(sentenceID).click(function () {
-//                            stop刚进入页面的暂停开关
-                       loading = layer.load(0, {offset: ['50%', '48%'], area: ['10%', '10%']});
-                       var id = Number(this.id);
-                       var err=audio.readyState;
-//                            获取索引
-                       thisoDiv = data.indexOf(id);
-                       stop = 1;
-                       audio.pause();
-                       var that = $(this);
+                    $(sentenceID).click(function () {
+                        //                            stop刚进入页面的暂停开关
+                        loading = layer.load(0, { offset: ['50%', '48%'], area: ['10%', '10%'] });
+                        var id = Number(this.id);
+                        var err = audio.readyState;
+                        //                            获取索引
+                        thisoDiv = data.indexOf(id);
+                        stop = 1;
+                        audio.pause();
+                        var that = $(this);
 
-                       if(err==0){
-                           audio.src = json[thisoDiv].audioUrl;
-                           audio.load();
-                           audio.currentTime=0;
+                        if (err == 0) {
+                            audio.src = json[thisoDiv].audioUrl;
+                            audio.load();
+                            audio.currentTime = 0;
 
-                       }
+                        }
 
-                       //       中文赋值
-                       commonFunction.chineseDisplay(thisoDiv)
-                       //    监听点读资源加
+                        //       中文赋值
+                        commonFunction.chineseDisplay(thisoDiv)
+                        //    监听点读资源加
 
-                           commonFunction.playLoad(thisoDiv)
+                        commonFunction.playLoad(thisoDiv)
 
-                       if (mode == 0) {
-//                                连续播放动作清除
-                           clearTimeout(target);
-                           //          排除暂停点击点读BUG
-                           if ($(".paus").src == "img/goodfather14.png") {
-                               $(this).attr("src", "img/goodfather20.png");
-                           };
+                        if (mode == 0) {
+                            //                                连续播放动作清除
+                            clearTimeout(target);
+                            //          排除暂停点击点读BUG
+                            if ($(".paus").src == "img/goodfather14.png") {
+                                $(this).attr("src", "img/goodfather20.png");
+                            };
 
                             handlel1 = function () {
                                 audio.removeEventListener("playing", handlel1, false);
                                 layer.close(loading);
                                 if (allplayTime[thisoDiv] > 0) {
-                                   clearTimeout(Timer);    //    音频播放停止
+                                    clearTimeout(Timer);    //    音频播放停止
                                     Timer = setTimeout(function () {
-                                        var err=audio.readyState;
-                                       //   点读完成动作
-                                       if(err!=4){
-                                           layer.msg("资源正在下载中，请过几秒再点击")
-                                       }
-//                                        alert(audio.networkState+"adxasdasf")
-                                       commonFunction.playEnd(thisoDiv);
-                                   }, allplayTime[thisoDiv]);
-                               } else {
-//                                        最后一句
+                                        var err = audio.readyState;
+                                        //   点读完成动作
+                                        if (err != 4) {
+                                            layer.msg("资源正在下载中，请过几秒再点击")
+                                        }
+                                        //                                        alert(audio.networkState+"adxasdasf")
+                                        commonFunction.playEnd(thisoDiv);
+                                    }, allplayTime[thisoDiv]);
+                                } else {
+                                    //                                        最后一句
                                     audio.removeEventListener("playing", handlel1, false);
                                     audio.onended = function () {
-                                       //   点读完成动作
-                                       commonFunction.playEnd(thisoDiv);
-                                   }
-                               }
+                                        //   点读完成动作
+                                        commonFunction.playEnd(thisoDiv);
+                                    }
+                                }
 
-                           }
-                           audio.addEventListener('playing', handlel1, false)
-//
+                            }
+                            audio.addEventListener('playing', handlel1, false)
+                            //
 
-                       }
+                        }
 
-                       else if (mode == 1) {   //      连续播放/
-//                                清除定时器
-                           clearTimeout(target);
-//                            /    排除暂停点击点读BUG
-                           if ($(".paus").src == "img/goodfather14.png") {
-                               $(this).attr("src", "img/goodfather20.png");
+                        else if (mode == 1) {   //      连续播放/
+                            //                                清除定时器
+                            clearTimeout(target);
+                            //                            /    排除暂停点击点读BUG
+                            if ($(".paus").src == "img/goodfather14.png") {
+                                $(this).attr("src", "img/goodfather20.png");
 
-                           };
+                            };
 
-                           audio.addEventListener('playing', allPlay, false);
+                            audio.addEventListener('playing', allPlay, false);
 
-                       }
+                        }
 
-                   });
-               })
+                    });
+                })
 
-           }
+            }
 
         }
         alloDiv.sort(function (a, b) {
-            if(a.lessonId-b.lessonId){
-                return a.lessonId-b.lessonId
-            }else if(a.beginTime-b.beginTime){
-                return  a.beginTime-b.beginTime
+            if (a.lessonId - b.lessonId) {
+                return a.lessonId - b.lessonId
+            } else if (a.beginTime - b.beginTime) {
+                return a.beginTime - b.beginTime
             }
         });
 
 
-        window.onbeforeunload=function(){
-            var currentPage=mySwiper.activeIndex;
-            localStorage.setItem(BookName,currentPage)
+        window.onbeforeunload = function () {
+            var currentPage = mySwiper.activeIndex;
+            localStorage.setItem(BookName, currentPage)
 
         };
 
@@ -423,12 +432,12 @@
         // },false)
 
         $(".paus").click(function () {
-            loading = layer.load(0, {offset: ['50%', '48%'], area: ['10%', '10%']});
-            var err=audio.readyState;
+            loading = layer.load(0, { offset: ['50%', '48%'], area: ['10%', '10%'] });
+            var err = audio.readyState;
             var currentpage = mySwiper.activeIndex;
             var currentsentenceID = [];
             for (var i = 0; i < json.length; i++) {
-                if (currentpage == json[i].pageNo- json[0].pageNo ) {
+                if (currentpage == json[i].pageNo - json[0].pageNo) {
                     currentsentenceID.push(json[i]);
                 }
             }
@@ -447,32 +456,32 @@
 
             if (stop == 0 && mode == 0 && playing == false) {
 
-//       中文赋值
-                thisoDiv=thisodiv;
+                //       中文赋值
+                thisoDiv = thisodiv;
 
-                if(err==0){
-                    audio.src =json[thisoDiv].audioUrl;
+                if (err == 0) {
+                    audio.src = json[thisoDiv].audioUrl;
                     audio.load();
                 }
                 commonFunction.chineseDisplay(thisoDiv);
-                if(err==4){
+                if (err == 4) {
                     commonFunction.playLoad(thisoDiv)
-                }else {
+                } else {
                     clearTimeout(T);
-                    var T=setTimeout(function(){
+                    var T = setTimeout(function () {
                         commonFunction.playLoad(thisoDiv)
-                    },2000)
+                    }, 2000)
                 }
 
 
                 var fn1 = function () {
                     audio.removeEventListener('playing', fn1, false);
-                    var err=audio.readyState;
+                    var err = audio.readyState;
                     layer.close(loading);
                     clearTimeout(Timer);
                     if (allplayTime[thisoDiv] > 0) {
                         Timer = setTimeout(function () {
-                            if(err!=4){
+                            if (err != 4) {
                                 layer.msg("资源正在下载中，请过几秒再点击")
                             }
                             commonFunction.playEnd(thisoDiv);
@@ -494,21 +503,21 @@
 
                 $(this).attr("src", "img/goodfather20.png");
 
-                if('fastSeek' in audio){
+                if ('fastSeek' in audio) {
                     audio.fastSeek(allbeginTime[thisoDiv]);//改变audio.currentTime的值
                 } else {
                     audio.currentTime = allbeginTime[thisoDiv];
                 }
 
-                if(err>=1){
+                if (err >= 1) {
                     audio.play();
                     layer.close(loading);
-                }else {
+                } else {
                     clearTimeout(timer)
-                    var  timer=setTimeout(function(){
+                    var timer = setTimeout(function () {
                         layer.close(loading);
                         audio.play();
-                    },3000)
+                    }, 3000)
 
                 }
 
@@ -516,14 +525,14 @@
                 alloDiv[thisoDiv].addClass("readColor");
 
                 if (allplayTime[thisoDiv] > 0) {
-                    var err=audio.readyState;
+                    var err = audio.readyState;
                     clearTimeout(Timer);
-                   var Timer = setTimeout(function () {
-                       if(err!=4){
-                           commonFunction.playEnd(thisoDiv);
-                           audio.removeEventListener("playing", handlel1, false);
-                           layer.msg("资源正在下载中，请过几秒再点击")
-                       }
+                    var Timer = setTimeout(function () {
+                        if (err != 4) {
+                            commonFunction.playEnd(thisoDiv);
+                            audio.removeEventListener("playing", handlel1, false);
+                            layer.msg("资源正在下载中，请过几秒再点击")
+                        }
                         commonFunction.playEnd(thisoDiv);
                     }, allplayTime[thisoDiv]);
                 } else {
@@ -542,8 +551,8 @@
                     thisoDiv = thisodiv;
                 }
 
-                if(err==0){
-                    audio.src =json[thisoDiv].audioUrl;
+                if (err == 0) {
+                    audio.src = json[thisoDiv].audioUrl;
                     audio.load();
                 }
 
@@ -551,13 +560,13 @@
                 //       中文赋值
                 commonFunction.chineseDisplay(thisoDiv)
                 //    监听点读资源加载
-                if(err==4){
+                if (err == 4) {
                     commonFunction.playLoad(thisoDiv)
-                }else {
+                } else {
                     clearTimeout(T);
-                    var T=setTimeout(function(){
+                    var T = setTimeout(function () {
                         commonFunction.playLoad(thisoDiv)
-                    },1000)
+                    }, 1000)
                 }
 
                 audio.addEventListener('playing', allPlay, false);
@@ -580,8 +589,8 @@
 
 
 
-        if(localStorage.getItem("activeIndex")!=null){
-           var  activeindex=localStorage.getItem("activeIndex")
+        if (localStorage.getItem("activeIndex") != null) {
+            var activeindex = localStorage.getItem("activeIndex")
             mySwiper.slideTo(activeindex, 200, false)
         }
         localStorage.removeItem("activeIndex")
@@ -599,29 +608,29 @@
                 alloDiv[num].addClass("readColor");
 
             },
-//                                点读资源加载
+            //                                点读资源加载
             playLoad: function (num) {
-                var err=audio.readyState;
+                var err = audio.readyState;
                 playing = true;
                 $(".paus").attr("src", "img/goodfather20.png");
-                if(err>=3){
-//                    alert(err+"444")
+                if (err >= 3) {
+                    //                    alert(err+"444")
                     audio.currentTime = json[num].beginTime;//改变audio.currentTime的值
                     audio.play();
-                }else {
-//                    alert(err+"221")
+                } else {
+                    //                    alert(err+"221")
                     audio.load();
                     clearTimeout(timer)
-                    var  timer=setTimeout(function(){
+                    var timer = setTimeout(function () {
                         audio.currentTime = json[num].beginTime;
                         audio.play();
 
-                    },5000)
+                    }, 5000)
 
                 }
 
             },
-//                                单句点读完成动作
+            //                                单句点读完成动作
             playEnd: function (num) {
 
                 alloDiv[num].removeClass("readColor");
@@ -630,20 +639,20 @@
                 playing = false;
             },
             //     连续点读
-            allplayEnd:function(num){
+            allplayEnd: function (num) {
 
                 alloDiv[num - 1].removeClass("readColor");
                 audio.pause();
-                if (json[num - 1].pageNo !=json[num].pageNo) {
+                if (json[num - 1].pageNo != json[num].pageNo) {
 
                     var temp = num;
-//                        当前页等于首页加目录减去介绍
-//                    $(".flipbook").turn("page", json[num].pageNo + 4 - json[0].pageNo);
+                    //                        当前页等于首页加目录减去介绍
+                    //                    $(".flipbook").turn("page", json[num].pageNo + 4 - json[0].pageNo);
                     mySwiper.slideTo(json[num].pageNo - json[0].pageNo, 200, false)
                     num = temp;
 
                 }
-                if (json[num- 1].audioUrl !== json[num].audioUrl) {
+                if (json[num - 1].audioUrl !== json[num].audioUrl) {
                     audio.src = json[num].audioUrl;
 
                 }
@@ -659,19 +668,19 @@
                 alloDiv[num].addClass("readColor");
                 audio.currentTime = allbeginTime[num];
 
-                thisoDiv=num;
+                thisoDiv = num;
                 audio.play();
-//                audio.addEventListener('playing', allPlay, false);
+                //                audio.addEventListener('playing', allPlay, false);
                 allPlay()
             },
-//            播放暂停动作
-            playPaused:function(){
+            //            播放暂停动作
+            playPaused: function () {
 
                 layer.close(loading);
-                if(Timer!=undefined){
+                if (Timer != undefined) {
                     clearTimeout(Timer);
                 }
-                if(target!=undefined){
+                if (target != undefined) {
                     clearTimeout(target);
                 }
 
@@ -685,27 +694,27 @@
 
 
 
-//       连续 单点播放模式点击事件
+        //       连续 单点播放模式点击事件
         function allPlay(num) {
             audio.removeEventListener("playing", allPlay, false);
             layer.close(loading);
-            num=thisoDiv;
+            num = thisoDiv;
             num++;
             playing = true;
-//            endTime为0时 有2种情况
+            //            endTime为0时 有2种情况
             if (allplayTime[num - 1] > 0) {
-                var err=audio.readyState;
+                var err = audio.readyState;
                 clearTimeout(target);
                 target = setTimeout(function () {
-                    var err=audio.readyState;
-                    if(err!=4){
+                    var err = audio.readyState;
+                    if (err != 4) {
                         layer.msg("资源正在加载")
-                        commonFunction. playPaused();
+                        commonFunction.playPaused();
                         return false
                     }
                     commonFunction.allplayEnd(num);
 
-//              函数递归
+                    //              函数递归
                 }, allplayTime[num - 1]);
             } else {
                 audio.onended = function () {
@@ -720,7 +729,7 @@
             $(".singleplay").attr("src", "img/goodfather21.png");
             mode = 1;
         });
-//        单句点读
+        //        单句点读
         $(".singleplay").click(function () {
             $(this).attr("src", "img/goodfather15.png");
             $(".allplay").attr("src", "img/goodfather16.png");
@@ -728,34 +737,34 @@
         });
 
 
-        $(".control").click(function(e){
+        $(".control").click(function (e) {
             e.stopPropagation();
-            if($(".lesson").hasClass("transR")){
-               $(".lesson").addClass("transL").removeClass("transR");
-               $(".control").fadeIn();
-               $(".mask").fadeOut();
-           }else{
-               $(".lesson").removeClass("transL").addClass("transR");
+            if ($(".lesson").hasClass("transR")) {
+                $(".lesson").addClass("transL").removeClass("transR");
+                $(".control").fadeIn();
+                $(".mask").fadeOut();
+            } else {
+                $(".lesson").removeClass("transL").addClass("transR");
                 $(".control").fadeOut();
                 $(".mask").fadeIn();
-//
-           }
+                //
+            }
 
         })
-        var mask=document.querySelector(".mask");
-        mask.addEventListener("touchstart",function(e){
+        var mask = document.querySelector(".mask");
+        mask.addEventListener("touchstart", function (e) {
             e.preventDefault();
-            if($(".lesson").hasClass("transR")){
+            if ($(".lesson").hasClass("transR")) {
                 $(".control").trigger("click");
             }
-        },false);
+        }, false);
 
-        $(".close").click(function(){
-             $(this).addClass("closeScale");
-             setTimeout(function(){
-                 window.location.href="//yuedu.ccsyue.com";
-                 $(".close").removeClass("closeScale");
-             },500)
+        $(".close").click(function () {
+            $(this).addClass("closeScale");
+            setTimeout(function () {
+                window.location.href = "//yuedu.ccsyue.com";
+                $(".close").removeClass("closeScale");
+            }, 500)
         })
 
         function isWeiXin() {
@@ -805,7 +814,7 @@
             // 2.通过touch事件 修改 ul的移动
             // 定义一些变量 记录 距离
             //  起始值
-            var startY  = 0;
+            var startY = 0;
             // 移动值
             var moveY = 0;
             // 总的移动距离
@@ -821,28 +830,28 @@
                 moveUl.style.transition = '';
             }
             var setTransform = function (distance) {
-                moveUl.style.transform = 'translateY('+distance+'px)';
+                moveUl.style.transform = 'translateY(' + distance + 'px)';
             }
 
 
-            moveUl.addEventListener('touchstart',function(event){
+            moveUl.addEventListener('touchstart', function (event) {
                 startY = event.touches[0].clientY;
             })
-            moveUl.addEventListener('touchmove',function(event){
-              event.preventDefault()
+            moveUl.addEventListener('touchmove', function (event) {
+                event.preventDefault()
 
                 moveY = event.touches[0].clientY - startY;
 
                 // 判断 是否满足 移动的条件
-                if ((moveY+distanceY)>(maxDistance+delayDistance)) {
+                if ((moveY + distanceY) > (maxDistance + delayDistance)) {
                     // 修正 moveY
                     moveY = 0;
-                    distanceY = maxDistance+delayDistance;
+                    distanceY = maxDistance + delayDistance;
                     // 为什么是减法 因为 往上移动 是负值 要比最小值 还要更小
-                }else if((moveY+distanceY)<(minDistance-delayDistance)){
+                } else if ((moveY + distanceY) < (minDistance - delayDistance)) {
                     // 修改 moveY
                     moveY = 0;
-                    distanceY = minDistance-delayDistance;
+                    distanceY = minDistance - delayDistance;
                 }
 
                 // 关闭 过渡效果
@@ -850,20 +859,20 @@
                 endTransition();
                 // 移动
                 // moveUl.style.transform = 'translateY('+(moveY+distanceY)+'px)';
-                setTransform(moveY+distanceY);
+                setTransform(moveY + distanceY);
             })
-            moveUl.addEventListener('touchend',function(event){
+            moveUl.addEventListener('touchend', function (event) {
 
                 // 修改移动的总距离
-                distanceY+=moveY;
+                distanceY += moveY;
 
                 // 吸附回去 判断 吸附的方位
-                if (distanceY>maxDistance) {
+                if (distanceY > maxDistance) {
                     distanceY = maxDistance;
-                }else if(distanceY<minDistance){
-                    if(ulHeight<parentHeight){
-                        distanceY=maxDistance;
-                    }else{
+                } else if (distanceY < minDistance) {
+                    if (ulHeight < parentHeight) {
+                        distanceY = maxDistance;
+                    } else {
                         distanceY = minDistance;
                     }
 
