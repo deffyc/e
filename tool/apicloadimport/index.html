@@ -1,0 +1,113 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="https://vuejs.org/js/vue.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+		<script type="text/javascript" src="https://e.ccsyue.com/tool/msg/js/SHA1.js"></script>
+		<style>
+			textarea {
+				width: 100%;
+				word-break: break-all; //解决兼容问题
+				font-family: "Lucida Console"
+			}
+		</style>
+	</head>
+	<body>
+		<div id="editor">
+			<input v-model="AppId" placeholder="AppId" />
+			<input v-model="AppKey" placeholder="AppKey" />
+			<input v-model="clazz" placeholder="clazz" />
+			<input v-model.number="threadNum" placeholder="threadNum" />
+			<input v-model.number="maxErrorNum" placeholder="maxErrorNum" />
+			<textarea rows="10" v-model="jsonStr" @paste="solveIt" placeholder="pasteJson"></textarea>
+			<progress v-for="(item, index) in percents"  :max="item.total" :value="item.percent_no" :key="item.thread_no">{{(item.percent_no/item.total)+'%'}}</progress>
+		</div>
+
+	</body>
+	<script>
+		function getAppKey() {
+			var now = Date.now();
+			var appKeyString = SHA1(vm.AppId + "UZ" + vm.AppKey + "UZ" + now) + "." + now;
+			return {
+				"X-APICloud-AppId": vm.AppId,
+				"X-APICloud-AppKey": appKeyString
+			}
+		}
+		var data={
+				jsonStr: '',
+				percents: [],
+				AppId: "A6054809905051",
+				AppKey: "F3CF370F-7899-A546-2085-011623A74CE7",
+				clazz: "wenku",
+				threadNum: 1,
+				maxErrorNum:1,
+				curentErrorNum:0
+			}
+		var vm = new Vue({
+			el: '#editor',
+			data: data,
+			methods: {
+				solveIt: function(event) {
+					maxBatchSize=1000
+					maxThreadNum=5
+					vm.percents.splice(0,vm.percents.length)
+					_.forEach(data, function(value, key) {
+					  if(typeof(value)=='String' && _.trim(value).length<10) return
+					  if(typeof(value)=='Number' && value<0) return
+					});
+					var clipboard = event.clipboardData;
+					var data = clipboard.getData('text/plain').replace(/\r/g, '\n');
+					var arr = JSON.parse(data)
+					requests = []
+					_.forEach(arr, function(value, index, collection) { //这里规定的就是第一个参数返回的是value值，第二个参数是下标index
+						requests.push({
+							"method": "POST",
+							"path": "/mcm/api/" + vm.clazz,//+"/465c70b10abc2a2e606ba7271a/bookId",
+							"body": value
+						})
+					});
+					vm.threadNum=requests.length>maxBatchSize*vm.threadNum?maxThreadNum:parseInt(requests.length/maxBatchSize)
+					chunks = _.chunk(requests, parseInt(requests.length/vm.threadNum)); //每一份requests.length/vm.threadNum个
+					_.forEach(chunks, function(value, index, collection) {
+						childChunks=_.chunk(value, maxBatchSize);
+						vm.percents.push({"thread_no":index,"total":childChunks.length,"percent_no":0})
+						process(index,childChunks, 0);
+					});
+					
+				}
+			}
+		})
+		//处理chunks，无限递归
+		function process(chunk_no,chunks, index) {
+			//找到需要被处理的chunk
+			var chunk = chunks[index];
+			//判断chunk是否为undefined
+			if (_.isUndefined(chunk)) {
+				return;
+			}
+			axios.post("https://d.apicloud.com/mcm/api/batch", {
+					"requests": chunk
+				}, {
+					"cache": false,
+					"headers": getAppKey(),
+				}).then(function(response) {
+					++index
+					percentUI(chunk_no,index,chunks.length)
+					_.defer(_.partial(process, chunk_no,chunks, index));
+				})
+				.catch(function(error) {
+					console.log(chunks)
+					console.log(error)
+					if(vm.curentErrorNum>= vm.maxErrorNum) return
+					_.defer(_.partial(process,chunk_no, chunks, ++index));
+					vm.curentErrorNum++
+				})
+
+		}
+		
+		percentUI=function(index,i,totle){
+			vm.percents.splice(index,1, {"thread_no":index,"total":totle,"percent_no":i})
+		}
+	</script>
+</html>

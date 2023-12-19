@@ -1,0 +1,56 @@
+<!doctype html>
+
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <title>UrlEncode编码</title>
+
+  <style>
+    textarea {
+      width: 400px;
+      height: 200px;
+      font-family: "Lucida Console"
+    }
+  </style>
+</head>
+
+<body>
+<textarea id="editor"></textarea>
+  <span id="runtime">等待粘贴中</span>
+  <script language="javascript">
+	Array.prototype.unique = function()
+	{
+		var n = {},r=[]; //n为hash表，r为临时数组
+		for(var i = 0; i < this.length; i++) //遍历当前数组
+		{
+    urlencodeStr=encodeURI(this[i])
+			if (!n[urlencodeStr]) //如果hash表中没有当前项
+			{
+				n[urlencodeStr] = true; //存入hash表
+				r.push(urlencodeStr); //把当前数组的当前项push到临时数组里面
+			}
+		}
+		return r;
+	}
+	var editor = document.getElementById("editor")
+	editor.addEventListener("paste", function(event) {
+		var start = new Date().getTime();//起始时间
+		var clipboard = event.clipboardData;
+		var data = clipboard.getData('text/plain');
+		event.preventDefault();
+		arr = data.split('\n');
+		uniqueArr=arr.unique();
+		editor.value="";
+		for(key in arr){
+			editor.value = uniqueArr.join('\n');
+		}
+		
+		var end = new Date().getTime();//接受时间
+		var str="运行时间: "+(end - start)+" ms,粘贴前："+arr.length+"行,去重后："+uniqueArr.length+"行。去重行数："+(arr.length-uniqueArr.length)+"行。";
+		document.getElementById("runtime").innerHTML=str;//返回函数执行需要时间
+		//alert(uniqueArr);
+	});
+	
+  </script>
+</body>
+</html>
