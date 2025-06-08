@@ -253,11 +253,12 @@
             pas = document.getElementById("pas");
             pas.onclick = async function () {
                 try {
-                const text = await navigator.clipboard.readText()
-                changeContent(0,"",text)
-                console.log('Pasted content: ', text)
-              } catch (err) {
-                console.error('Failed to read clipboard contents: ', err)
+                    const text = await navigator.clipboard.readText()
+                    changeContent(0,"",text)
+                    console.log('Pasted content: ', text)
+                } catch (err) {
+                    console.error('Failed to read clipboard contents: ', err)
+                }
             }
             baidu = document.getElementById("baidu");
             baidu.onload = function () {
