@@ -172,7 +172,16 @@
         }*/
            var filter='filter=userId,eq,2&order=sortNum,asc&size=100'
            //basicUrl="https://d.apicloud.com/mcm/api/"
-           basicUrl="http://ho.ccsyue.com/api/api.php/records/"
+            var basicUrl="http://ho.ccsyue.com/api/api.php/records/"
+            var protocolStr = document.location.protocol;
+            if(protocolStr == "http:")
+            {
+            basicUrl="http://ho.ccsyue.com/api/api.php/records/"
+            }
+            else if(protocolStr == "https:")
+            {
+            basicUrl="https://hos.ccsyue.com/api/api.php/records/"
+            }
          try {
 
                ajax({
@@ -490,7 +499,7 @@
                 try{
                 ajax({
                     //url: "https://d.apicloud.com/mcm/api/wenku?filter=" + encodeURIComponent(JSON.stringify(filter)),
-                    url: "http://ho.ccsyue.com/api/api.php/records/api_b_wenku?" + filter,
+                    url: basicUrl+"api_b_wenku?" + filter,
                     type: 'GET',
                     dataType: 'json',
                     header: getAppKey(),
