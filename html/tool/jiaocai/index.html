@@ -251,7 +251,7 @@
                 getAritcleAndInit(curbookId, no)
             }
             pas = document.getElementById("pas");
-            pas.onclick = function () {
+            pas.onclick = async function () {
                 try {
                 const text = await navigator.clipboard.readText()
                 changeContent(0,"",text)
