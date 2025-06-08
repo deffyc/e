@@ -140,6 +140,7 @@
                     <select id="articleSelect"></select>目</div>
                 <div id="prev" class="circle">左</div>
                 <div id="next" class="circle">右</div>
+                <div id="pas" class="circle">粘</div>
             </div>
         </div>
         <script>
@@ -248,6 +249,15 @@
                 curBook["curArticleIndex"] = no
                 updateData(myDB.db, "books", curBook)
                 getAritcleAndInit(curbookId, no)
+            }
+            pas = document.getElementById("pas");
+            pas.onclick = function () {
+                try {
+                const text = await navigator.clipboard.readText()
+                changeContent(0,"",text)
+                console.log('Pasted content: ', text)
+              } catch (err) {
+                console.error('Failed to read clipboard contents: ', err)
             }
             baidu = document.getElementById("baidu");
             baidu.onload = function () {
