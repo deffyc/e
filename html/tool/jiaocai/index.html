@@ -170,27 +170,32 @@
            var filter='filter=userId,eq,2&order=sortNum,asc&size=100'
            //basicUrl="https://d.apicloud.com/mcm/api/"
            basicUrl="http://ho.ccsyue.com/api/api.php/records/"
-           ajax({
-            //url: basicUrl+"books?filter="+encodeURIComponent(JSON.stringify(filter)),
-            url: basicUrl+"api_b_books?"+filter+"#"+(new Date()).getTime(),
-            type: 'GET',
-            dataType: 'json',
-            header:getAppKey(),
-            success: function (response, xml) {
-                books = response.records
-                var curbookId = localStorage.getItem("curbookId")
-                if (isEmpty(curbookId)) curbookId = books[0]["id"]
-                    //clearStorage()
-                    
-                openDB(myDB, function () {
-                    initEvent()
-                    initBooks(curbookId)
-                })
-            },
-            error: function (status) {
-                //失败后执行的代码
-            }
-        });
+         try {
+
+               ajax({
+                //url: basicUrl+"books?filter="+encodeURIComponent(JSON.stringify(filter)),
+                url: basicUrl+"api_b_books?"+filter+"#"+(new Date()).getTime(),
+                type: 'GET',
+                dataType: 'json',
+                header:getAppKey(),
+                success: function (response, xml) {
+                    books = response.records
+                    var curbookId = localStorage.getItem("curbookId")
+                    if (isEmpty(curbookId)) curbookId = books[0]["id"]
+                        //clearStorage()
+                        
+                    openDB(myDB, function () {
+                        initEvent()
+                        initBooks(curbookId)
+                    })
+                },
+                error: function (status) {
+                    //失败后执行的代码
+                }
+            });
+              } catch (err) {
+                    console.error('Failed to read clipboard contents: ', err)
+                }
           function initEvent() {
             readMode = localStorage.getItem("readMode")
             if (!isEmpty(readMode)) adv.style.height = readMode
@@ -252,12 +257,10 @@
             }
             pas = document.getElementById("pas");
             pas.onclick = async function () {
-                try {
-                    const text = await navigator.clipboard.readText()
+                let text = prompt("请输入内容", "");
+                if (text !== null) {
                     changeContent(0,"",text)
                     console.log('Pasted content: ', text)
-                } catch (err) {
-                    console.error('Failed to read clipboard contents: ', err)
                 }
             }
             baidu = document.getElementById("baidu");
@@ -363,6 +366,7 @@
                         "order": "sortNum ASC",
                     }*/
                     var filter='filter=bookId,eq,'+bookId+'&order=sortNum,asc&size=100'
+                    try{
                     ajax({
                         //url: basicUrl+"articles?filter="+encodeURIComponent(JSON.stringify(filter)),
                         url: basicUrl+"api_b_articles?"+filter+"#"+(new Date()).getTime(),
@@ -387,6 +391,9 @@
                             //失败后执行的代码
                         }
                     });
+                         } catch (err) {
+                    console.error('Failed to read clipboard contents: ', err)
+                }
                 } else {
                     articleSelect.innerHTML = ""
                     articlesTmp=[]
@@ -477,6 +484,7 @@
                     "limit": 1
                 }*/
                 var filter='filter=hanzi,eq,'+hanzi+'&include=hanzi,jpg,gif&size=1'
+                try{
                 ajax({
                     //url: "https://d.apicloud.com/mcm/api/wenku?filter=" + encodeURIComponent(JSON.stringify(filter)),
                     url: "http://ho.ccsyue.com/api/api.php/records/api_b_wenku?" + filter,
@@ -491,6 +499,9 @@
                         //失败后执行的代码
                     }
                 });
+                     } catch (err) {
+                    console.error('Failed to read clipboard contents: ', err)
+                }
             }
             var alist = document.getElementsByTagName('a');
                 for (var i = 0; i < alist.length; i++) {
