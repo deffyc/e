@@ -212,7 +212,7 @@
             readMode = localStorage.getItem("readMode")
             if (!isEmpty(readMode)) adv.style.height = readMode
             resize.onclick = function () {
-                adv.style.height = parseInt(adv.style.height) >= 100 ? "45%" : (parseInt(adv.style.height)+15)+"%"
+                adv.style.height = parseInt(adv.style.height) >= 100 ? "45%" : (parseInt(adv.style.height) >= 65 ? "100%":(parseInt(adv.style.height)+20)+"%")
                 localStorage.setItem("readMode", adv.style.height)
             }
             loadingDiv.onclick = function () {
