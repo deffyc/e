@@ -484,7 +484,7 @@
         
           function openIframe(alink, hanzi,type) {
             loading()
-            if (parseInt(adv.style.height) >=100 ) {
+            if (parseInt(adv.style.height) < 100 ) {
                 iframeNode.src = "https://hanyu.baidu.com/s?wd=" + hanzi + "&ptype="+type
             } else {
                 /*filter = {
