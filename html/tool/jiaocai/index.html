@@ -212,7 +212,7 @@
             readMode = localStorage.getItem("readMode")
             if (!isEmpty(readMode)) adv.style.height = readMode
             resize.onclick = function () {
-                adv.style.height = adv.style.height == "100%" ? "45%" : "100%"
+                adv.style.height = parseInt(adv.style.height) >= 100 ? "45%" : (parseInt(adv.style.height)+)+"%"
                 localStorage.setItem("readMode", adv.style.height)
             }
             loadingDiv.onclick = function () {
@@ -484,7 +484,7 @@
         
           function openIframe(alink, hanzi,type) {
             loading()
-            if (adv.style.height == "45%") {
+            if (parseInt(adv.style.height) >=100 ) {
                 iframeNode.src = "https://hanyu.baidu.com/s?wd=" + hanzi + "&ptype="+type
             } else {
                 /*filter = {
