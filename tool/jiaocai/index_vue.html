@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!--(\n)[\n]{"no":"5c70b10abc2a2e606ba7271b\n(no)00\n" , "title":"(title)\n"}-->
+    <!--(bookId)\n(sortNum)\n(title)\n(content) (.+)\n(.+)\n(.+)\n((.+\n)*)-->
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>课文抄写</title>
+        <style type="text/css">
+        * {
+            padding:0px;
+            margin:0px;
+            overflow: hidden;
+            font-size: 1.1em;
+        }
+        body {
+            position:relative;
+        }
+        html, body {
+            height:100%;
+        }
+        iframe {
+            height:55%;
+        }
+        .adv {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            width:100%;
+            height:45%;
+            background-color:grey;
+            position:absolute;
+            bottom:0px;
+            right:0px;
+            text-align:center;
+        }
+        select {
+            opacity:0;
+            position:fixed;
+            z-index: 999;
+            bottom: 0px;
+            border:none;
+            outline: none;
+            width: 1em;
+            height: 1.1em;
+            bottom:0.5em;
+            appearance:none;
+            -moz-appearance:none;
+            -webkit-appearance:none;
+        }
+        #footer {
+            position:fixed;
+            bottom:0.3em;
+            height: 1.8em;
+            z-index: 999;
+            text-align:center;
+            right: 2em;
+            vertical-align:bottom;
+            background-color:grey;
+        }
+        .circle {
+            width: 1.4em;
+            height: 1.4em;
+            background-color:pink;
+            color:grey;
+            border-radius: 50%;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            white-space:normal;
+            text-align:center;
+            display:inline-block;
+            vertical-align:bottom;
+            overflow:hidden;
+            margin:0 0.2em;
+        }
+        #prev {
+            background-color:pink;
+        }
+        #resize {
+            background-color:yellow;
+        }
+        #content {
+            width: 91%;
+            position: relative;
+            overflow: auto;
+            padding: 1em 0;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            -ms-box-flex: 1;
+            box-flex: 1;
+            -webkit-overflow-scrolling: touch;
+            background-color:grey;
+            color:white;
+            text-align:left;
+            margin:auto;
+            word-wrap:break-word;
+            letter-spacing:0.2em;
+        }
+        #content p, a {
+            color:white;
+            text-decoration:none;
+        }
+        #hanziImg {
+            width: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+        p {
+            text-indent: 2em;
+            margin-bottom:1em;
+        }
+        loading {
+            position: absolute;top: 0;left: 0; width: 100%;height: 100%; background-color: rgba(0,0,0,0.7);opacity:1;z-index: 1000;
+        }
+        </style>
+        <link href="loading/loading.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="https://vuejs.org/js/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+        <script type="text/javascript" src="https://e.ccsyue.com/tool/msg/js/SHA1.js"></script>
+        <script type="text/javascript" src="ajax.js"></script>
+        <script type="text/javascript" src="books.js?v=5"></script>
+    </head>
+    
+    <body>
+        <div id="app">
+            <div id="loadingDiv" class="loading" :style="{display:isLoading?'block':'none'}">
+                <img id="hanziImg" :src="imgsrc" display="none" />
+                <div id="spinner" class="spinner" display="block">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
+            </div>
+            <iframe id="baidu" :src="frameSrc" width="100%" height="50%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="yes" allowtransparency="yes"></iframe>
+            <div id="adv" class="adv" :style="{height: isFullScreen?'100%':'45%'}">
+                <div id="content">articleContent</div>
+                <div id="footer">
+                    <div id="resize" class="circle">变</div>
+                    <div id="book" class="circle">
+                        <select id="bookSelect" :disabled="!isLoading" v-model="books.selected">
+                            <option disabled value="">请选择</option>
+                            <option v-for="option in books.options" v-bind:value="option.id">{{ option.name }}</option>
+                        </select>书</div>
+                    <div id="mulu" class="circle">
+                        <select id="articleSelect" :disabled="!isLoading" v-model="articles.selected">
+                            <option disabled value="">请选择</option>
+                            <option v-for="option in articles.options" v-bind:value="option.id">{{ option.title }}</option>
+                        </select>目</div>
+                    <div id="prev" class="circle">左</div>
+                    <div id="next" class="circle">右</div>
+                </div>
+            </div>
+        </div>
+        <script>
+        document.documentElement.style.overflow = 'hidden';
+        articleSelect = document.getElementById('articleSelect')
+         bookSelect = document.getElementById('bookSelect')
+         contentNode = document.getElementById('content')
+         iframeNode = document.getElementById('baidu')
+         advNode = document.getElementById('adv')
+         resize = document.getElementById("resize")
+
+         loadingDiv = document.getElementById("loadingDiv")
+         spinnerDiv = document.getElementById("spinner")
+         hanziDiv = document.getElementById("hanzi")
+         var data = {
+            books: [],
+            articles: [],
+            curBook: null,
+            curArticle: null,
+            timesRun: 0,
+            isLoading: false,
+            isFullScreen: false,
+            frameSrc: 'https://hanyu.baidu.com/',
+            imgsrc: "",
+            AppId: "A6054809905051",
+            AppKey: "F3CF370F-7899-A546-2085-011623A74CE7"
+        }
+        var filter = {
+            "where": {
+                "userId": "59f6ec437d81dd386e4987f0"
+            },
+            "skip": 0,
+            "limit": 100,
+            "order": "sortNum ASC",
+        }
+        axios.get("https://d.apicloud.com/mcm/api/books", {
+            "params": {
+                "filter": filter//encodeURIComponent(JSON.stringify(filter))
+            },
+            "cache": false,
+            "headers": getAppKey()
+        }).then(function (response) {
+            data.books = response
+            _.defer(_.partial(process, chunks, index));
+        })
+            .
+        catch (function (error) {
+            console.log("insert error:" + error)
+        })
+         var vm = new Vue({
+            el: '#app',
+            data: data,
+            computed: {
+                articleContent: {
+                    set: function (value) {
+                        this.threadNum = value;
+                    },
+                    get: function () {
+                        return this.threadNum.replace(/[^0-9]+/g, '')
+                    }
+                }
+            },
+            methods: {
+                solveIt: function (event) {
+
+                }
+            }
+        })
+         var curBook = null
+        var timesRun = 0;
+
+
+        /*ajax({
+            url: "books.json",
+            type: 'GET',
+            dataType: 'json',
+            //header:getAppKey(),
+            success: function (response, xml) {
+                books = response
+                var curBookNo = localStorage.getItem("curBookNo")
+                if (isEmpty(curBookNo)) curBookNo = books[0]["bookno"]
+                    //clearStorage()
+
+                openDB(myDB, function () {
+                    initEvent()
+                    initBooks(curBookNo)
+                })
+            },
+            error: function (status) {
+                //失败后执行的代码
+            }
+        });
+
+        function initEvent() {
+            readMode = localStorage.getItem("readMode")
+            if (!isEmpty(readMode)) adv.style.height = readMode
+            resize.onclick = function () {
+                adv.style.height = adv.style.height == "100%" ? "45%" : "100%"
+                localStorage.setItem("readMode", adv.style.height)
+            }
+            loadingDiv.onclick = function () {
+                if (hanziImg.style.display != "none") {
+                    hanziImg.style.display = "none"
+                    spinnerDiv.style.display = "block"
+                    clearLoding()
+                }
+            }
+            hanziImg.onload = function () {
+                spinnerDiv.style.display = "none"
+                hanziImg.style.display = "block"
+            }
+            bookSelect.onchange = function () {
+                selectedOption = this[this.options.selectedIndex]
+                bookno = selectedOption.value
+                document.getElementsByTagName("title")[0].innerText = selectedOption.innerText
+                localStorage.setItem("curBookNo", bookno)
+                getDataByIndex(myDB.db, "books", "bookno", bookno, function (e) {
+                    curBook = e
+                    initArticles(curBook)
+                })
+            }
+            articleSelect.onchange = function () {
+                curBookNo = localStorage.getItem("curBookNo")
+                no = parseInt(this[this.options.selectedIndex].value)
+                curBook["curArticleNo"] = no
+                //alert(curBook["curArticleNo"])
+                updateData(myDB.db, "books", curBook)
+                getAritcleAndInit(curBookNo, no)
+            }
+            prev = document.getElementById("prev");
+            prev.onclick = function () {
+                curBookNo = localStorage.getItem("curBookNo")
+                no = articleSelect.options.selectedIndex
+                if (no <= 0) return
+                no--
+                articleSelect[no].selected = 'selected'
+                curBook["curArticleNo"] = parseInt(no)
+                updateData(myDB.db, "books", curBook)
+                getAritcleAndInit(curBookNo, no)
+            }
+            next = document.getElementById("next");
+            next.onclick = function () {
+                curBookNo = localStorage.getItem("curBookNo")
+                no = articleSelect.options.selectedIndex
+                curBookP = articleSelect.options.length
+                if (no >= curBookP.length - 1) return
+                no++
+                articleSelect[no].selected = 'selected'
+                curBook["curArticleNo"] = no
+                updateData(myDB.db, "books", curBook)
+                getAritcleAndInit(curBookNo, no)
+            }
+            baidu = document.getElementById("baidu");
+            baidu.onload = function () {
+                clearLoding()
+            };
+        }
+
+        function initBooks(bookno) {
+            loading()
+            updateBooks = []
+            getMultipleData(myDB.db, "books", "bookno", null, function (cursor) {
+                if (isEmpty(cursor)) {
+                    localStorage.setItem("curBookNo", bookno)
+                    if (timesRun == 0) {
+                        for (var i = 0; i < books.length; i++) {
+                            books[i]["curArticleNo"] = 0
+                            addData(myDB.db, "books", books[i])
+                        }
+                    }
+                    books = books.concat(updateBooks).sort(function (a, b) {
+                        return a["bookno"] < b["bookno"]
+                    })
+                    bookSelect.innerHTML = ""
+                    for (var i = 0; i < books.length; i++) {
+                        option = optionHtml(books[i]["bookno"], books[i]["name"], bookno, i + 1)
+                        bookSelect.innerHTML += option["html"]
+                        if (option["selected"]) curBook = books[i]
+                    }
+
+                    document.getElementsByTagName("title")[0].innerText = bookSelect[bookSelect.options.selectedIndex].innerText
+                    initArticles(curBook)
+                    console.log(curBook["bookno"] + ":" + curBook["curArticleNo"])
+                } else {
+                    val = cursor.value
+                    deleteFlag = true
+                    for (var i = books.length - 1; i >= 0; i--) {
+                        oval = books[i]
+                        if (oval["bookno"] == val["bookno"]) {
+                            oval["curArticleNo"] = val["curArticleNo"]
+                            if (oval["version"] != val["version"]) {
+                                //更新书的信息
+                                cursor.update(oval);
+                                //清空文章列表
+                                getMultipleData(myDB.db, "articles", "bookno", IDBKeyRange.only(oval["bookno"]), function (
+                                    articleCursor) {
+                                    if (articleCursor) deleteRequest = articleCursor.delete();
+                                })
+                            }
+                            deleteFlag = false
+                            console.log(books[i])
+                            updateBooks.push(books[i])
+                            books.splice(i, 1)
+                            break;
+                        }
+                    }
+                    if (deleteFlag) {
+                        if (val["bookno"] == bookno) bookno = books[0]["bookno"]
+                        deleteRequest = cursor.delete();
+                    }
+                }
+            })
+        }
+
+        function loading() {
+            loadingDiv.style.display = "block";
+            articleSelect.disabled = "disabled"
+            bookSelect.disabled = "disabled"
+        }
+
+        function clearLoding() {
+            loadingDiv.style.display = "none";
+            articleSelect.disabled = ""
+            bookSelect.disabled = ""
+        }
+
+        function optionHtml(value, text, no, index) {
+            index = index || false
+            selected = value == no
+            html = "<option value='" + value + "' " + (selected ? "selected='selected'" : "") + ">" +
+                (index ? index + ". " : "") + text.replace(/\([a-zA-Z0-9]{1,20}\)/g, '') + "</option>"
+            option = {
+                "html": html,
+                "selected": selected
+            }
+            return option
+        }
+
+        function initArticles(book) {
+            no = isEmpty(book["curArticleNo"]) ? 0 : book["curArticleNo"]
+            bookno = book["bookno"]
+
+            getDataByIndex(myDB.db, "articles", "bookno_no", [bookno, 0], function (data) {
+                if (isEmpty(data)) {
+                    loading()
+                    ajax({
+                        url: bookno + ".json" + "?" + Math.random(),
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (response, xml) {
+                            articleSelect.innerHTML = ""
+                            articles = response
+                            for (var i = 0; i < articles.length; i++) {
+                                articleSelect.innerHTML += optionHtml(i, articles[i]["title"],
+                                    no, (i + 1))["html"]
+                                articles[i]["no"] = i
+                                articles[i]["bookno"] = bookno
+                                articles[i]["scrollTop"] = 0
+                                saveArticle(articles[i])
+                            }
+                            initArticle(articles[no])
+                        },
+                        error: function (status) {
+                            clearLoding()
+                            //失败后执行的代码
+                        }
+                    });
+                } else {
+                    articleSelect.innerHTML = ""
+                    getMultipleData(myDB.db, "articles", "bookno", IDBKeyRange.only(bookno), function (cursor) {
+                        if (cursor) {
+
+                            val = cursor.value
+                            option = optionHtml(val["no"], val["title"], no, val["no"] + 1)
+                            articleSelect.innerHTML += option["html"]
+                            if (option["selected"]) initArticle(val)
+
+                        }
+                    })
+                }
+            })
+        }
+
+
+        function clearStorage() {
+            clearObjectStore(myDB.db, "books")
+            clearObjectStore(myDB.db, "articles")
+            localStorage.clear();
+        }
+
+        function saveArticle(article) {
+            addData(myDB.db, "articles", article)
+        }
+
+
+
+        function saveScrollTop(bookno, articleno, scrollTop) {
+            scrollTopArr = localStorage.getItem("scrollTopArr")
+            scrollTopArr = isEmpty(scrollTopArr) ? [] : JSON.parse(scrollTopArr)
+            //scrollTop.push()
+            //localStorage.setItem("")
+            //$("a").offsetTop-$("#content").clientHeight/5
+        }
+
+        function getAritcleAndInit(bookno, no) {
+            no = no
+            getDataByIndex(myDB.db, "articles", "bookno_no", IDBKeyRange.only([bookno, no]), function (article) {
+                if (!isEmpty(article)) {
+                    initArticle(article)
+                }
+
+            })
+        }
+
+
+        function initArticle(article) {
+            clearLoding()
+            no = article["no"]
+            title = article["title"]
+            content = article["content"]
+            changeContent((no + 1) + ". " + title + "\n" + content)
+            contentNode.scrollTop = 0
+            titlep = contentNode.getElementsByTagName("p")[0]
+            titlep.style.cssText = "text-indent:0em;text-align:center;"
+            //titlep.getElementsByTagName("a")[0].click()
+        }
+
+        function changeContent(contentTxt) {
+            matches = contentTxt
+            contentNode.innerHTML = "<p>" + contentTxt.replace(/\([a-zA-Z0-9]{1,20}\)/g, '').replace(
+                /([\u4e00-\u9fa5])/g, function (m) {
+                return "<a class='zi' href='javascript:void(0);' onclick='openIframe(this,\"" + m + "\")'>" + m +
+                    "</a>"
+            }).replace(/\n/g, "</p><p>") + "</p>";
+        }
+
+
+        function openIframe(alink, hanzi) {
+            loading()
+            if (adv.style.height == "45%") {
+                iframeNode.src = "https://hanyu.baidu.com/s?wd=" + hanzi + "&ptype=zici"
+            } else {
+                filter = {
+                    "fields": ["xing", "jpg", "gif"],
+                    "where": {
+                        "xing": hanzi
+                    },
+                    "skip": 0,
+                    "limit": 1
+                }
+                ajax({
+                    url: "https://d.apicloud.com/mcm/api/hanzi?filter=" + encodeURIComponent(JSON.stringify(filter)),
+                    type: 'GET',
+                    dataType: 'json',
+                    header: getAppKey(),
+                    success: function (response, xml) {
+                        hanziObj = response[0]
+                        imgObj = isEmpty(hanziObj["gif"]) ? hanziObj["jpg"] : hanziObj["gif"]
+                        hanziImg.src = imgObj["url"];
+                    },
+                    error: function (status) {
+                        //失败后执行的代码
+                    }
+                });
+            }
+            var alist = document.getElementsByTagName('a');
+            for (var i = 0; i < alist.length; i++) {
+                alist[i].style.color = "white";
+            }
+            alink.style.color = "pink";
+        }*/
+        </script>
+    </body>
+
+</html>

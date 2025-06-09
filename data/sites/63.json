@@ -1,0 +1,1 @@
+{"name":"travis-ci","id":63,"description":"Travis CI是一个基于云的持续集成项目， 目前已经支持大部分主流语言了，比如：C，PHP，Ruby，Python, Nodejs等等。和Jenkins类似， Travis CI也是开源的，不过Travis和Github集成非常紧密，官方的集成测试托管只支持Github项目， 不过你也可以搭建一套自己的方案。","tags":"收藏夹","url":"https://travis-ci.org","createAt":1749440596419}

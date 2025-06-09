@@ -1,0 +1,14 @@
+#nav {
+    padding: 10px;
+    position: relative;
+    top: 0;
+    background: #458fd2;
+    width: 100%;
+}
+#nav a {
+    display:inline-block;
+    margin:0 10px;
+    *display:inline;
+    color:white;
+    width: 15%;
+}
