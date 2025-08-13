@@ -1,0 +1,324 @@
+<!doctype html>
+
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <title>文本工具包</title>
+<script type=""></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.slim.min.js"></script>
+<script src="https://unpkg.com/papaparse@5.4.0/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jschardet/1.4.1/jschardet.min.js"></script>
+<script src="https://cdn.bootcss.com/dot/2.0.0-beta.0/doT.min.js"></script>
+
+<script src="txttool.js"></script>
+
+
+  <style>
+    textarea {
+      width: 100%;
+      word-break: break-all; //解决兼容问题
+      font-family: "Lucida Console"
+    }
+	label{
+            position: relative;
+        }
+        #csvfile{
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+        #btn{
+            margin-right: 5px;
+        }
+        #text{
+            color: red;
+        }
+  </style>
+</head>
+
+<body>
+	<textarea id="editor" rows="10"></textarea>
+	<br/>
+  
+  <div id="evaluation"></div>
+ <script id="arraystmpl" type="text/x-dot-template">
+  {{ for(var prop in it) { }}
+		{{= prop }}
+		{{~it[prop] :subValue:subIndex }}
+			<input type="radio" name="pastFn" value="{{=subValue.name}}"/><label for="{{=subValue.name}}">{{=subValue.label}}</label>
+		
+		{{~}}
+		<br/>
+    {{ } }}
+	
+	</script>
+	其他:
+<label for="csvfile">
+        <input type="button" id="btn" value="选择cvs"><span id="cvsfiletip">cvsTojson</span>
+        <input type="file" id="csvfile">
+</label>
+  <br/>
+  日志:<br/>
+  <pre id="runtime"></pre>
+
+  <script>
+	
+var editor = document.getElementById("editor")
+function jsonToCvs(event){
+	var clipboard = event.clipboardData;
+	var data = clipboard.getData('text/plain');
+	cvs=Papa.unparse(data,{delimiter: "\t"})
+	editor.value = cvs;
+	return "成功处理"
+}
+
+function cvsToJson(event){
+	var clipboard = event.clipboardData;
+	var data = clipboard.getData('text/plain');
+	arr=Papa.parse(data)
+	editor.value = JSON.stringify(arr);
+	return "成功处理：" + arr.length + "个"
+}
+function jsonToTxt(event) {
+	var clipboard = event.clipboardData;
+	var data = clipboard.getData('text/plain').replace(/\r/g,'\n');
+	log="成功处理！"
+	atrrSplit='\n\n'
+	ojbSplit='\n'
+	atrrSplitObj={}
+	data=data.replace(/\r/g,'')
+	splitReg=/^\(([\d\D]{2,50})\)\[([\d\D]{2,50})\](\{[\d\D]{2,1000}\})?\n/
+	template="(\n)[\n\n]"//第一个圆括号是对象分隔符，第一个中括号是属性值分隔符
+	matches =splitReg.exec(data)
+	hasSplit=false
+	dataIndex=0
+		if(matches){
+			console.log(matches)
+			ojbSplit=matches[1]
+			atrrSplit=matches[2]
+			if(matches[3]){
+				atrrSplitObj=JSON.parse(matches[3])
+			}
+			
+			dataIndex=matches[0].length
+		}else{
+			console.log("找不到分隔符字符串！")
+		}
+		data=data.substring(dataIndex)
+	parseStrToJson(data).then(function(arr) {
+		keyArray = Object.keys(arr[0])
+		//console.log(keyArray)
+		//console.log(arr)
+		//定义特殊属性no
+		noFlag=$.inArray("no", keyArray)
+		if(typeof(atrrSplitObj["no"]) != "undefined" && noFlag==-1){
+			keyArray.unshift("no")
+		}
+		console.log(keyArray)
+		console.log(atrrSplitObj["no"])
+		console.log(noFlag)
+		str=""
+		for (var i = 0; i < arr.length; i++) {
+			for (var j = 0; j < keyArray.length; j++) {
+				key = keyArray[j]
+				//这里替换特殊属性no，为序号
+				value=typeof(arr[i][key]) == "undefined" ? (key=="no"?(i+1):"") : arr[i][key]
+				tmpSplit=typeof(atrrSplitObj[key]) != "undefined"?atrrSplitObj[key]:atrrSplit
+				tempFlag=(tmpSplit.indexOf("("+key+")")>=0)
+				str += tempFlag?tmpSplit.replace(new RegExp("\\("+key+"\\)","g"),value):(value+tmpSplit)
+				//console.log(key+":"+value);
+			}
+			str += ojbSplit
+		}
+		
+		//返回结果
+		log=str
+		editor.value=str.replace(/\\n/g,'\n')
+		log= "成功处理：" + arr.length + "个"
+		console.log("成功处理：" + arr.length + "个");
+		//console.log(str.replace(/\\n/g,'\n')+ojbSplit+str.indexOf('\\n'));
+	}).catch(function(err) {
+		log= "错误！"
+		console.log(err);
+	})
+	return log
+}
+function objTemplate(key,value,template){
+
+}
+function txtToJson(event) {
+	var clipboard = event.clipboardData;
+	var data = clipboard.getData('text/plain');
+	//**/[\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_-]|["',，.。\/、\]\[\{\}【】\n\s！!?？——_<>%;‘’；)《（）》(&+=`“”·*#@]+/g**/
+	//console.log(data)
+	nameReg=/\((([^\(^\n^\)]*(\(.*\))*[^\(^\n^\)]*)+?)\)/g
+	dataReg=/((.+\n)+?\n)+/g
+	nameArr=[]
+	data=data.replace(/\r/g,'')
+	
+	reReg=/((.*\(.+\).*){2,})\n+/g
+	dataIndex=0
+	matches =reReg.exec(data)
+	hasNameReg=false
+	hasDataReg=false
+	if(matches){
+		nameRegStr=matches[1]
+		while(r=nameReg.exec(nameRegStr)){
+			nameArr.push(r[1])
+		}
+		dataIndex=reReg.lastIndex
+		console.log("找到属性名正则表达式：",nameRegStr,nameArr)
+		hasNameReg=true
+	}else{
+		console.log("找不到属性名正则表达式！")
+	}
+	
+	matches =reReg.exec(data)
+	if(matches){
+		dataRegStr=matches[0]
+		dataReg=new RegExp(dataRegStr,"g")
+		dataIndex=reReg.lastIndex
+		hasDataReg=true
+		console.log("找到数据正则表达式：",dataRegStr)
+	}else{
+			log="找不到数据正则表达式！"
+			console.log(log)
+		
+	}
+	
+	data=data.substring(dataIndex)+'\n'
+	matches =data.match(dataReg)
+	
+	jsonObjs=[]
+	while(r = dataReg.exec(data)) {
+	//console.log(r)
+		//console.log(data)
+		obj={}
+		if(hasDataReg){
+			for(var i=0;i<nameArr.length;i++){
+				obj[nameArr[i]]=r[i+1]
+			}
+		}else{
+			console.log(r)
+			dataArr=r[0].split('\n\n')
+			if(hasNameReg){
+				for(var i=0;i<nameArr.length;i++){
+					obj[nameArr[i]]=dataArr[i]
+				}
+			}else{
+				for(var i=0;i<dataArr.length-1;i++){
+					obj["attr"+(i+1)]=dataArr[i]
+				}
+			}
+			
+		}
+		jsonObjs.push(obj)
+	}
+	editor.value = JSON.stringify(jsonObjs);
+	//返回结果
+	return "有正则，第一行正则使用()包住属性名，第二行为数据正则。\n无正则,使用默认正则:/((.+\\n)+\\n)+/g\n对象之间\\n\\n换行符，属性之间\\n,对象第一行为标题。共：" + (jsonObjs.length) + "对象。";
+}
+
+function quchong(event) {
+	var clipboard = event.clipboardData;
+	var data = clipboard.getData('text/plain');
+	arr = data.split('\n');
+	uniqueArr = arr.unique();
+	editor.value = uniqueArr.join('\n');
+	//返回函数执行需要时间
+	return "粘贴前：" + arr.length + "行,去重后：" + uniqueArr.length + "行。去重行数：" + (arr.length - uniqueArr.length) + "行。";
+}
+
+function getPastFnStr(disabled = "true") {
+	if ("true" != disabled) disabled = ""
+	var item = null;
+	var obj = document.getElementsByName("pastFn")
+	for (var i = 0; i < obj.length; i++) { //遍历Radio 
+		if (obj[i].checked) {
+			item = obj[i].value;
+		} 
+		obj[i].disabled = disabled
+	}
+	return item;
+}
+editor.addEventListener('paste', function(e) {
+	event.preventDefault();
+	funName = getPastFnStr()
+	var start = new Date().getTime(); //起始时间
+	console.log('开始执行：' + funName)
+	log = window[funName](e)
+	getPastFnStr("")
+	var end = new Date().getTime(); //接受时间
+	console.log('执行结束：' + funName + '耗时：' + (end - start) + "ms")
+	document.getElementById("runtime").innerHTML = log;
+}, false);
+tipMap={}
+init()
+function log(str,addType){
+	if(addType=="pre"){
+		document.getElementById("runtime").innerHTML = log+document.getElementById("runtime").innerHTML;
+	}else if(addType=="append"){
+		document.getElementById("runtime").innerHTML += log;
+	}else{
+		document.getElementById("runtime").innerHTML = log;
+	}
+
+}
+function init(){
+	typeArr=["选项","文本","转换","其他"]
+	radioArr=[{"type":"文本","name":"quchong","label":"去重","tip":""},
+	{"type":"转换","name":"txtToJson","label":"txtToJson","tip":"(title)[：:](content)\n(\.+)[：:]((\.+\\n)*)\n-----------------------------------\n(title)\\n(content)\n(\.+)\\n((\.+\\n)*)\n-----------------------------------\nexample:\ntitle1\ncontent1\ncontent1\n\ntitle2\ncontent2\ncontent2\n-----------------------------------\n(no)\. (title)\\n(congtent)\n([0-9]{1,})\. (\.+)\\n((\.+\\n)*)\n-----------------------------------\nno1\. title1\ncontent1\ncontent1\n\n\nno2\. title2\ncontent2\ncontent2\n\n如：(bookId)\\n(sortNum)\\n(title)\\n(content)\n(.+)\\n(.+)\\n(.+)\\n((.+\\n)*)"},
+	{"type":"转换","name":"jsonToTxt","label":"jsonToTxt","tip":'1、第一行定义文本模板：(\\n)[\\n\\n]{"attr1":"#..(attr1)\\n"}\n第一个圆括号是对象分隔符，第一格中括号是属性值分隔符.\n花括号是特殊定制：key为属性名，value为替换模板其中必须包含“(key)”串"}\n如：(\\n)[\\n\\n]{"no":"5c87c2ad945254796dbdfb95\\n(no)\\n","title":"(title)\\n","content":"(content)\\n"'},
+	{"type":"转换","name":"cvsToJson","label":"cvsToJson","tip":"cvsToJson"},
+	{"type":"转换","name":"jsonToCvs","label":"jsonToCvs","tip":"jsonToCvs"}]
+	radioObjs={}
+	for(var i=0;i<typeArr.length;i++){
+		radioObjs[typeArr[i]]=[]
+		for(var j=radioArr.length-1;j>=0;j--){
+			if(radioArr[j].type==typeArr[i]){
+			radioObjs[typeArr[i]].push(radioArr[j])
+			tipMap[radioArr[j]["name"]]=radioArr[j]["tip"]
+			radioArr.splice(j,1)
+			}
+		}
+	}
+	console.log(radioObjs)
+	var evalText = doT.template($("#arraystmpl").text());
+	$("#evaluation").html(evalText(radioObjs));
+	lastEle=$('input[type=radio][name=pastFn]:last')
+	lastEle.click()
+}
+
+
+$('input[type=radio][name=pastFn]').change(function() {
+    $("#runtime").text(tipMap[this.value])
+});
+$('label').on("click",function(){
+	$(this).prev("input[type=radio][name=pastFn]").click()
+});
+function parseStrToJson(str) {
+	var p = new Promise(function(resolve, reject) {
+		var cc = JSON.parse(str);
+		resolve(cc);
+	});
+	return p;
+}
+$("#csvfile").change(function(){
+		getPastFnStr()
+		$("#cvsfiletip").html($(this).val());
+		$(this).csv2arr(function(res){
+			jsonObjs=$.rowsToJson(res,function(nameRow){
+				return nameRow
+			},function(dataRow){
+				return dataRow
+			
+			})
+			editor.value=JSON.stringify(jsonObjs);
+			console.log( res );
+			getPastFnStr('')
+		});
+});
+  </script>
+</body>
+</html>

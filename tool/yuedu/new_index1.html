@@ -1,0 +1,1017 @@
+
+<!doctype html>
+<!--[if IE 9 ]>
+<html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/basic1.css">
+</head>
+
+<body>
+    <div class="cloud">
+        <img src="pages/goodfather04.png" />
+        <img src="pages/goodfather05.png" />
+    </div>
+
+    <div class="suggest">
+        <a href="http://sw.bos.baidu.com/sw-search-sp/software/611fd6cbd2fb1/ChromeStandalone_59.0.3071.86_Setup.exe">友情提醒：为了获得最佳体验，建议您使用谷歌浏览器</a>
+    </div>
+
+    <audio id="audio" preload="auto"></audio>
+    <div class="flipbook-viewport">
+        <div class="container">
+            <div class="tip">提示：鼠标左键单击页脚翻页
+                <br> 　　　或按键盘方向键翻页
+            </div>
+            <img class="catalog" src="pages/goodfather23.png" alt="">
+            <img class="singleplay" src="pages/goodfather15.png" alt="">
+            <img class="paus" src="pages/goodfather14.png" alt="">
+            <img class="allplay" src="pages/goodfather16.png" alt="">
+            <img class="close" src="pages/goodfather17.png" alt="">
+            <img class="deepleft" src="pages/goodfather24.png" alt="">
+            <img class="deepright" src="pages/goodfather24.png" alt="">
+            <img class="shadoleft" src="pages/goodfather26.png" alt="">
+            <img class="shadoright" src="pages/goodfather25.png" alt="">
+
+
+            <div class="flipbook">
+                <div style="background: url(pages/goodfather09.jpg) no-repeat;background-size:100% 100% "></div>
+                <div>
+                    <div class="lesson1">
+                        <div class="mulu">目录</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="lesson2"></div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            //        书本操作提示
+            var loading;
+            if (localStorage.getItem("tip") == null || localStorage.getItem("tip") == "true") {
+                layer.open({
+                    type: 2,
+                    title: false,
+                    scrollbar: false,
+                    closeBtn: 0,
+                    skin: 'layui-layer-nobg',
+                    area: ['100%', '100%'],
+                    content: ['friendlytip.html', 'no']
+                });
+            } else {
+                loading = layer.load(0, { offset: ['40%', '50%'], area: ['10%', '10%'] });
+                setTimeout(function () {
+                    layer.close(loading);
+                }, 1500);
+            }
+
+            //        , shade: [1, '#fff']
+
+            function loadApp() {
+                // Create the flipbook
+                $('.flipbook').turn({
+                    width: 1050,
+
+                    // Height
+                    height: 745,
+
+                    // Elevation
+                    elevation: 50,
+
+                    // Enable gradients
+                    gradients: true,
+
+                    // Auto center this flipbook
+                    autoCenter: true,
+                    //                page:firstPage,
+                    page: 4,
+                    acceleration: true,
+
+                    //                display:single,
+
+                    when: {
+
+                        turning: function (event, page, view) {
+
+                            clearTimeout(target);
+                            clearTimeout(Timer);
+                            audio.pause();
+                            playing = false;
+                            stop = 0;
+                            thisoDiv = null;
+
+
+                            //                        暂停按钮
+                            $(".paus").attr("src", "pages/goodfather14.png")
+                            //                    翻页清除底部中文样式
+                            $(".chinese").css("background", "").text("");
+                            $(".public").removeClass("readColor");
+                            var allPage = $(".flipbook").turn("pages");
+                            if (page == 1 || page == allPage) {
+                                //                                 禁止向前翻 到第一页
+                                event.preventDefault();
+                            }
+
+                            var currentPage = $(".flipbook").turn("page");
+
+                            if (freeLargePage != undefined && freeLargePage == currentPage) {
+                                /*if (user != undefined && flag == false) {
+                                    flag = true;
+                                    layer.open({
+                                        type: 2,
+                                        title: false,
+                                        scrollbar: false,
+                                        // shadeClose: true,
+                                        // shade: false,
+                                        area: ['483px', '373px'],
+                                        content: ['tips.html', 'no'],
+                                        cancel: function (index, layero) {
+                                            flag = false
+                                        }
+                                    });
+
+                                } else if (user == undefined && flag == false) {
+                                    flag = true;
+                                    layer.open({
+                                        type: 2,
+                                        title: false,
+                                        scrollbar: false,
+                                        area: ['483px', '373px'],
+                                        content: ['../loadpage/load.html', 'no'],
+                                        cancel: function (index, layero) {
+                                            flag = false;
+                                        }
+
+                                    });
+                                }*/
+								alert("全书万");
+
+                            }
+
+                        },
+                        turned: function (event, page, view) {
+                            //翻页停止播放
+                            if (loading != undefined) {
+                                layer.close(loading);
+                            }
+
+                        },
+                    }
+                });
+
+                if (firstPage != 4) {
+                    setTimeout(function () {
+                        var index = layer.confirm('您要回到上次读得那一页吗', {
+                            btn: ['是的', '不用了'] //按钮
+                        }, function () {
+                            $('.flipbook').turn("page", firstPage);
+                            layer.close(index);
+
+                        }, function () {
+                            layer.msg('知道了', {
+                                time: 1000,
+                            });
+                        });
+
+                    }, 500)
+                }
+
+            }
+            // Load the HTML4 version if there's not CSS transform
+            yepnope({
+                test: Modernizr.csstransforms,
+                yep: ['lib/turn.js'],
+                nope: ['lib/turn.html4.min.js'],
+                complete: loadApp
+
+            });
+
+
+            //      sentences
+
+            var json = [];
+            //        页数
+            var Page = [];
+            //        单元
+            var lessons = [];
+            var allplayTime = [];
+            var allbeginTime = [];
+
+            //        对话框
+            var alloDiv = [];
+            //      索引
+            var thisoDiv;
+            var target;
+            var Timer;
+            var BookName;
+            //        var当前句子索引;
+
+
+            //        所有对话ID
+            var data = [];
+
+            var playing = false;
+            //        点读模式
+            mode = 0;
+            //        暂停模式
+            stop = 0;
+
+            var flag = false;
+
+            var firstPage;
+
+
+
+
+            //    检测用户是否登录
+
+            var getUrlParam = function getUrlParam(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+                var r = window.location.search.substr(1).match(reg); //匹配目标参数
+                if (r != null) return unescape(r[2]);
+                return null; //返回参数值
+            };
+            var bookId = getUrlParam('bookId');
+            var publishingId = getUrlParam('publishingId');
+            var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+            var unlock = false;
+            var user;
+            if (userInfo) {
+                user = userInfo.phoneNumber;
+                // console.log(user)
+                $.ajax({
+                    url: "https://publicfather.ccsyue.com/www.goodfatherapp.com/production/recover",
+                    type: "get",
+                    dataType: 'json',
+                    async: false,
+                    data: {
+                        username: user,
+                        bookId: bookId,
+                        publishingId: publishingId
+                    },
+                    success: function (data) {
+                        unlock = data.date.purchased;
+                        // if (unlock) {
+                        //     //已经购买了直接解锁
+                        // } else {
+                        //     var validity = AV.User.current().get('validity');
+                        //
+                        //     if (!validity) {//为空说明第一次
+                        //         validity = new Date();
+                        //         validity = new Date(validity.getTime() + 24 * 60 * 60 * 1000 * 3);
+                        //         AV.User.current().set('validity', validity);
+                        //         AV.User.current().save();
+                        //         unlock = true;
+                        //     } else {
+                        //         var current = new Date();
+                        //         unlock = validity > current;
+                        //     }
+                        // }
+                    }
+                })
+
+            }
+
+            $.ajax({
+                url: "https://publicfather.ccsyue.com/www.goodfatherapp.com/book/bookDetail",
+                type: "get",
+                dataType: 'json',
+                async: false,
+                data: {
+                    bookId: bookId,
+                    publishingId: publishingId
+                },
+                success: function (data) {
+
+
+                    Page = data.data.pages;
+                    lessons = data.data.lessons;
+                    BookName = data.data.bookName;
+                    firstPage = localStorage.getItem(BookName);
+                    document.title = data.data.bookName;
+                    if (firstPage == null) {
+                        firstPage = 4
+                    }
+                    //    console.log(JSON.stringify(data))
+                }
+            })
+
+
+            window.onbeforeunload = function () {
+                var currentPage = $(".flipbook").turn("page");
+                localStorage.setItem(BookName, currentPage)
+
+            };
+
+            var freeLargePage;
+            var freepage = [];
+            var isfree = [];
+
+            lessons = lessons.filter(function (n, i) {
+                return n.kindId == 1;
+            });
+
+            lessons.sort(function (a, b) {
+                return a.beginPage - b.beginPage;
+            });
+
+            //   console.log(JSON.stringify(lessons))
+
+            Page.sort(function (a, b) {
+                return a.pageNo - b.pageNo;
+            })
+
+
+            Page = Page.filter(function (n, i) {
+                return n.pageNo >= lessons[0].beginPage
+            })
+
+
+            var startPage = lessons[0].beginPage;
+
+            // console.log(unlock)
+
+            if (unlock == false) {
+
+                $.each(lessons, function (index, n) {
+
+                    /*if (n.isFree == true) {
+                        freepage.push(n.beginPage)
+                    }*/
+					freepage.push(n.beginPage)
+                })
+				console.log(freepage.length-1)
+                freeLargePage = Page.length//lessons[freepage.length-1].beginPage;
+
+                //            console.log(freepage);
+                //            console.log(freeLargePage);
+
+                if ((freeLargePage + 3 - freepage[0]) % 2 != 0) {
+                    freeLargePage = freeLargePage + 1
+                }
+
+                $.each(Page, function (index, n) {
+                    if (n.pageNo < freeLargePage) {
+                        isfree.push(n);
+                    }
+                })
+                Page = isfree;
+
+            }
+
+            $.each(Page, function (index, n) {
+                if (n.sentences != "") {
+                    json.push(n.sentences);
+                }
+            });
+
+            //    console.log(JSON.stringify(Page))
+
+            //        二维数组变一维数组
+            json = [].concat.apply([], json);
+
+            function strCmp(a, b) {
+                a = a.toString(), b = b.toString();
+                n = Math.max(a.length, b.length)
+                for (var i = 0; i < n && a.charAt(i) === b.charAt(i); ++i);
+                if (i === n) return false;
+                return a.charAt(i) > b.charAt(i) ? true : false;
+            }
+            // console.log(json)
+            $.each(json, function (i, n) {
+                n.lessonId = n.lessonId.replace(/[^0-9]/ig, "")
+            })
+
+            json.sort(function (a, b) {
+                if (a.lessonId - b.lessonId) {
+                    return a.lessonId - b.lessonId
+                } else if (a.beginTime - b.beginTime) {
+                    return a.beginTime - b.beginTime
+                }
+            });
+            //        console.log(JSON.stringify(json))
+
+
+            var audio = document.getElementById("audio");//    设置音频地址播放位置
+            //        数据排序
+            //        stop=0
+
+            for (var i = 0; i < json.length; i++) {
+                allplayTime.push((json[i].endTime - json[i].beginTime) * 1000);
+                data.push(json[i].sentenceId);
+                allbeginTime.push(json[i].beginTime);
+            }
+
+            //        data = JSON.stringify(data);
+            //        data = JSON.parse(data);
+
+
+            //        数据分类
+            //        lessons渲染
+            for (var i = 0; i < lessons.length; i++) {
+                var lessonsName;
+                if (!lessons[i].lessonName) {
+                    lessonsName = lessons[i].unitName;
+                } else {
+                    lessonsName = lessons[i].lessonName;
+                }
+                var div = $("<div class='lesson' value=" + lessons[i].beginPage + ">" + lessonsName + "</div>")
+                if (i < 28) {
+                    $(".lesson1").append(div);
+                } else {
+                    $(".lesson2").append(div);
+                }
+
+                div.click(function (e) {
+                    e.stopPropagation();
+                    var num = Number($(this).attr("value")) - lessons[0].beginPage + 1;
+                    if (freeLargePage == undefined || num < freeLargePage) {
+                        $(".flipbook").turn("page", num + 3);
+                    } else {
+                        /*if (user != undefined) {
+                            layer.open({
+                                type: 2,
+                                title: false,
+                                scrollbar: false,
+                                area: ['483px', '373px'],
+                                content: ['tips.html', 'no']
+                            });
+                        } else {
+                            layer.open({
+                                type: 2,
+                                title: false,
+                                scrollbar: false,
+                                area: ['483px', '373px'],
+                                content: ['../loadpage/load.html', 'no']
+                            });
+                        }*/
+						console.log(freeLargePage,num,user)
+                    }
+                })
+            }
+
+            var proportionW;
+            var proportionH;
+            //        获取一张图片尺寸
+
+            //        点读数据渲染
+            for (var i = 0; i < Page.length; i++) {
+                //           创建页面
+                var Div = $("<div class=" + i + "></div>");
+                var cDiv = $("<div class='chinese' ></div>");
+
+                var img = $("<img class='imgsize' src=" + Page[i].imageUrl + ">");
+
+                Div.html(img);
+                Div.append(cDiv);
+                $(".flipbook").append(Div);
+
+
+                (function () {
+                    var temp = i;
+                    $.each(json, function (index, n) {
+                        if (n.pageNo == temp + json[0].pageNo) {
+                            //                       创建点读div
+                            var sentenceID = n.sentenceId;
+                            var oDiv = $("<div class='public' id=" + sentenceID + "></div>")
+                            oDiv.beginTime = n.beginTime;
+                            oDiv.lessonId = n.lessonId;
+                            Div.append(oDiv);
+                            //                        公共类
+
+                            //     页面对话设置ID
+
+                            sentenceID = "#" + sentenceID;
+                            var img = new Image();
+                            img.src = Page[temp].imageUrl;
+                            img.onload = function () {
+                                proportionW = img.width / 525;
+                                proportionH = img.height / 745;
+
+                                X = (n.endX - n.startX) / proportionW + "px"; //        横坐标
+                                Y = (n.endY - n.startY) / proportionH + "px"; //        纵坐标
+                                _left = (n.startX) / proportionW + "px";//        定位
+                                _top = (n.startY) / proportionH + "px";
+
+
+                                $(sentenceID).css({ "width": X, "height": Y, "left": _left, "top": _top }); //     大小位置
+                            }
+
+
+                            //                       获取对话框
+                            alloDiv.push(oDiv);
+
+                            //                        alloDiv.sort(function (a, b) {
+                            //
+                            //                            return a[0].id - b[0].id;
+                            //                        });
+
+                            //                       点读mp3功能
+                            $(sentenceID).click(function () {
+                                //                            stop刚进入页面的暂停开关
+                                loading = layer.load(0, { offset: ['50%', '48%'], area: ['10%', '10%'] });
+                                var id = Number(this.id);
+                                //                            获取索引
+                                thisoDiv = data.indexOf(id);
+                                stop = 1;
+                                var that = $(this);
+
+                                //       中文赋值
+                                commonFunction.chineseDisplay(thisoDiv);
+                                //    监听点读资源加载
+                                audio.src = json[thisoDiv].audioUrl;
+                                audio.addEventListener('loadedmetadata', commonFunction.playLoad, false);
+
+                                //                                单句点读
+                                if (mode == 0) {
+                                    //                                连续播放动作清除
+                                    clearTimeout(target);
+                                    //          排除暂停点击点读BUG
+                                    if ($(".paus").src == "pages/goodfather14.png") {
+                                        $(this).attr("src", "pages/goodfather20.png");
+                                    };
+                                    var handlel1 = function () {
+                                        layer.close(loading);
+                                        if (allplayTime[thisoDiv] > 0) {
+                                            clearTimeout(Timer);    //    音频播放停止
+                                            Timer = setTimeout(function () {
+                                                //   点读完成动作
+                                                commonFunction.playEnd(thisoDiv);
+                                                audio.removeEventListener("playing", handlel1, false);
+                                            }, allplayTime[thisoDiv]);
+                                        } else {
+                                            //                                        最后一句
+                                            audio.onended = function () {
+                                                //   点读完成动作
+                                                commonFunction.playEnd(thisoDiv);
+                                                audio.removeEventListener("playing", handlel1, false);
+                                            }
+                                        }
+                                    }
+                                    audio.addEventListener('playing', handlel1, false)
+                                }
+
+                                else if (mode == 1) {   //      连续播放/
+                                    //                                清除定时器
+                                    clearTimeout(target);
+                                    //                            /    排除暂停点击点读BUG
+                                    if ($(".paus").src == "pages/goodfather14.png") {
+                                        $(this).attr("src", "pages/goodfather20.png");
+
+                                    };
+
+                                    audio.addEventListener('playing', allPlay, false);
+
+                                }
+
+                            });
+
+                        }
+
+                    });
+
+                })();
+
+            }
+
+            alloDiv.sort(function (a, b) {
+                if (a.lessonId - b.lessonId) {
+                    return a.lessonId - b.lessonId
+                } else if (a.beginTime - b.beginTime) {
+                    return a.beginTime - b.beginTime
+                }
+            });
+
+
+            $(".paus").click(function () {
+                loading = layer.load(0, { offset: ['50%', '48%'], area: ['10%', '10%'] });
+                var currentpage = $(".flipbook").turn("page");
+                if (currentpage % 2 != 0) {
+                    currentpage = currentpage - 1;
+                }
+                var currentsentenceID = [];
+                for (var i = 0; i < json.length; i++) {
+                    if (currentpage == json[i].pageNo - json[0].pageNo + 4 || currentpage + 1 == json[i].pageNo - json[0].pageNo + 4) {
+                        currentsentenceID.push(json[i]);
+                    }
+                }
+                var sentenceid;
+                if (currentsentenceID[0] != undefined) {
+                    sentenceid = currentsentenceID[0].sentenceId;
+                } else {
+                    layer.msg("当前页没有点读");
+                    layer.close(loading);
+                    return;
+                }
+                var id = Number(sentenceid);
+                var thisodiv = data.indexOf(id);
+
+
+
+                if (stop == 0 && mode == 0 && playing == false) {
+
+                    //       中文赋值
+                    thisoDiv = thisodiv;
+                    commonFunction.chineseDisplay(thisoDiv);
+                    audio.src = json[thisoDiv].audioUrl;
+                    audio.addEventListener('loadedmetadata', commonFunction.playLoad, false);
+
+
+                    var fn1 = function () {
+                        layer.close(loading);
+                        clearTimeout(Timer);
+                        if (allplayTime[thisoDiv] > 0) {
+                            Timer = setTimeout(function () {
+                                commonFunction.playEnd(thisoDiv);
+                                audio.removeEventListener('playing', fn1, false);
+                            }, allplayTime[thisoDiv]);
+                        } else {
+                            audio.onended = function () {
+                                commonFunction.playEnd(thisoDiv);
+                                audio.removeEventListener('playing', fn1, false);
+                            }
+                        }
+                    }
+
+                    audio.addEventListener('playing', fn1, false);
+
+
+
+                } else if (stop == 0 && mode == 0 && playing == true) {
+
+                    commonFunction.playPaused();
+
+                } else if (stop == 1 && mode == 0 && playing == false) {
+                    layer.close(loading);
+                    playing = true;
+
+                    $(this).attr("src", "pages/goodfather20.png");
+                    audio.currentTime = allbeginTime[thisoDiv];
+                    audio.play();
+                    $(".public").removeClass("readColor");
+                    alloDiv[thisoDiv].addClass("readColor");
+
+                    if (allplayTime[thisoDiv] > 0) {
+                        clearTimeout(Timer);
+                        Timer = setTimeout(function () {
+                            commonFunction.playEnd(thisoDiv);
+                        }, allplayTime[thisoDiv]);
+                    } else {
+                        audio.onended = function () {
+                            commonFunction.playEnd(thisoDiv);
+                        }
+                    }
+                } else if (stop == 1 && mode == 0 && playing == true) {
+
+                    audio.removeEventListener("playing", allPlay, false);
+                    commonFunction.playPaused();
+                } else if (stop == 0 && mode == 1 && playing == false) {
+
+
+                    if (thisoDiv) {
+
+                    } else {
+                        thisoDiv = thisodiv;
+                    }
+
+                    //       中文赋值
+                    commonFunction.chineseDisplay(thisoDiv)
+                    //    监听点读资源加载
+                    audio.src = json[thisoDiv].audioUrl;
+
+                    audio.addEventListener('loadedmetadata', commonFunction.playLoad, false);
+
+
+                    audio.addEventListener('playing', allPlay, false);
+
+
+
+                } else if (stop == 0 && mode == 1 && playing == true) {
+                    commonFunction.playPaused();
+                } else if (stop == 1 && mode == 1 && playing == true) {
+
+                    commonFunction.playPaused();
+                } else if (stop == 1 && mode == 1 && playing == false) {
+
+
+                    //       中文赋值
+                    commonFunction.chineseDisplay(thisoDiv);
+                    //    监听点读资源加载
+                    audio.src = json[thisoDiv].audioUrl;
+
+                    audio.addEventListener('loadedmetadata', commonFunction.playLoad, false);
+
+                    audio.addEventListener('playing', allPlay, false);
+
+
+                }
+
+
+            })
+
+
+            var commonFunction = {
+
+                chineseDisplay: function (num) { //       中文赋值
+                    var c = json[num].displayCn;
+                    var pageNo = json[num].pageNo - json[0].pageNo;
+                    var page = "." + pageNo + " " + ".chinese";
+                    $(".chinese").text("").css("background", "");
+                    if (c) {
+                        $(page).text(c).css("background", " rgba(220,146,149,0.5)");
+                    }
+                    $(".public").removeClass("readColor");
+                    alloDiv[num].addClass("readColor");
+
+                },
+                //                                点读资源加载
+                playLoad: function (num) {
+                    num = thisoDiv;
+                    audio.currentTime = json[num].beginTime;
+                    playing = true;
+                    $(".paus").attr("src", "pages/goodfather20.png");
+                    audio.play();
+                    audio.removeEventListener("loadedmetadata", commonFunction.playLoad, false);
+                },
+                //                                单句点读完成动作
+                playEnd: function (num) {
+                    alloDiv[num].removeClass("readColor");
+                    audio.pause();
+                    $(".paus").attr("src", "pages/goodfather14.png");
+                    playing = false;
+                },
+                //     连续点读
+                allplayEnd: function (num) {
+
+                    alloDiv[num - 1].removeClass("readColor");
+                    audio.pause();
+                    if (json[num - 1].pageNo != json[num].pageNo) {
+                        var temp = num;
+
+                        //                        当前页等于首页加目录减去介绍
+                        $(".flipbook").turn("page", json[num].pageNo + 4 - json[0].pageNo);
+                        num = temp;
+
+                    }
+                    if (json[num - 1].audioUrl !== json[num].audioUrl) {
+                        audio.src = json[num].audioUrl;
+
+                    }
+
+                    var c = json[num].displayCn; //       中文赋值
+                    var pageNo = json[num].pageNo - json[0].pageNo;
+
+                    var page = "." + pageNo + " " + ".chinese";
+                    $(".chinese").css("background", "").text("");
+                    if (c) {
+                        $(page).text(c).css("background", " rgba(220,146,149,0.5)");
+                    }
+                    $(".paus").attr("src", "pages/goodfather20.png");
+
+                    alloDiv[num].addClass("readColor");
+                    audio.currentTime = allbeginTime[num];
+
+                    thisoDiv = num;
+                    audio.play();
+                    //              audio.addEventListener('playing', allPlay, false);
+                    allPlay()
+                },
+                //            播放暂停动作
+                playPaused: function () {
+                    layer.close(loading);
+                    if (Timer != undefined) {
+                        clearTimeout(Timer);
+                    }
+                    if (target != undefined) {
+                        clearTimeout(target);
+                    }
+
+                    $(".paus").attr("src", "pages/goodfather14.png");
+                    audio.pause();
+                    playing = false;
+                }
+
+            }
+
+
+
+            //       连续 单点播放模式点击事件
+            function allPlay(num) {
+                layer.close(loading);
+                num = thisoDiv;
+                num++;
+                playing = true;
+                //            endTime为0时 有2种情况
+                if (allplayTime[num - 1] > 0) {
+                    clearTimeout(target);
+                    target = setTimeout(function () {
+                        commonFunction.allplayEnd(num);
+                        //              函数递归
+                        audio.removeEventListener("playing", allPlay, false);
+                    }, allplayTime[num - 1]);
+                } else {
+                    audio.onended = function () {
+                        commonFunction.allplayEnd(num);
+
+                        audio.removeEventListener("playing", allPlay, false);
+                    }
+                }
+            }
+
+
+
+            //        键盘左右翻页
+            $(document).keydown(function (e) {
+                var previous = 37, next = 39, kongge = 32;
+
+                switch (e.keyCode) {
+                    case previous:
+
+                        // left arrow
+                        $('.flipbook').turn('previous');
+                        e.preventDefault();
+                        break;
+                    case next:
+
+                        $('.flipbook').turn('next');
+                        e.preventDefault();
+
+                        break;
+
+                    case kongge:
+
+                        $(".paus").trigger("click");
+                        break;
+                }
+            });
+            //   关闭书本
+            $(".close").click(function () {
+                window.close();
+            })
+            //       目录
+            $(".catalog").click(function () {
+                $(".flipbook").turn("page", 2);
+            })
+            //连续播放
+            $(".allplay").click(function () {
+                $(this).attr("src", "pages/goodfather22.png");
+                $(".singleplay").attr("src", "pages/goodfather21.png");
+                mode = 1;
+            });
+            //        单句点读
+            $(".singleplay").click(function () {
+                $(this).attr("src", "pages/goodfather15.png");
+                $(".allplay").attr("src", "pages/goodfather16.png");
+                mode = 0;
+            });
+            //     区分浏览器
+            function myBrowser() {
+                var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+                var isOpera = userAgent.indexOf("Opera") > -1;
+                if (isOpera) {
+                    return "Opera"
+                }
+                ; //判断是否Opera浏览器
+                if (userAgent.indexOf("Firefox") > -1) {
+                    return "FF";
+                } //判断是否Firefox浏览器
+                if (userAgent.indexOf("Chrome") > -1) {
+                    return "Chrome";
+                }
+                if (userAgent.indexOf("Safari") > -1) {
+                    return "Safari";
+                } //判断是否Safari浏览器
+                if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera) {
+                    return "IE";
+                }
+                ; //判断是否IE浏览器
+                if (userAgent.indexOf('qqbrowser') > -1) {
+                    return "qq";
+                };
+                if (userAgent.indexOf("micromessenger") > -1) {
+                    return "weixin";
+                };
+
+                if (userAgent.indexOf('360') > -1) {
+                    return "360";
+                };
+                if (userAgent.indexOf('se') > -1) {
+                    return "se";
+                };
+
+
+            }
+
+            var mb = myBrowser();
+            if ("qq" == mb || "360" == mb || "Safari" == mb) {
+                $(".suggest a").css("display", "block")
+            }
+
+
+
+            window.addEventListener("storage", function () {
+                var storage = sessionStorage.getItem("getlocalStorage");
+                var reload = sessionStorage.getItem("reload");
+
+                if (reload) {
+                    sessionStorage.removeItem("reload");
+                    setTimeout(function () {
+                        location.reload()
+                    }, 800);
+
+                }
+                if (storage == "loadhtml") {
+                    layer.open({
+                        type: 2,
+                        title: false,
+                        scrollbar: false,
+                        // shadeClose: true,
+                        // shade: false,
+                        area: ['483px', '373px'],
+                        content: ['../loadpage/load.html', 'no'],
+                        cancel: function (index, layero) {
+                            stop = false;
+                        }
+
+                    });
+                    sessionStorage.removeItem("getlocalStorage");
+
+                } else if (storage == "registerhtml") {
+                    layer.open({
+                        type: 2,
+                        title: false,
+                        scrollbar: false,
+                        // shadeClose: true,
+                        // shade: false,
+                        area: ['483px', '373px'],
+                        content: ['../loadpage/register.html', 'no'],
+                        cancel: function (index, layero) {
+                            stop = false;
+                        }
+
+                    });
+                    sessionStorage.removeItem("getlocalStorage");
+
+                } else if (storage == "setpasswordhtml") {
+                    layer.open({
+                        type: 2,
+                        title: false,
+                        scrollbar: false,
+                        // shadeClose: true,
+                        // shade: false,
+                        area: ['483px', '373px'],
+                        content: ['../loadpage/setpassword.html', 'no'],
+                        cancel: function (index, layero) {
+                            stop = false;
+                        }
+
+                    });
+                    sessionStorage.removeItem("getlocalStorage");
+
+                } else if (storage == "forgethtml") {
+                    layer.open({
+                        type: 2,
+                        title: false,
+                        scrollbar: false,
+                        // shadeClose: true,
+                        // shade: false,
+                        area: ['483px', '373px'],
+                        content: ['../loadpage/forgetpassword.html', 'no'],
+                        cancel: function (index, layero) {
+                            stop = false;
+                        }
+
+                    });
+                    sessionStorage.removeItem("getlocalStorage");
+
+
+                }
+
+
+            }, false);
+
+
+
+
+        };
+    </script>
+
+    <!--<script src="../loadpage/js/leancloud.js"></script>-->
+    <!--<script src="../loadpage/js/begain.js"></script>-->
+    <script src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="extras/modernizr.2.5.3.min.js"></script>
+    <script src="./layer/layer.js"></script>
+
+
+</body>
+
+</html>

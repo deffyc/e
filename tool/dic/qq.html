@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta content="telephone=no" name="format-detection"> 
+
+
+<title>手写</title>
+<link href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<!--<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>-->
+
+<style type="text/css">
+html, body{
+  	font-family: 'Open Sans', sans-serif;
+    font-size: 100%;
+  	background: #FFf;
+}
+.container {
+    max-width: "1000px";
+}
+.sosuo {
+    background: #4c515b;
+    padding: 0em 0em 25px 0em;
+}
+.column {
+    float: left;
+    margin: 0 0 0 1%;
+    min-height: 1px;
+    position: relative;
+}
+.column.first {
+    margin-left: 0;
+}
+.search-form {
+    padding: 0;
+    margin: 0;
+}
+.search-form .column input[type="text"], .search-form .column input[type="submit"], .search-form .column select {
+    width: 100%;
+}
+.three-fifth {
+    width: 65.6%;
+    margin-top: 25px;
+}
+.three-fifth input[type="text"] {
+    background: #fff;
+    border: 1px solid #D9E9ED;
+    color: #B4C1C5;
+    padding: 17px;
+    display: block;
+    font-size: 17px;
+    font-weight: bold;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    width: 100%;
+    height: 55px;
+    outline: none;
+}
+.search-form input[type="text"] {
+    display: inline-block;
+    line-height: normal;
+    width: 40%;
+}
+.one-fifth {
+    width: 14.4%;
+}
+.one-fifth input[type="submit"] {
+    background: #009966;
+    display: inline-block;
+    color: #FFF;
+    text-transform: uppercase;
+    transition: 0.5s ease;
+    -o-transition: 0.5s ease;
+    -webkit-transition: 0.5s ease;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    font-size: 0.85em;
+    padding: 20px 20px;
+    font-weight: 600;
+    margin-top: 25px;
+    height: 55px;
+}
+.one-fifth input[type="submit"] {
+    padding: 14px 40px;
+}
+.one-fifth input[type="submit"]:hover, .form-submit input[type="submit"]:hover {
+    background: #52cbf8;
+    text-decoration: none;
+    color: #fff;
+}
+.shouxiebana {
+    color: #ffffff;
+    font-size: 10px;
+    text-decoration: none;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+}
+.shouxieban {
+    margin-top: 25px;
+    width: 20px;
+    float: left;
+    line-height: 13px;
+    height: 55px;
+    background-color: #EE9611;
+    padding-top: 8px;
+    border-top-right-radius: 0.5em;
+    -webkit-border-top-right-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+    -webkit-border-bottom-right-radius: 0.5em;
+}
+.shouxiebana:hover, .shouxiebana:focus {
+	    color: #E74C3C;
+	    text-decoration: none;
+	    cursor: pointer;
+}
+</style>
+</head>
+<body onload="init()">
+<!--<body>-->
+<div class="sosuo">
+	  <div class="container" align="center">
+	  	<div style="max-width:800px;">
+		<form id="w1form" class="search-form" action="http://hanyu.baidu.com/zici/s" target="w1" onsubmit="return check()">
+			<div class="three-fifth column first">
+               <input id="kw" type="text" name="wd" class="text">     
+            </div>
+            <div class="one-fifth column first">
+               <input type="submit" value="查找">
+            </div>
+<a class="visible-lg visible-md shouxiebana" onclick="shouxieban()"><span class="shouxieban">手写板</span></a>
+<a class="visible-lg visible-md shouxiebana" href="baidu.html"><span class="shouxieban">换汉王</span></a>
+            <div class="clearfix"> </div>
+        </form>
+		</div>
+      </div>
+</div>
+<div class="pagecontent">
+	<div class="container" style="width:100%;">
+		<div align="center">
+		<span id="container"></span>
+		
+		<iframe name="w1" src="" width="100%" height="700px"></iframe>
+	</div>
+	<!--<script src="http://www.yibizi.com/ybz_core/core/ybz.min.js"></script>
+		<!--引入易笔字核心脚本(utf-8编码)-->
+	<!--	<script>
+		YBZ_win_title = "你的名称";//手写板名称
+		YBZ_follow = true;//手写板吸附在输入框附近 false 右下角打开
+		YBZ_skin = "default";
+		//default||aero||chrome||opera||simple||idialog||twitter||blue||black||green
+		YBZ_tipsopen = true;//是否在网页输入框中加入手写提示
+		YBZ_fixed = true;//是否固定手写窗口
+		document.getElementById('kw').focus();YBZ_open(document.getElementById('kw'));YBZ_win.fixed(false);
+		</script> -->
+	<script type="text/javascript" src="sx/handwritingapi.js?v=1"></script>
+	<script type="text/javascript">
+			//document.domain = 'qq.com';
+			var container = document.getElementById('container');
+			
+			//用户手写完选择了文本之后这个函数就会被调用，result就是个字符串~~
+			function handWriteCallback(result){
+				if(result!="")
+				if(parent.exsit	){
+					parent.ChatBox(result);
+				}
+			}
+			function init(){
+				QQShuru.HWPanel(container, handWriteCallback);
+				document.getElementById('qqshuru_container').style.marginLeft=document.getElementById('kw').getBoundingClientRect().left+"px";
+			}
+			function shouxieban(){
+				innerFlag=container.innerHTML;
+				if(document.getElementById('qqshuru_container').style.display!="none"){
+					document.getElementById('qqshuru_container').style.display="none";
+				}else{
+					document.getElementById('qqshuru_container').style.display="block";
+				}
+			}
+			
+		</script>
+
+
+<script type="text/javascript">
+function insertAtCursor(myField, myValue) {
+//IE support
+if (document.selection) {
+myField.focus();
+sel = document.selection.createRange();
+sel.text = myValue;
+sel.select();
+}
+//MOZILLA/NETSCAPE support 
+else if (myField.selectionStart || myField.selectionStart == '0') {
+var startPos = myField.selectionStart;
+var endPos = myField.selectionEnd;
+// save scrollTop before insert www.keleyi.com
+var restoreTop = myField.scrollTop;
+myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+if (restoreTop > 0) {
+myField.scrollTop = restoreTop;
+}
+myField.focus();
+myField.selectionStart = startPos + myValue.length;
+myField.selectionEnd = startPos + myValue.length;
+} else {
+myField.value += myValue;
+myField.focus();
+}
+} 
+</script>
+
+<script>
+function exsit(){
+	if(document.getElementById("kw"))
+	return true;
+	else
+	return false;
+}
+function ChatBox(result){
+	//document.getElementById("kw").innerHTML+=result;
+	document.getElementById("kw").focus();
+	insertAtCursor(document.getElementById('kw'),result)
+	//container.innerHTML="";
+	shouxieban(); 
+	document.getElementById("w1form").submit();
+	
+}
+function check(){
+	shouxieban(); 
+	return true;
+}
+</script>
+</div>
+	
+</body>
+</html>

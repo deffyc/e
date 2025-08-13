@@ -1,0 +1,96 @@
+body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td,header,article,section,aside,footer {
+	margin:0;
+	padding:0
+}
+header,article,section,aside,footer {
+	display: block;
+}
+body,button,input,select,textarea {
+    -webkit-text-size-adjust:100%;
+    text-size-adjust:100%;
+    font-size:12px;
+    line-height:1;
+    font-family: "\5FAE\8F6F\96C5\9ED1",arial;
+}
+h1,h2,h3,h4,h5,h6 {
+	font-size:100%
+}
+address,cite,dfn,em,var {
+	font-style:normal
+}
+code,kbd,pre,samp {
+	font-family:courier new,courier,monospace
+}
+small{
+	font-size:12px
+}
+ul,ol{
+	list-style:none
+}
+a{
+	text-decoration:none
+}
+strong{
+	font-weight:normal
+}
+em{
+	font-style:normal
+}
+sup{
+	vertical-align:text-top
+}
+sub{
+	vertical-align:text-bottom
+}
+legend{
+	color:#000
+}
+em,i{
+	font-style:normal
+}
+fieldset,img{
+	border:0
+}
+input,img{
+	vertical-align:middle
+}
+button,input,select,textarea{
+	line-height:normal;
+	-webkit-appearance: none;
+	border:0;
+	outline:none;
+	font-size:100%
+}
+table{
+	border-collapse:collapse;
+	border-spacing:0
+}
+a,input,input,em,h2{
+	-webkit-tap-highlight-color:rgba(255,0,0,0)
+}
+.clear:after{
+	content:'';
+	display:block;
+	clear:both
+}
+.hide{
+	display:none
+}
+.show{
+	display: block
+}
+.block{
+	display: block
+}
+.inline{
+	display: inline
+}
+.inline-b{
+	display: inline-block
+}
+.fl{
+	float:left
+}
+.fr{
+	float:right
+}

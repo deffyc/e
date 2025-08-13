@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            background-color: rgba(0,0,0,0.3);
+        }
+        img:nth-child(1){
+            margin-bottom:40px;
+        }
+        img:nth-child(3){
+
+            cursor: pointer;
+        }
+        img:nth-child(4){
+            margin-left:100px;
+            cursor: pointer;
+        }
+
+        div {
+            position: absolute;
+            top:50%;
+            left: 50%;
+            transform:translate(-50%,-50%) ;
+        }
+
+    </style>
+
+</head>
+
+<body>
+<div>
+<img src="pages/tip.png" height="410" width="557"/><br>
+<img id="tip1" src="pages/goodfather29.png" height="56" width="140"/>
+<img id="tip2" src="pages/goodfather30.png" height="56" width="260"/>
+</div>
+<script>
+   window.onload=function(){
+       var tip1=document.getElementById("tip1");
+       tip1.onclick=function(){
+           var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+           parent.layer.close(index); //再执行关闭
+           localStorage.setItem("tip","false");
+       }
+       var tip2=document.getElementById("tip2");
+       tip2.onclick=function(){
+           var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+           parent.layer.close(index); //再执行关闭
+           localStorage.setItem("tip","true");
+       }
+   }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0057)http://www.zuidaima.com/html/1695882735602688/index.html# -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>侯卓君</title>
+
+
+<link href="./default.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="./jquery.js"></script>
+<script type="text/javascript" src="./garden.js"></script>
+<script type="text/javascript" src="./functions.js"></script>
+
+</head>
+
+<body>
+<audio id="renxi" src="renxi.aac" loop="loop">
+    </audio>
+<div id="mainDiv">
+	<div id="content" style="width: 1110px; height: 625px; margin-top: 148px; margin-left: 405px;">
+		
+		<div id="code">
+			<img id="xinxinimg" src="xinxin.png" width="100px" height="100px"/><br/><br/>
+			当黑暗不可避免地降临<br/>
+			当整个世界只剩下我们两人<br/>
+			当我一步一步把你送到梦乡<br/>
+			你的两只小手依旧紧紧地<br/>
+			拽住我的步伐<br/>
+			仿佛担心我不能守护你的梦境<br/>
+			而宝宝<br/>
+			你其实就是我的美梦<br/>
+			以最奇妙的形式成真<br/>
+			你是迟到的童话<br/>
+			在平凡的日子来临<br/>
+			你是我从空虚中创造的<br/>
+			一个不可重复的完美奇迹<br/>
+			我永远的爱人<br/>
+			你是最黑暗时刻唯一的光芒<br/>
+			闪烁在黎明前一声声的吟唱——<br/>
+			 <br/>
+			爸爸爱宝宝<br/>
+			宝宝爱爸爸
+			</span>_</span></span></span>
+			
+			</div>
+		<div id="loveHeart">
+			<canvas id="garden" width="670" height="625"></canvas>
+			<div id="words" style="position: absolute; top: 343px; left: 915px;">
+				<div id="messages">
+				宝宝，这是你给我们带来的欢乐时光：
+					<div id="elapseClock"></div>
+				</div>
+				<div id="loveu">
+				
+				<br>
+					<div class="signature">- 爸爸妈妈</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+var offsetX = $("#loveHeart").width() / 2;
+var offsetY = $("#loveHeart").height() / 2 - 55;
+var together = new Date();
+together.setFullYear(2012, 8, 6);
+together.setHours(3);
+together.setMinutes(58);
+together.setSeconds(0);
+together.setMilliseconds(0);
+
+var touchable = 'createTouch' in document;
+if(touchable){
+    $(document).bind("touchstart", function (event) {
+       $('#renxi')[0].play();
+    });
+}else{
+    $(document).bind('click', function(e){
+        $('#renxi')[0].play();
+    }); 
+ }
+
+if (!document.createElement('canvas').getContext) {
+	var msg = document.createElement("div");
+	msg.id = "errorMsg";
+	msg.innerHTML = "Your browser doesn't support HTML5!<br/>Recommend use Chrome 14+/IE 9+/Firefox 7+/Safari 4+"; 
+	document.body.appendChild(msg);
+	$("#code").css("display", "none")
+	$("#copyright").css("position", "absolute");
+	$("#copyright").css("bottom", "10px");
+	document.execCommand("stop");
+} else {
+	setTimeout(function () {
+		startHeartAnimation();
+	}, 5000);
+
+	timeElapse(together);
+	setInterval(function () {
+		timeElapse(together);
+	}, 500);
+
+	adjustCodePosition();
+	$("#code").typewriter();
+}
+</script>
+
+
+</body></html>

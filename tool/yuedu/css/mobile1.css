@@ -1,0 +1,193 @@
+html,body {
+    width: 100%;
+    height: 100%;
+}
+.head-nav {
+    width: 100%;
+    position: fixed;
+    top:0;
+    z-index:100;
+    background-color: #fff;
+    height:10.5vh;
+}
+.bg {
+    width: 45vw;
+    height:85%;
+    position: absolute;
+    left:53%;
+    top:50%;
+    background:url("../img/1.png") no-repeat;
+    transform: translate(-50%,-50%);
+    background-size: 100% ;
+}
+.singleplay {
+    width: 10vw;
+    position: absolute;
+    top:50%;
+    transform: translateY(-50%);
+    left: 1.5vw;
+}
+
+.paus {
+    width: 14vw;
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+
+}
+.allplay {
+    width: 10vw;
+    position: absolute;
+    top:50%;
+    transform: translateY(-50%);
+    right: 1.5vw;
+}
+.close {
+    width: 10%;
+    margin-top:1vh;
+    margin-left:2vw;
+
+}
+.rainbow {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+ .myswiper .swiper-slide {
+    width: 100%;
+    position: relative;
+    height: 89.5vh;
+    margin-top:10.5vh;
+
+}
+.myswiper .swiper-slide img {
+    width: 100%;
+}
+
+.chinese {
+    position: absolute;
+    bottom: 7vw;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    line-height: 32px;
+    text-align: center;
+    border-radius: 10px;
+
+}
+
+/*点读公共类*/
+.public {
+    cursor: pointer;
+    position: absolute;
+    border-radius: 10px;
+    box-shadow: 5px 1px 3px #ccc;
+}
+
+.readColor {
+    background-color: rgba(220, 146, 149, 0.5);
+}
+.readcolor {
+    background-color: rgba(50, 50, 50, 0.85);
+    color: #fff;
+}
+
+.mulu {
+    height:10vw;
+    line-height: 10vw;
+    position: fixed;
+    font-size: 1rem;
+    z-index: 10000;
+    width: 65vw;
+    background-color: rgb(235,235,235);
+}
+
+
+.lesson {
+    width: 65vw;
+    height:100%;
+    position:fixed;
+    overflow: hidden;
+    z-index: 1006;
+    background-color: #fff;
+    text-indent:2em;
+    top:0;
+    left:0;
+
+}
+.lessonLi{
+    z-index: 1006;
+    height: 10vw;
+    line-height: 10vw;
+    border-bottom: 1px solid rgb(230,230,230);
+}
+.lessonLi:nth-child(1){
+    margin-top:10vw;
+}
+.swiper-lesson  .swiper-slide:nth-child(1){
+    margin-top:10vw;
+}
+
+.control {
+    position:fixed;
+    background: url("../img/goodfather23.png") no-repeat;
+    background-size: contain;
+    width: 8vw;
+    height: 12vw;
+    top:80vh;
+    left: 0;
+    z-index: 10000;
+    text-align: center;
+
+}
+.control span {
+    display: block;
+    color: #fff;
+    font-size:12px ;
+    text-indent: 0;
+    position: absolute;
+
+}
+
+.transR{
+    transform: translateX(0);
+    transition: all 0.5s;
+}
+.transL{
+    transform: translateX(-65vw);
+    transition: all 0.5s;
+}
+.currentUt {
+    color: red;
+    text-align: center;
+}
+.closeScale{
+    animation: toMove 0.2s linear 0s;
+}
+
+@keyframes toMove {
+    from{
+        transform: scale(1);
+    }
+    to {
+        transform: scale(0.8);
+    }
+}
+.mask {
+    width: 100%;
+    height:100%;
+    display: none;
+    z-index: 100;
+    background-color: rgba(150,150,150,0.4);
+    position: fixed;
+    top:0;
+    left:0;
+}
+
+
+
+
+

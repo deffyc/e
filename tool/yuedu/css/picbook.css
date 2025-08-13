@@ -1,0 +1,126 @@
+html, body {
+    width: 100%;
+    height:100%;
+}
+body{
+    overflow:hidden;
+    background:url("../pages/goodfather12.png");
+    background-size:100% ;
+    margin:0;
+    padding:0;
+    user-select: none;
+}
+
+/*背景云*/
+.cloud img:nth-child(1){
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+
+.cloud img:nth-child(2){
+    position: fixed;
+    right: 0;
+    bottom: 0;
+}
+
+.cataBg {
+    position: relative;
+    margin: 0 auto;
+    width: 1130px;
+    height:116px;
+    z-index: 10000;
+    top:-92px ;
+    transition: all 1s;
+}
+.cataBg:hover {
+    top:0;
+}
+.tip {
+    color:#6E6E6E;
+    font-size: 14px;
+    line-height:19px;
+    position: absolute;
+    left:147px;
+    top: 22px;
+}
+
+.allplay {
+    position: absolute;
+    top: 10px;
+    left: 450px;
+    cursor: pointer;
+}
+
+.paus {
+    position: absolute;
+    top: 10px;
+    left: 530px;
+    cursor: pointer;
+}
+.singleplay {
+    position: absolute;
+    top: 10px;
+    left: 624px;
+    cursor: pointer;
+}
+.close {
+    position: absolute;
+    top: 10px;
+    right:48px;
+    cursor: pointer;
+}
+.swiper-content {
+    margin-top:-120px;
+    height:100%;
+    max-width: 100%;
+    /*border: 1px solid #000;*/
+    text-align: center;
+}
+.swiper-wrapper  .swiper-slide {
+    height:100%;
+    max-width: 100%;
+    margin: 0 auto;
+}
+.swiper-wrapper  .swiper-slide img {
+    height:100%;
+    max-width: 100%;
+}
+
+#swiper-button-prev{
+    background: url("../pages/goodfather10.png") no-repeat;
+    background-size: cover;
+    width: 80px;
+    height: 80px;
+    border-radius:50%;
+}
+#swiper-button-next{
+    background: url("../pages/goodfather11.png") no-repeat;
+    background-size: cover;
+    width: 80px;
+    height: 80px;
+    border-radius:50%;
+}
+.swiper-pagination-bullet {
+    width: 15px;
+    height: 15px;
+    background-color: #fff;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #80cdee;
+}
+ .displayCN {
+    position: absolute;
+    bottom: 50px;
+     padding:0 20px;
+    left:50%;
+    line-height: 32px;
+    width: 70%;
+    transform: translate(-50%);
+    z-index: 1000;
+    border-radius: 10px;
+    box-shadow: 2px 3px 3px #ccc;
+    background-color: rgba(50, 50, 50, 0.6);
+    color: #fff;
+}

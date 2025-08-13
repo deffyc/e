@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<!-- saved from url=(0036)http://ccsyue.com/tool/msg/article/ -->
+<html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="description" content="">
+    <meta name="author" content="houjie">
+<title>音频下载</title>
+
+
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<link href="https://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+<!-- Latest compiled and minified Locales -->
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/extensions/mobile/bootstrap-table-mobile.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/extensions/export/bootstrap-table-export.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/extensions/editable/bootstrap-table-editable.min.js"></script>
+<script src="../msg/xiehouyu/tableExport.js"></script>
+<script src="../msg/xiehouyu/bootstrap-editable.js"></script>
+<script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
+
+<script src="../msg/js/SHA1.js"></script>
+
+<script>
+	function getAppKey(){
+		var AppId= "A6092908275637";
+		var AppKey="E27A3D9A-5F86-FB65-0273-DFFDF84FF8A4";
+		var now = Date.now();
+		var appKey = SHA1(AppId+"UZ"+AppKey+"UZ"+now)+"."+now;
+		return {"X-APICloud-AppId":AppId,"X-APICloud-AppKey":appKey}
+	}
+	function logOp(logObj){
+	//logOp({"op":"update","className":"article","attr":field,"oldValue":oldValue,"newValue":data[field],"objId":row.id,"cip":returnCitySN["cip"],"cname":returnCitySN["cname"]});
+		$.ajax({
+			url:'https://d.apicloud.com/mcm/api/log',
+			cache: false,
+			headers:getAppKey(),
+			type: 'POST',
+			dataType: 'json', 
+			data:logObj,
+			success: function(result) {
+				console.log("操作成功");
+				console.log(logObj);
+			}	
+		});
+	}
+	function getBlob(alink,url) {
+	    return new Promise(resolve => {
+		const xhr = new XMLHttpRequest();
+		xhr.addEventListener("progress", function(ev) {
+		    // 下载中事件：计算下载进度
+		    var max   = ev.total;
+		    var value = ev.loaded;
+		    var width = parseInt(value/max*100);
+		    $(alink).text('下载：'+width+'%') 
+		});
+		xhr.open('GET', url, true);
+		xhr.responseType = 'blob';
+		xhr.onload = () => {
+		    if (xhr.status === 200) {
+			resolve(xhr.response);
+		    }
+		};
+		xhr.send();
+	    });
+	}
+	function saveAs(blob, filename) {
+	    if (window.navigator.msSaveOrOpenBlob) {
+		navigator.msSaveBlob(blob, filename);
+	    } else {
+		const link = document.createElement('a');
+		link.href = window.URL.createObjectURL(blob);
+		link.download = filename;
+		link.click();
+		window.URL.revokeObjectURL(link.href);
+	    }
+	}
+	function downloadFile(alink,url,id,filename) {
+	    suffix=url.substring(url.lastIndexOf('.') + 1)
+	    filename=filename+"."+suffix
+	    if($(alink).text()!='下载') return
+	    logOp({"op":"update","className":"article","attr":suffix,"oldValue":filename,"newValue":{"attr":"下载"},"objId":id,"cip":returnCitySN["cip"],"cname":returnCitySN["cname"]});
+	    getBlob(alink,url).then(blob => {
+		saveAs(blob, filename);
+	    }); 
+	}
+</script>
+ </head>
+ <body>
+ <div class="container">
+
+		<div id="toolbar">
+            <select class="form-control">
+                <!--<option value="">Export Basic</option>-->
+                <option value="all">导出所有</option>
+                <option value="selected">导出选中</option>
+            </select>
+        </div>
+		<table id="table"
+               data-toggle="table"
+			   data-search-on-enter-key=true
+			   data-editable-emptytext="暂无"
+			   data-show-export="true"
+			   data-click-to-select="true"
+               data-toolbar="#toolbar"
+               data-height="530"
+               data-ajax="ajaxRequest"
+               data-search="true"
+               data-side-pagination="server"
+               data-pagination="true">
+            <thead>
+            <tr>
+				<th data-field="state" data-checkbox="true"></th>
+                <th data-field="no" data-sortable="true">编号</th>
+                <th data-field="title" data-sortable="true" data-editable="true">标题</th>
+                <th data-field="mp3"  data-formatter="linkFormatter">mp3</th>
+		<th data-field="srt"  data-formatter="linkFormatter">srt</th>
+            </tr>
+            </thead>
+        </table>
+ </div>
+<script>
+	var filter = {
+		"fields":["id","no","title","mp3","srt"],
+		"where":{},
+		"skip":0,
+		"limit":10,
+	}
+	
+    var $table = $('#table');
+    $(function () {
+        $('#toolbar').find('select').change(function () {
+            $table.bootstrapTable('destroy').bootstrapTable({
+                exportDataType: $(this).val(),
+            });
+        });
+    })
+	$table.bootstrapTable({
+		onEditableSave: function(field, row, oldValue, $el) {
+		
+		if(row[field].trim()=="") {
+			return false;
+		}
+		
+		var successflag=false;
+		var data={};
+		data[field]=row[field];
+		console.log(data);
+				
+				data["_method"]="PUT";
+					$.ajax({
+						url:'https://d.apicloud.com/mcm/api/article/'+ row.id,
+						cache: false,
+						headers:getAppKey(),
+						type: 'POST',
+						dataType: 'json', 
+						data:data,
+						success: function(result) {
+							successflag=true;
+							logOp({"op":"update","className":"article","attr":field,"oldValue":oldValue,"newValue":{"attr":data[field]},"objId":row.id,"cip":returnCitySN["cip"],"cname":returnCitySN["cname"]});
+						}	
+					});
+					return successflag;
+				},
+	});
+	function linkFormatter(value, row, index, field) {
+		console.log(row)
+		console.log(field)
+		return '<a href="javascript:void(0);" onclick="downloadFile(this,\''+value.url+'\',\''+row.id+'\',\''+row.title+'\');">下载</a>';
+	}
+	
+	function ajaxRequest(params) {
+		titleObj={"mp3": {"ne": null}}
+		addarr=[]
+		if(typeof(params.data.search)!="undefined"){
+			orarr=[]
+			if(/^\d+$/.test(params.data.search)){
+				orarr.push({"no": parseInt(params.data.search)})
+			}
+			likeStr="%"+params.data.search+"%";
+			orarr.push({"title": {"like": likeStr}})
+			orarr.push({"content": {"like": likeStr}})
+			
+			addarr.push(titleObj)
+			addarr.push({"or":orarr})
+			filter["where"]={"add":addarr}
+			//filter["where"]={"and":[{"title": {"ne": ''}},{"or":[{"no": params.data.search},{"title": {"like": likeStr}},{"content": {"like": likeStr}}]}]}
+		}
+		if(addarr.length==0){
+			filter["where"]=titleObj
+		}
+		filter["skip"]=params.data.offset;
+		filter["limit"]=params.data.limit;
+		filter["order"]="no DESC"
+		if(typeof(params.data.sort)!="undefined"){
+			filter["order"]=params.data.sort+" "+params.data.order.toUpperCase()+",no";
+		}
+		
+		//console.log(params.data);
+		//console.log(filter);
+		
+		var count=-1;
+		$.ajax({
+			url:'https://d.apicloud.com/mcm/api/article/count?filter=' + encodeURIComponent(JSON.stringify(filter)),
+			cache: false,
+			headers:getAppKey(),
+			type: 'GET',
+			dataType: 'json', 
+			success: function(json) { 
+				count=json.count;
+				$.ajax({
+					url:'https://d.apicloud.com/mcm/api/article?filter=' + encodeURIComponent(JSON.stringify(filter)),
+					cache: false,
+					headers:getAppKey(),
+					type: 'GET',
+					dataType: 'json', 
+					success: function(data) { 
+						params.success({
+							total: count,
+							rows: data
+					});
+					}
+				});
+			}
+		});
+		
+		
+	}
+</script>
+ 
+ 
+</body></html>
